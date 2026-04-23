@@ -1,8 +1,10 @@
 #include "player.h"
 #include "../GameLib/game_lib.h"
+
 Player::Player()
 {
-
+	 cursorX = 0;
+	 cursorY = 0;
 }
 
 Player::~Player()
@@ -10,10 +12,12 @@ Player::~Player()
 
 }
 
-void Player::getCursorpos(float x, float y)
+CursorPos Player::getCursorpos()
 {
-	x = getCursorPosX();
-	y = getCursorPosY();
+	 cursorX = getCursorPosX();
+	 cursorY = getCursorPosY();
+	
+	 return{ cursorX,cursorY };
 }
 
 void Player::player_update()

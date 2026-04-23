@@ -2,11 +2,17 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+struct CursorPos
+{
+	int x;
+	int y;
+};
+
 class Player
 {
 private:
-	float cursorX;
-	float cursorY;
+	int cursorX;
+	int cursorY;
 
 public:
 	Player();
@@ -14,6 +20,6 @@ public:
 	void player_update();
 	void player_render();
 
-	void getCursorpos(float x,float y);
+	CursorPos getCursorpos();
 };
 #endif //PLAYER_H
