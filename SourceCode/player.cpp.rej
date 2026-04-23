@@ -1,0 +1,15 @@
+diff a/SourceCode/player.cpp b/SourceCode/player.cpp	(rejected hunks)
+@@ -54,6 +54,13 @@
+     animation_flg = false;
+     animation_fixed = 0;
+ 
++    BossX = 927;
++    BossY = 370;
++    BossR = 0;
++    BossrendstateX = 0;
++    BossrendstateY = 0;
++    BossrendstateR = 0;
++    Bosstimer = 0;
+ 
+     //回避
+     avoid_flg = true;
