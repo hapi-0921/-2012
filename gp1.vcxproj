@@ -151,6 +151,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="SourceCode\main.cpp" />
+    <ClCompile Include="SourceCode\player.cpp" />
     <ClCompile Include="SourceCode\SceneGame.cpp" />
     <ClCompile Include="SourceCode\SceneResult.cpp" />
     <ClCompile Include="SourceCode\SceneTitle.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="SourceCode\common.h" />
     <ClInclude Include="SourceCode\GameTimer.h" />
+    <ClInclude Include="SourceCode\player.h" />
     <ClInclude Include="SourceCode\SceneBase.h" />
     <ClInclude Include="SourceCode\SceneManager.h" />
     <ClInclude Include="SourceCode\SceneGame.h" />
