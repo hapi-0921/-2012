@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "SceneGame.h"
 #include "SceneResult.h"
+#include "SceneBase.h"
 
 
 int title_state;
@@ -48,6 +49,7 @@ void SceneTitle::Update(float delta_time)
         music::play(0, true);
 
         /*fallthrough*/
+        break;
 
     case 1:
         //////// パラメータの設定 ////////
@@ -57,18 +59,21 @@ void SceneTitle::Update(float delta_time)
 
 
 
+        title_state++;
 
+        break;
 
     case 2:
 
         //enter押したら次
         if (TRG(0) & PAD_START)
         {
-
+            manager->ChangeScene(new SceneResult(manager));
         }
 
 
         title_timer++;
+        break;
     }
 }
 
