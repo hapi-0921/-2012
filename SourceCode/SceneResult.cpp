@@ -30,9 +30,7 @@ void SceneResult::Update(float delta_time)
 
 
         result_state++;
-        switch (result_state)
-        {
-        case 0:
+        
             //////// 初期設定 ////////
 
             sprResult = sprite_load(L"./Data/Images/result.png");
@@ -55,14 +53,13 @@ void SceneResult::Update(float delta_time)
 
             if (TRG(0) & PAD_START)
             {
-
+                manager->ChangeScene(new SceneTitle(manager));
             }
             ++result_timer;
             break;
 
         }
     }
-}
 
 void SceneResult::Draw()
 {

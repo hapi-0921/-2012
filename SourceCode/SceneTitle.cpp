@@ -68,7 +68,7 @@ void SceneTitle::Update(float delta_time)
         //enter押したら次
         if (TRG(0) & PAD_START)
         {
-            manager->ChangeScene(new SceneResult(manager));
+            manager->ChangeScene(new SceneGame(manager, nullptr));
         }
 
 
