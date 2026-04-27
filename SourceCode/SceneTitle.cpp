@@ -13,8 +13,6 @@ Sprite* sprTitle;
 
 
 
-
-
 void SceneTitle::Initialize()
 {
     title_state = 0;
@@ -32,6 +30,8 @@ void SceneTitle::Finalize()
 //更新
 void SceneTitle::Update(float delta_time)
 {
+  
+
     switch (title_state)
     {
     case 0:
@@ -65,6 +65,26 @@ void SceneTitle::Update(float delta_time)
 
     case 2:
 
+        int mx = input::getCursorPosX();
+        int my = input::getCursorPosY();
+
+        float button_x = 400;
+        float button_y = 300;
+        float button_w = 200;
+        float button_h = 80;
+
+        bool isHover =
+            mx >= button_x &&
+            mx <= button_x + button_w &&
+            my >= button_y &&
+            my <= button_y + button_h;
+
+        // 仮：左クリック
+        if (isHover && (input::TRG(0) & LEFT_CLICK))
+        {
+            manager->ChangeScene(new SceneGame(manager, nullptr));
+        }
+
         //enter押したら次
         if (TRG(0) & PAD_START)
         {
@@ -88,6 +108,23 @@ void SceneTitle::Draw()
 
     sprite_render(sprTitle, 0, 0);
 
+   
+    float button_x = 400;
+    float button_y = 300;
+    float button_w = 200;
+    float button_h = 80;
+
+    debug::setString("x:%f", button_x);
+
+    debug::setString("y:%f", button_y);
+
+    debug::setString("w:%f", button_w);
+
+    debug::setString("h:%f", button_h);
+
+    debug::display(0, 0, 0, 1, 1);
+
+    
 
 #ifdef _DEBUG
     DrawImGui();
@@ -97,7 +134,7 @@ void SceneTitle::Draw()
 #ifdef _DEBUG
 void SceneTitle::DrawImGui()
 {
-
+  
 }
 #endif
 
