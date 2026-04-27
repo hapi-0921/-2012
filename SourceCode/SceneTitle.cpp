@@ -83,8 +83,8 @@ void SceneTitle::Draw()
 
 
 
-    GameLib::setBlendMode(Blender::BS_ALPHA);
-    GameLib::clear(1, 1, 1);
+    setBlendMode(Blender::BS_ALPHA);
+    clear(1, 1, 1);
 
     sprite_render(sprTitle, 0, 0);
 

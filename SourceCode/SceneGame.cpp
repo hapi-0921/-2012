@@ -65,9 +65,10 @@ void SceneGame::Update(float delta_time)
 
 void SceneGame::Draw()
 {
-    GameLib::setBlendMode(Blender::BS_ALPHA);
+    setBlendMode(Blender::BS_ALPHA);
 
     clear(0, 0, 0);
+
     sprite_render(sprGame, 0, 0, 1, 1);
 
 }

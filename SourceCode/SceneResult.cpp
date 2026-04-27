@@ -31,13 +31,6 @@ void SceneResult::Update(float delta_time)
 
         result_state++;
         
-            //////// 初期設定 ////////
-
-            sprResult = sprite_load(L"./Data/Images/result.png");
-
-
-            result_state++;
-            /*fallthrough*/
 
             break;
 
@@ -63,7 +56,7 @@ void SceneResult::Update(float delta_time)
 
 void SceneResult::Draw()
 {
-    GameLib::setBlendMode(Blender::BS_ALPHA);
+    setBlendMode(Blender::BS_ALPHA);
     
     clear(0, 0, 0);
     sprite_render(sprResult, 0, 0, 1, 1);
