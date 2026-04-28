@@ -18,6 +18,9 @@ void SceneGame::Initialize()
     game_state = 0;
     game_timer = 0;
 
+    player.reset();
+
+
 }
 
 void SceneGame::Finalize()
@@ -53,10 +56,13 @@ void SceneGame::Update(float delta_time)
         case 2:
 
           
-            if (TRG(0) & PAD_START)
+            player.MenuUpdate();
+            if (player.IsDecided())
             {
                 manager->ChangeScene(new SceneResult(manager));
             }
+
+           
             ++game_timer;
             break;
 

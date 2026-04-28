@@ -2,6 +2,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+
+
 struct CursorPos
 {
 	int x;
@@ -22,19 +24,25 @@ class Player
 private:
 	int cursorX;
 	int cursorY;
-	int cursorIndex;
+	int GetcursorIndex;
 
 public:
 	Player();
 	~Player();
 
+	
+
 	bool IsHovered(Button button, float mouseX, float mouseY);
+
+	bool prevMouseLeft;
 
 	int GetCursorIndex();
 	bool decided;
 	bool IsDecided();
 
-	void MenuUpdate();
+	bool MenuUpdate();
+
+	void reset();
 
 	CursorPos getCursorpos();
 };

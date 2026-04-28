@@ -155,6 +155,7 @@
     <ClCompile Include="SourceCode\SceneGame.cpp" />
     <ClCompile Include="SourceCode\SceneResult.cpp" />
     <ClCompile Include="SourceCode\SceneTitle.cpp" />
+    <ClCompile Include="SourceCode\StageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLib\blender.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="SourceCode\SceneGame.h" />
     <ClInclude Include="SourceCode\SceneResult.h" />
     <ClInclude Include="SourceCode\SceneTitle.h" />
+    <ClInclude Include="SourceCode\StageSelect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

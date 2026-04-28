@@ -4,12 +4,17 @@
 #include "SceneGame.h"
 #include "SceneResult.h"
 #include "SceneBase.h"
-
+#include "player.h"
+#include "StageSelect.h"
 
 int title_state;
 int title_timer;
 
 Sprite* sprTitle;
+
+Button startButton = { 300,200,200,50,0 };
+Button howtoButton = { 300,280,200,50,1 };
+
 
 
 
@@ -17,6 +22,10 @@ void SceneTitle::Initialize()
 {
     title_state = 0;
     title_timer = 0;
+
+    player.reset();
+
+
 }
 
 
@@ -65,35 +74,29 @@ void SceneTitle::Update(float delta_time)
 
     case 2:
 
-        int mx = input::getCursorPosX();
-        int my = input::getCursorPosY();
 
-        float button_x = 400;
-        float button_y = 300;
-        float button_w = 200;
-        float button_h = 80;
+        
 
-        bool isHover =
-            mx >= button_x &&
-            mx <= button_x + button_w &&
-            my >= button_y &&
-            my <= button_y + button_h;
+        bool click = player.MenuUpdate();
+        CursorPos pos = player.getCursorpos();
 
-        // 仮：左クリック
-        if (isHover && (input::TRG(0) & LEFT_CLICK))
+        if (click)
         {
-            manager->ChangeScene(new SceneGame(manager, nullptr));
+            if (player.IsHovered(startButton, pos.x, pos.y))
+            {
+                manager->ChangeScene(new SceneGame(manager, nullptr));
+            }
+            else if (player.IsHovered(howtoButton, pos.x, pos.y))
+            {
+                manager->ChangeScene(new StageSelect(manager));
+            }
         }
 
-        //enter押したら次
-        if (TRG(0) & PAD_START)
-        {
-            manager->ChangeScene(new SceneGame(manager, nullptr));
-        }
+    
+            title_timer++;
+            break;
+        
 
-
-        title_timer++;
-        break;
     }
 }
 
@@ -108,23 +111,10 @@ void SceneTitle::Draw()
 
     sprite_render(sprTitle, 0, 0);
 
-   
-    float button_x = 400;
-    float button_y = 300;
-    float button_w = 200;
-    float button_h = 80;
+    Drawbutton(startButton);
 
-    debug::setString("x:%f", button_x);
+    Drawbutton(howtoButton);
 
-    debug::setString("y:%f", button_y);
-
-    debug::setString("w:%f", button_w);
-
-    debug::setString("h:%f", button_h);
-
-    debug::display(0, 0, 0, 1, 1);
-
-    
 
 #ifdef _DEBUG
     DrawImGui();
@@ -134,8 +124,23 @@ void SceneTitle::Draw()
 #ifdef _DEBUG
 void SceneTitle::DrawImGui()
 {
-  
+   
 }
 #endif
+
+void  SceneTitle::Drawbutton(Button button)
+{
+    GameLib::primitive::rect(
+        button.x,
+        button.y,
+        button.width,
+        button.height,
+        0, 0, 0,          // 中心・角度（そのままでOK）
+        1, 0, 0, 0.3f,    // 色（赤＋半透明）
+        false
+    );
+}
+
+
 
 
