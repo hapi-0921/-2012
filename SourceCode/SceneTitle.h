@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
-
+#include "player.h"
 class SceneGame;
 
 
@@ -16,10 +16,17 @@ public:
     void Finalize()override;
     void Update(float delta_time)override;
     void Draw()override;
+    void Drawbutton(Button button);
 
   
 private:
     SceneBase* nextScenePtr;
+
+    Player player;
+
+    int cursorIndex;
+
+
 #ifdef _DEBUG
     void DrawImGui();
 #endif

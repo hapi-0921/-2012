@@ -3,13 +3,17 @@
 #include "SceneManager.h"
 #include "SceneGame.h"
 #include "SceneResult.h"
-
+#include "SceneBase.h"
+#include "player.h"
+#include "StageSelect.h"
 
 int title_state;
 int title_timer;
 
 Sprite* sprTitle;
-
+//(X座標、Y座標、横幅（W）、立幅（H）、番号)
+Button startButton = { 400,200,400,400,0 };
+Button howtoButton = { 900,200,400,400,1 };
 
 
 
@@ -18,6 +22,10 @@ void SceneTitle::Initialize()
 {
     title_state = 0;
     title_timer = 0;
+
+    player.reset();
+
+
 }
 
 
@@ -31,6 +39,8 @@ void SceneTitle::Finalize()
 //更新
 void SceneTitle::Update(float delta_time)
 {
+  
+
     switch (title_state)
     {
     case 0:
@@ -48,6 +58,7 @@ void SceneTitle::Update(float delta_time)
         music::play(0, true);
 
         /*fallthrough*/
+        break;
 
     case 1:
         //////// パラメータの設定 ////////
@@ -57,18 +68,35 @@ void SceneTitle::Update(float delta_time)
 
 
 
+        title_state++;
 
+        break;
 
     case 2:
 
-        //enter押したら次
-        if (TRG(0) & PAD_START)
-        {
 
+        
+
+        bool click = player.MenuUpdate();
+        CursorPos pos = player.getCursorpos();
+
+        if (click)
+        {
+            if (player.IsHovered(startButton, pos.x, pos.y))
+            {
+                manager->ChangeScene(new SceneGame(manager, nullptr));//ゲーム画面へ
+            }
+            else if (player.IsHovered(howtoButton, pos.x, pos.y))
+            {
+                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
+            }
         }
 
+    
+            title_timer++;
+            break;
+        
 
-        title_timer++;
     }
 }
 
@@ -78,10 +106,15 @@ void SceneTitle::Draw()
 
 
 
-    GameLib::setBlendMode(Blender::BS_ALPHA);
-    GameLib::clear(1, 1, 1);
-
+    setBlendMode(Blender::BS_ALPHA);
+    clear(1, 1, 1);
+    //背景
     sprite_render(sprTitle, 0, 0);
+
+
+    //デバッグ表示
+    Drawbutton(startButton);
+    Drawbutton(howtoButton);
 
 
 #ifdef _DEBUG
@@ -92,8 +125,24 @@ void SceneTitle::Draw()
 #ifdef _DEBUG
 void SceneTitle::DrawImGui()
 {
-
+   
 }
 #endif
+
+//デバッグの表示
+void  SceneTitle::Drawbutton(Button button)
+{
+    GameLib::primitive::rect(
+        button.x,
+        button.y,
+        button.width,
+        button.height,
+        0, 0, 0,
+        1, 0, 0, 0.3f,    // 色
+        false
+    );
+}
+
+
 
 

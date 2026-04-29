@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
+#include "player.h"
 
 class SceneResult;
 
@@ -16,6 +17,9 @@ public:
 
 private:
     SceneBase* nextScene;
+
+    Player player;
+
 
 #ifdef _DEBUG
     void DrawImGui();  // ImGui描画用の関数（引数なし）
