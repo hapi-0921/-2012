@@ -12,8 +12,8 @@ int title_timer;
 
 Sprite* sprTitle;
 
-Button startButton = { 300,200,200,50,0 };
-Button howtoButton = { 300,280,200,50,1 };
+Button startButton = { 400,200,400,400,0 };
+Button howtoButton = { 900,200,400,400,1 };
 
 
 
