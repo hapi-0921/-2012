@@ -11,7 +11,7 @@ int title_state;
 int title_timer;
 
 Sprite* sprTitle;
-
+//(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button startButton = { 400,200,400,400,0 };
 Button howtoButton = { 900,200,400,400,1 };
 
@@ -84,11 +84,11 @@ void SceneTitle::Update(float delta_time)
         {
             if (player.IsHovered(startButton, pos.x, pos.y))
             {
-                manager->ChangeScene(new SceneGame(manager, nullptr));
+                manager->ChangeScene(new SceneGame(manager, nullptr));//ゲーム画面へ
             }
             else if (player.IsHovered(howtoButton, pos.x, pos.y))
             {
-                manager->ChangeScene(new StageSelect(manager));
+                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
             }
         }
 
@@ -108,11 +108,12 @@ void SceneTitle::Draw()
 
     setBlendMode(Blender::BS_ALPHA);
     clear(1, 1, 1);
-
+    //背景
     sprite_render(sprTitle, 0, 0);
 
-    Drawbutton(startButton);
 
+    //デバッグ表示
+    Drawbutton(startButton);
     Drawbutton(howtoButton);
 
 
@@ -128,6 +129,7 @@ void SceneTitle::DrawImGui()
 }
 #endif
 
+//デバッグの表示
 void  SceneTitle::Drawbutton(Button button)
 {
     GameLib::primitive::rect(
@@ -135,8 +137,8 @@ void  SceneTitle::Drawbutton(Button button)
         button.y,
         button.width,
         button.height,
-        0, 0, 0,          // 中心・角度（そのままでOK）
-        1, 0, 0, 0.3f,    // 色（赤＋半透明）
+        0, 0, 0,
+        1, 0, 0, 0.3f,    // 色
         false
     );
 }

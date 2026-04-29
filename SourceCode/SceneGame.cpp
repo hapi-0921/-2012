@@ -75,7 +75,7 @@ void SceneGame::Draw()
     setBlendMode(Blender::BS_ALPHA);
 
     clear(0, 0, 0);
-
+    //背景
     sprite_render(sprGame, 0, 0, 1, 1);
 
 }
