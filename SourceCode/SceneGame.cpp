@@ -2,8 +2,8 @@
 #include "SceneManager.h"
 #include"SceneResult.h"
 #include "SceneTitle.h"
-
-
+#include"Mapchip.h"
+Mapchip* mapchip;
 Sprite* sprGame;
 
 int game_state;
@@ -20,7 +20,7 @@ void SceneGame::Initialize()
 
     player.reset();
 
-
+    mapchip = new Mapchip();
 }
 
 void SceneGame::Finalize()
@@ -77,6 +77,7 @@ void SceneGame::Draw()
     clear(0, 0, 0);
     //背景
     sprite_render(sprGame, 0, 0, 1, 1);
+    mapchip->Render();
 
 }
 
