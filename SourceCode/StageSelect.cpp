@@ -1,9 +1,16 @@
 #include "StageSelect.h"
-
+#include "SceneTitle.h"
 #include "SceneManager.h"
-
+#include "Scene_GameArea1.h"
+#include "Scene_GameArea2.h"
+#include "Scene_GameArea3.h"
 
 Sprite* sprSelect;
+
+//(X座標、Y座標、横幅（W）、立幅（H）、番号)
+Button stage1Button = { 200,200,400,400,0 };
+Button stage2Button = { 700,200,400,400,1 };
+Button stage3Button = { 1200,200,400,400,2 };
 
 int select_state;
 int select_timer;
@@ -45,9 +52,24 @@ void StageSelect::Update(float delta_time)
         break;
     case 2:
 
-        if (TRG(0) & PAD_START)
+        bool click = player.MenuUpdate();
+        CursorPos pos = player.getCursorpos();
+
+        if (click)
         {
-            manager->ChangeScene(new SceneGame(manager, nullptr));
+            if (player.IsHovered(stage1Button, pos.x, pos.y))
+            {
+                manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ1へ
+            }
+            else if (player.IsHovered(stage2Button, pos.x, pos.y))
+            {
+                manager->ChangeScene(new Scene_GameArea2(manager));//ステージ2へ
+            }
+            else if (player.IsHovered(stage3Button, pos.x, pos.y))
+            {
+                manager->ChangeScene(new Scene_GameArea3(manager));//ステージ3へ
+            }
+
         }
         ++select_timer;
         break;
@@ -62,6 +84,11 @@ void StageSelect::Draw()
     clear(0, 0, 0);
     sprite_render(sprSelect, 0, 0, 1, 1);
 
+    //デバッグ表示
+    Drawbutton(stage1Button);
+    Drawbutton(stage2Button);
+    Drawbutton(stage3Button);
+
 }
 
 #ifdef _DEBUG
@@ -70,3 +97,17 @@ void StageSelect::DrawImGui()
 
 }
 #endif
+
+//デバッグ
+void StageSelect::Drawbutton(Button button)
+{
+    GameLib::primitive::rect(
+        button.x,
+        button.y,
+        button.width,
+        button.height,
+        0, 0, 0,
+        1, 0, 0, 0.3f,    // 色
+        false
+    );
+}

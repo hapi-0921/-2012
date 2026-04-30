@@ -1,11 +1,14 @@
-﻿#pragma once
+#pragma once
 #include"SceneBase.h"
 #include"SceneTitle.h"
 #include"SceneGame.h"
-class SceneResult :public SceneBase
+#include "player.h"
+
+
+class Scene_GameArea1 :public SceneBase
 {
 public:
-    SceneResult(SceneManager* mgr, SceneBase* next = nullptr)
+    Scene_GameArea1(SceneManager* mgr, SceneBase* next = nullptr)
         :SceneBase(mgr), nextScenePtr(next) {
     }
 
@@ -13,15 +16,13 @@ public:
     void Finalize() override;
     void Update(float delta_time) override;
     void Draw() override;
-    void Drawbutton(Button button);
-
 
 private:
     SceneBase* nextScenePtr;
 
     Player player;
 
-   
+
 #ifdef _DEBUG
     void DrawImGui();
 #endif

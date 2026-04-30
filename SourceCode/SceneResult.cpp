@@ -1,11 +1,20 @@
 ﻿#include "SceneResult.h"
 #include "SceneManager.h"
-
+#include "SceneTitle.h"
+#include "StageSelect.h"
 
 Sprite* sprResult;
 
+//(X座標、Y座標、横幅（W）、立幅（H）、番号)
+Button selectButton = { 400,200,400,400,0 };
+Button titleButton = { 900,200,400,400,1 };
+
+
 int result_state;
 int result_timer;
+
+
+
 
 void SceneResult::Initialize()
 {
@@ -43,10 +52,19 @@ void SceneResult::Update(float delta_time)
             /*fallthrough*/
             break;
         case 2:
+            bool click = player.MenuUpdate();
+            CursorPos pos = player.getCursorpos();
 
-            if (TRG(0) & PAD_START)
+            if (click)
             {
-                manager->ChangeScene(new SceneTitle(manager));
+                if (player.IsHovered(selectButton, pos.x, pos.y))
+                {
+                    manager->ChangeScene(new StageSelect(manager, nullptr));//選択画面へ
+                }
+                else if (player.IsHovered(titleButton, pos.x, pos.y))
+                {
+                    manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
+                }
             }
             ++result_timer;
             break;
@@ -62,6 +80,10 @@ void SceneResult::Draw()
     //背景
     sprite_render(sprResult, 0, 0, 1, 1);
 
+    //デバッグ表示
+    Drawbutton(selectButton);
+    Drawbutton(titleButton);
+
 }
 
 #ifdef _DEBUG
@@ -70,3 +92,18 @@ void SceneResult::DrawImGui()
     
 }
 #endif
+
+//デバッグの表示
+void  SceneResult::Drawbutton(Button button)
+{
+    GameLib::primitive::rect(
+        button.x,
+        button.y,
+        button.width,
+        button.height,
+        0, 0, 0,
+        1, 0, 0, 0.3f,    // 色
+        false
+    );
+}
+
