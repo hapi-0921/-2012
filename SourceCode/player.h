@@ -35,8 +35,6 @@ private:
 	Sprite* spr_Character;
 
 	//アニメーション
-
-
 	int frame = 0;
 	float animTimer = 0.0f;
 	float posX = 200;
