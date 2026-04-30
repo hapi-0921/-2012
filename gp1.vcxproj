@@ -155,6 +155,10 @@
     <ClCompile Include="SourceCode\SceneGame.cpp" />
     <ClCompile Include="SourceCode\SceneResult.cpp" />
     <ClCompile Include="SourceCode\SceneTitle.cpp" />
+    <ClCompile Include="SourceCode\SceneTutorial.cpp" />
+    <ClCompile Include="SourceCode\Scene_GameArea1.cpp" />
+    <ClCompile Include="SourceCode\Scene_GameArea2.cpp" />
+    <ClCompile Include="SourceCode\Scene_GameArea3.cpp" />
     <ClCompile Include="SourceCode\StageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +197,10 @@
     <ClInclude Include="SourceCode\SceneGame.h" />
     <ClInclude Include="SourceCode\SceneResult.h" />
     <ClInclude Include="SourceCode\SceneTitle.h" />
+    <ClInclude Include="SourceCode\SceneTutorial.h" />
+    <ClInclude Include="SourceCode\Scene_GameArea1.h" />
+    <ClInclude Include="SourceCode\Scene_GameArea2.h" />
+    <ClInclude Include="SourceCode\Scene_GameArea3.h" />
     <ClInclude Include="SourceCode\StageSelect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

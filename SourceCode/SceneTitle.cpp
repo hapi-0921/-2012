@@ -6,6 +6,7 @@
 #include "SceneBase.h"
 #include "player.h"
 #include "StageSelect.h"
+#include "SceneTutorial.h"
 
 int title_state;
 int title_timer;
@@ -84,7 +85,7 @@ void SceneTitle::Update(float delta_time)
         {
             if (player.IsHovered(startButton, pos.x, pos.y))
             {
-                manager->ChangeScene(new SceneGame(manager, nullptr));//ゲーム画面へ
+                manager->ChangeScene(new SceneTutorial(manager, nullptr));//チュートリアル画面へ
             }
             else if (player.IsHovered(howtoButton, pos.x, pos.y))
             {
