@@ -55,7 +55,7 @@ void SceneGame::Update(float delta_time)
             break;
         case 2:
 
-          
+            mapchip->Update();
             player.MenuUpdate();
             if (player.IsDecided())
             {
