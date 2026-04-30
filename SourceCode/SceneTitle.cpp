@@ -12,6 +12,12 @@ int title_state;
 int title_timer;
 
 Sprite* sprTitle;
+
+Sprite* sprTutorialbutton;
+
+
+
+
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button startButton = { 400,200,400,400,0 };
 Button howtoButton = { 900,200,400,400,1 };
@@ -35,6 +41,9 @@ void SceneTitle::Finalize()
     music::stop(0);
 
     safe_delete(sprTitle);
+
+    safe_delete(sprTutorialbutton);
+
 }
 
 //更新
@@ -50,6 +59,8 @@ void SceneTitle::Update(float delta_time)
         //画像の読み込み
 
         sprTitle = sprite_load(L"./Data/Images/title.png");
+
+        sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
 
 
         title_state++;
@@ -111,6 +122,8 @@ void SceneTitle::Draw()
     clear(1, 1, 1);
     //背景
     sprite_render(sprTitle, 0, 0);
+
+    sprite_render(sprTutorialbutton, 400, 200);
 
 
     //デバッグ表示

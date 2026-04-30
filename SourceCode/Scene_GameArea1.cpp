@@ -1,6 +1,9 @@
 #include "SceneManager.h"
 #include "SceneResult.h"
 #include "Scene_GameArea1.h"
+#include "StageSelect.h"
+
+
 
 Sprite* sprStage1;
 
@@ -44,6 +47,9 @@ void Scene_GameArea1::Update(float delta_time)
         break;
     case 2:
 
+        player.MenuUpdate();
+
+
         if (TRG(0) & PAD_START)
         {
             manager->ChangeScene(new SceneResult(manager, nullptr));
@@ -60,6 +66,9 @@ void Scene_GameArea1::Draw()
 
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
+
+    player.Draw();
+
 
 }
 

@@ -2,6 +2,9 @@
 #include"SceneBase.h"
 #include"SceneTitle.h"
 #include"SceneGame.h"
+#include "player.h"
+
+
 class Scene_GameArea1 :public SceneBase
 {
 public:
@@ -16,6 +19,9 @@ public:
 
 private:
     SceneBase* nextScenePtr;
+
+    Player player;
+
 
 #ifdef _DEBUG
     void DrawImGui();
