@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-
+#include "SceneResult.h"
 #include "Scene_GameArea1.h"
 
 Sprite* sprStage1;
@@ -46,7 +46,7 @@ void Scene_GameArea1::Update(float delta_time)
 
         if (TRG(0) & PAD_START)
         {
-            manager->ChangeScene(new SceneGame(manager, nullptr));
+            manager->ChangeScene(new SceneResult(manager, nullptr));
         }
         ++stage1_timer;
         break;
