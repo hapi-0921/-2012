@@ -3,12 +3,19 @@
 #include"SceneResult.h"
 #include "SceneTitle.h"
 #include"Mapchip.h"
-Mapchip* mapchip;
+#include "player.h"
+
+Map* mapchip;
 Sprite* sprGame;
 
 int game_state;
 int game_timer;
 
+//int cursorRow = 0;
+//int cursorCol = 0;
+//bool isSelecting = false;
+//int selectRow = 0;
+//int selectCol = 0;
 
 
 //テスト用コメント
@@ -20,7 +27,7 @@ void SceneGame::Initialize()
 
     player.reset();
 
-    mapchip = new Mapchip();
+    mapchip = new Map();
 }
 
 void SceneGame::Finalize()

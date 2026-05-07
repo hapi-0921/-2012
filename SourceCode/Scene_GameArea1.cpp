@@ -2,6 +2,8 @@
 #include "SceneResult.h"
 #include "Scene_GameArea1.h"
 #include "StageSelect.h"
+#include "Character.h"
+#include "mapchip.h"
 
 
 
@@ -47,8 +49,8 @@ void Scene_GameArea1::Update(float delta_time)
         break;
     case 2:
 
-        player.MenuUpdate();
-
+        character.Move();
+        player.GameUpdate(mapchip);
 
         if (TRG(0) & PAD_START)
         {
@@ -67,9 +69,9 @@ void Scene_GameArea1::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
 
-    player.Draw();
+    character.Draw();
 
-
+    mapchip.Render();
 }
 
 #ifdef _DEBUG
