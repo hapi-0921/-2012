@@ -1,17 +1,28 @@
 #include "../GameLib/game_lib.h"
 #include "player.h"
 #include "SceneTitle.h"
+#include "SceneGame.h"
+#include "Mapchip.h"
 
 
 int player_timer;
 static bool prevMouseLeft;
 
+static int cursorRow = 0;
+static int cursorCol = 0;
+
+static bool isSelecting = false;
+static int selectRow = 0;
+static int selectCol = 0;
 
 Player::Player()
 {
+<<<<<<< HEAD
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
+=======
+>>>>>>> 16205dd1aa60dca66d02d12023c622066b49eea1
 	 cursorX = 0;
 	 cursorY = 0;
 
@@ -26,7 +37,7 @@ Player::Player()
 
 Player::~Player()
 {
-	safe_delete(spr_Character);
+
 }
 
 CursorPos Player::getCursorpos()
@@ -47,38 +58,6 @@ bool Player::MenuUpdate()
 {
 	player_timer++;
 
-	moveTimer += 1.0f / 60.0f; 
-
-	if (moveTimer > 1.0f) //1秒ごとに方向変える（仮）
-	{
-		int r = rand() % 4;
-
-		switch (r)
-		{
-		case 0: vx = 1; vy = 0; direction = 1; break; //左
-		case 1: vx = -1; vy = 0; direction = 2; break; // 右
-		case 2: vx = 0; vy = 1; direction = 0; break; // 下
-		case 3: vx = 0; vy = -1; direction = 3; break; // 上
-		}
-
-		moveTimer = 0;
-	}
-
-	// 移動
-	posX += vx * speed * (1.0f / 60.0f);
-	posY += vy * speed * (1.0f / 60.0f);
-
-
-	//アニメーション
-	animTimer += 1.0f / 60.0f;
-
-	if (animTimer >= 0.2f)
-	{
-		frame++;
-		if (frame >= 4) frame = 0;
-		animTimer = 0;
-	}
-
 	CursorPos pos = getCursorpos();
 
 	if (TRG(0)&PAD_DOWN) GetcursorIndex++;
@@ -98,18 +77,56 @@ bool Player::MenuUpdate()
 
 }
 
-void Player::Draw()
+bool Player::GameUpdate(Map& mapchip)
 {
-	int frameWidth = PLAYER_TEX_W ;
-	int frameHeight = PLAYER_TEX_H ;
+	player_timer++;
 
-	int sx = frame * frameWidth;
-	int sy = direction * frameHeight;
+	CursorPos pos = getCursorpos();
 
-	sprite_render(spr_Character,posX, posY, 2, 2,
-		sx, sy, frameWidth, frameHeight);
+	const int CELLSIZE = 100;
+
+	cursorCol = (pos.x) / CELLSIZE;
+	cursorRow = (pos.y) / CELLSIZE;
+
+	if (cursorRow < 0 || cursorRow >= 8) return false;
+	if (cursorCol < 0 || cursorCol >= 8) return false;
+
+	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
+
+	prevMouseLeft = mouseLeft;
+
+	if (mouseClick)
+	{
+		if (!isSelecting)
+		{
+			selectRow = cursorRow;
+			selectCol = cursorCol;
+			isSelecting = true;
+		}
+		else
+		{
+			if (cursorRow == selectRow && cursorCol == selectCol)
+			{
+				isSelecting = false;
+				return true;
+			}
+
+			int dr = abs(cursorRow - selectRow);
+			int dc = abs(cursorCol - selectCol);
+
+			if (dr + dc == 1)
+			{
+				std::swap(mapchip.map[selectRow][selectCol], 
+						  mapchip.map[cursorRow][cursorCol]);
+			}
+
+			isSelecting = false;
+		}
+	}
+
+	return mouseClick;
 }
-
 
 
 void Player::reset()

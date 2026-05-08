@@ -3,6 +3,8 @@
 #include"SceneTitle.h"
 #include"SceneGame.h"
 #include "player.h"
+#include "Character.h"
+#include "Mapchip.h"
 
 
 class Scene_GameArea1 :public SceneBase
@@ -22,6 +24,8 @@ private:
     SceneBase* nextScenePtr;
 
     Player player;
+    Character character;
+    Map mapchip;
 
 
 #ifdef _DEBUG

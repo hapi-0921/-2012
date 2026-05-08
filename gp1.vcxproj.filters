@@ -126,10 +126,14 @@
     <ClCompile Include="SourceCode\Mapchip.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="SourceCode\audio.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Number.cpp">
+=======
+    <ClCompile Include="SourceCode\Character.cpp">
+>>>>>>> 16205dd1aa60dca66d02d12023c622066b49eea1
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,10 +261,14 @@
     <ClInclude Include="SourceCode\Mapchip.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="SourceCode\audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Number.h">
+=======
+    <ClInclude Include="SourceCode\Character.h">
+>>>>>>> 16205dd1aa60dca66d02d12023c622066b49eea1
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

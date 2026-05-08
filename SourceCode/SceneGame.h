@@ -14,11 +14,11 @@ public:
     void Draw();
     void Finalize();
 
-
 private:
     SceneBase* nextScene;
 
     Player player;
+    
 
 
 #ifdef _DEBUG
