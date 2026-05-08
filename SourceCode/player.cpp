@@ -17,12 +17,9 @@ static int selectCol = 0;
 
 Player::Player()
 {
-<<<<<<< HEAD
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
-=======
->>>>>>> 16205dd1aa60dca66d02d12023c622066b49eea1
 	 cursorX = 0;
 	 cursorY = 0;
 
