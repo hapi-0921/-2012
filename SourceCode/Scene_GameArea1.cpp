@@ -2,13 +2,11 @@
 #include "SceneResult.h"
 #include "Scene_GameArea1.h"
 #include "StageSelect.h"
-<<<<<<< HEAD
 #include "Number.h"
-=======
 #include "Character.h"
 #include "mapchip.h"
 
->>>>>>> 16205dd1aa60dca66d02d12023c622066b49eea1
+
 
 
 Sprite* sprStage1;
@@ -95,16 +93,16 @@ void Scene_GameArea1::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
 
-<<<<<<< HEAD
-    player.Draw();
+
+    character.Draw();
 
    
     DrawNumber(64,10, stage1_timer);
-=======
+
     character.Draw();
 
     mapchip.Render();
->>>>>>> 16205dd1aa60dca66d02d12023c622066b49eea1
+
 }
 
 
