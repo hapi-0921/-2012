@@ -7,6 +7,11 @@
 #include "player.h"
 #include "StageSelect.h"
 #include "SceneTutorial.h"
+#include "audio.h"
+#include "Number.h"
+
+
+
 
 int title_state;
 int title_timer;
@@ -14,7 +19,7 @@ int title_timer;
 Sprite* sprTitle;
 
 Sprite* sprTutorialbutton;
-
+Sprite* sprSelectbutton;
 
 
 
@@ -38,11 +43,15 @@ void SceneTitle::Initialize()
 
 void SceneTitle::Finalize()
 {
+
     music::stop(0);
 
     safe_delete(sprTitle);
 
     safe_delete(sprTutorialbutton);
+
+    safe_delete(sprSelectbutton);
+
 
 }
 
@@ -62,26 +71,27 @@ void SceneTitle::Update(float delta_time)
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
 
+        sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
 
         title_state++;
-
 
         //音楽再生（ループ）
         music::play(0, true);
 
-        /*fallthrough*/
+
         break;
+
+
+        
 
     case 1:
         //////// パラメータの設定 ////////
 
         GameLib::setBlendMode(Blender::BS_ALPHA);
 
-
-
-
         title_state++;
 
+       
         break;
 
     case 2:
@@ -97,10 +107,14 @@ void SceneTitle::Update(float delta_time)
             if (player.IsHovered(startButton, pos.x, pos.y))
             {
                 manager->ChangeScene(new SceneTutorial(manager, nullptr));//チュートリアル画面へ
+                music::play(1);
+
             }
             else if (player.IsHovered(howtoButton, pos.x, pos.y))
             {
                 manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
+                music::play(2);
+
             }
         }
 
@@ -125,10 +139,12 @@ void SceneTitle::Draw()
 
     sprite_render(sprTutorialbutton, 400, 200);
 
+    sprite_render(sprSelectbutton, 900, 200);
+
 
     //デバッグ表示
     Drawbutton(startButton);
-    Drawbutton(howtoButton);
+    /*Drawbutton(howtoButton);*/
 
 
 #ifdef _DEBUG

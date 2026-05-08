@@ -10,7 +10,7 @@ static bool prevMouseLeft;
 Player::Player()
 {
 
-	spr_Character = sprite_load(L"./Data/Images/Character_kari.png");
+	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
 	 cursorX = 0;
 	 cursorY = 0;

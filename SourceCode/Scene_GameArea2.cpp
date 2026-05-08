@@ -1,6 +1,7 @@
 #include "SceneManager.h"
-
+#include "SceneResult.h"
 #include "Scene_GameArea2.h"
+#include "Number.h"
 
 Sprite* sprStage2;
 
@@ -10,13 +11,16 @@ int stage2_timer;
 void Scene_GameArea2::Initialize()
 {
     stage2_state = 0;
-    stage2_timer = 0;
+    stage2_timer = 90;
+
+    NumberInitialize();
+
 }
 
 void Scene_GameArea2::Finalize()
 {
     safe_delete(sprStage2);
-    music::stop(0);
+  
 }
 
 void Scene_GameArea2::Update(float delta_time)
@@ -46,9 +50,21 @@ void Scene_GameArea2::Update(float delta_time)
 
         if (TRG(0) & PAD_START)
         {
-            manager->ChangeScene(new SceneGame(manager, nullptr));
+            manager->ChangeScene(new SceneResult(manager, nullptr));
         }
-        ++stage2_timer;
+
+
+
+        //1•b‚Å1Œ¸‚é‚æ‚¤‚É
+        static int frame = 0;
+        frame++;
+        if (frame >= 60)
+        {
+            stage2_timer--;
+            frame = 0;
+        }
+
+
         break;
 
     }
@@ -61,6 +77,7 @@ void Scene_GameArea2::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage2, 0, 0, 1, 1);
 
+    DrawNumber(64, 10, stage2_timer);
 }
 
 #ifdef _DEBUG
