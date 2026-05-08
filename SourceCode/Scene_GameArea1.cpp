@@ -1,13 +1,16 @@
-#include "SceneManager.h"
+ï»¿#include "SceneManager.h"
 #include "SceneResult.h"
 #include "Scene_GameArea1.h"
 #include "StageSelect.h"
+#include "Number.h"
 #include "Character.h"
 #include "mapchip.h"
 
 
 
+
 Sprite* sprStage1;
+
 
 int stage1_state;
 int stage1_timer;
@@ -15,13 +18,21 @@ int stage1_timer;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-    stage1_timer = 0;
+    stage1_timer = 90;
+
+
+
+    NumberInitialize();
+   
+
 }
 
 void Scene_GameArea1::Finalize()
 {
     safe_delete(sprStage1);
-    music::stop(0);
+    
+   
+
 }
 
 void Scene_GameArea1::Update(float delta_time)
@@ -29,7 +40,7 @@ void Scene_GameArea1::Update(float delta_time)
     switch (stage1_state)
     {
     case 0:
-        //////// ‰ŠúÝ’è ////////
+        //////// åˆæœŸè¨­å®š ////////
 
         sprStage1 = sprite_load(L"./Data/Images/stage1.png");
 
@@ -40,7 +51,7 @@ void Scene_GameArea1::Update(float delta_time)
         break;
 
     case 1:
-        //////// ƒpƒ‰ƒ[ƒ^‚ÌÝ’è ////////
+        //////// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š ////////
 
         GameLib::setBlendMode(Blender::BS_ALPHA);
 
@@ -56,7 +67,20 @@ void Scene_GameArea1::Update(float delta_time)
         {
             manager->ChangeScene(new SceneResult(manager, nullptr));
         }
-        ++stage1_timer;
+
+            
+
+        //1ç§’ã§1æ¸›ã‚‹ã‚ˆã†ã«
+        static int frame = 0;
+        frame++;
+        if (frame >= 60)
+        {
+            stage1_timer--;
+            frame = 0;
+        }
+
+
+       
         break;
 
     }
@@ -69,10 +93,24 @@ void Scene_GameArea1::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
 
+
+    character.Draw();
+
+   
+    DrawNumber(64,10, stage1_timer);
+
     character.Draw();
 
     mapchip.Render();
+
 }
+
+
+
+
+
+
+
 
 #ifdef _DEBUG
 void Scene_GameArea1::DrawImGui()

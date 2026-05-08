@@ -18,6 +18,7 @@ public:
     void Finalize() override;
     void Update(float delta_time) override;
     void Draw() override;
+  
 
 private:
     SceneBase* nextScenePtr;

@@ -2,6 +2,7 @@
 #include"SceneManager.h"
 #include "SceneTitle.h"
 #include "GameTimer.h"
+#include "audio.h"
 
 int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
@@ -19,6 +20,9 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 
         //最初のシーンをnewで作成してChangeScene
         manager.ChangeScene(new SceneTitle(&manager, nullptr));
+
+        audio_init();
+
 
         while (GameLib::gameLoop())
         {
@@ -39,6 +43,9 @@ int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 
 
 #ifdef _DEBUG
+            // オーディオの終了処理
+            audio_deinit();
+
             // ImGui描画
             GameLib::imgui::render();
 #endif
