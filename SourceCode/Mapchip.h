@@ -8,6 +8,12 @@
 #define MapCenter chipSize/2 //マップの真ん中になる
 #define MapDown chipSize      //マップの下、右になる
 
+#define X 100
+#define Y 100
+
+
+
+
 #define Mobsoze 64
 class Map
 {
@@ -22,12 +28,20 @@ public:
 	void Road3();
 	void Road4();
 	void Road5();
+	void Road6();
+	void Road7();
+	void Road8();
+	void Road9();
+
+
+
+
 
 	int map[STAGE_X][STAGE_Y] =
-	{ 2,2,2,2,1,1,1,1,
-	  2,1,2,1,1,1,1,1,
-	  2,1,1,3,1,4,1,1,
-	  3,1,1,1,2,1,1,1,
+	{ 2,2,2,3,1,1,1,1,
+	  2,3,3,2,1,1,1,1,
+	  3,2,3,3,1,4,1,1,
+	  3,2,1,1,2,1,1,1,
 	  1,1,1,1,1,1,1,1,
 	  1,4,1,1,1,2,1,1,
 	  1,1,4,1,1,1,3,1,
@@ -41,6 +55,10 @@ public:
 	int prevY = -1;
 	int phase = 0;
 	bool moving = false;
+
+	float localX = m.pos.x - X;
+	float localY = m.pos.y - Y;
+
 	int mapX = (m.pos.x) / chipSize;				//playerがいるマス
 	int mapY = (m.pos.y) / chipSize;				//playerがいるマス
 
@@ -57,10 +75,10 @@ public:
 	int rightmapX = mapX + 1;						//一個右のブロック
 	int leftmapX = mapX - 1;						//一個左のブロック
 
-
+	bool blocheck = false;
 	struct Mob
 	{
-		VECTOR2 pos{ 0,0 };
+		VECTOR2 pos{ 150,Y };
 		int pivot = Mobsoze * 0.5f;
 		int angle = 0;
 		int dirY = 1; // 1=下, -1=上
