@@ -5,18 +5,45 @@ Map::Map()
 	//角度が内部は変わってるけど見た目は変わってない
 	//基準点が００だから
 
+
+	frame = 0;
+	animTimer = 0.0f;
+	direction = 0; // 0:下 1:右 2:左 3:上
+	speed = 50.0f;
+	
+	moveTimer = 0.0f;
+	vx = 0;
+	vy = 0;
+
+
 	sprmap1	= sprite_load(L"./Data/Images/mapchip1.png");
 	sprmap2	= sprite_load(L"./Data/Images/mapchip2.png");
 	sprmap3	= sprite_load(L"./Data/Images/mapchip3.png");
 	sprmap4	= sprite_load(L"./Data/Images/mapchip4.png");
-	sprmob= sprite_load(L"./Data/Images/mob.png");
+	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 	sprfield= sprite_load(L"./Data/Images/field.png");
 	
 
+
+
+
+
+
+
 }
+
+
+
 Map::~Map()
 {
+
+
+
+
 }
+
+
+
 void Map::Update()
 {
 
@@ -27,6 +54,23 @@ void Map::Update()
 	//debug::setString("MapY:%d MapX:%d", mapY, mapX);
 	debug::setString("SenterX:%f", senterX);
 	debug::setString("SenterY:%f", senterY);
+
+	if (m.dirX == 1)
+	{
+		direction = 1; // 右
+	}
+	else if (m.dirX == -1)
+	{
+		direction = 2; // 左
+	}
+	else if (m.dirY == 1)
+	{
+		direction = 0; // 下
+	}
+	else if (m.dirY == -1)
+	{
+		direction = 3; // 上
+	}
 
 
 }
@@ -100,6 +144,18 @@ void Map::Road()	//道情報
 void Map::Move()
 {
 
+	//アニメーション
+	animTimer += 1.0f / 60.0f;
+
+	if (animTimer >= 0.2f)
+	{
+		frame++;
+		if (frame >= 4) frame = 0;
+		animTimer = 0;
+	}
+
+
+
 	if (mapX < 0 || mapX >= STAGE_X ||
 		mapY < 0 || mapY >= STAGE_Y)
 		return;
@@ -153,14 +209,18 @@ void Map::Road2()//直線の道の時
 
 			if (m.pos.x <= left)		//今いるブロックの左端についたら
 			{
+				
 				m.dirX = 1;			//右に引き返す
 				m.pos.x += m.dirX * m.speed;//移動処理
 			}
 
 			if (m.pos.x >= right)	//今いるブロックの右端についたら
 			{
+				
 				m.dirX = -1;		//左に引き返す
 				m.pos.x += m.dirX * m.speed;//移動処理
+				
+
 			}
 		}
 	}
@@ -195,6 +255,7 @@ void Map::Road4()//曲線の道の時
 		
 		if (phase == 0)//上から真ん中
 		{
+
 			// 縦移動
 			m.pos.y += m.dirY * m.speed;
 
@@ -221,7 +282,8 @@ void Map::Road4()//曲線の道の時
 		}
 		else if (phase == 1)//真ん中から右
 		{
-			
+		
+
 
 			// 横移動
 			m.pos.x += m.dirX * m.speed;
@@ -251,6 +313,7 @@ void Map::Road4()//曲線の道の時
 		}
 		else if (phase == 2)	//右から真ん中
 		{
+		
 			m.pos.x += m.dirX * m.speed;
 			if (m.pos.x <= senterX) //真ん中についたら 
 			{
@@ -273,7 +336,8 @@ void Map::Road4()//曲線の道の時
 		}
 		else if (phase == 3)	//真ん中から上
 		{
-			
+		
+
 
 			m.pos.y += m.dirY * m.speed;
 			if (m.pos.y <= top) //真ん中についたら 
@@ -299,6 +363,8 @@ void Map::Road4()//曲線の道の時
 			else if (phase == 4)//真ん中から左
 			{
 				
+		
+
 				// 横移動
 				m.pos.x += m.dirX * m.speed;
 
@@ -328,6 +394,8 @@ void Map::Road4()//曲線の道の時
 			}
 			else if (phase == 5)	//左から真ん中
 			{
+		
+
 				m.pos.x += m.dirX * m.speed;
 				if (m.pos.x >= senterX) //真ん中についたら 
 				{
@@ -349,6 +417,8 @@ void Map::Road4()//曲線の道の時
 			}
 			else if (phase == 6)	//下から真ん中
 			{
+				
+
 				m.pos.y += m.dirY * m.speed;
 				if (m.pos.y <= senterY) //真ん中についたら 
 				{
@@ -372,6 +442,7 @@ void Map::Road4()//曲線の道の時
 			}
 			else if (phase == 7)	//真ん中から下
 			{
+			
 				
 				m.pos.y += m.dirY * m.speed;
 				if (m.pos.y >= bottom) //下についたら 
@@ -548,15 +619,20 @@ void Map::Render()
 			}
 		}
 	}
-	sprite_render(sprmob,
-		m.pos.x, m.pos.y,
-		1, 1,
-		0, 0,
-		Mobsoze, Mobsoze,
-		32	,64,
-		0,
-		1, 1, 1
-	);
+
+	//キャラの絵
+	
+
+	int sx = frame * CHARACTER_TEX_W;
+	int sy = direction *  CHARACTER_TEX_H;
+
+	if (spr_Character == nullptr) return;
+
+	sprite_render(spr_Character, m.pos.x - 16, m.pos.y - 16, 1, 1,
+		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
+
+	
+	
 
 	debug::display(1,0,1,2,2); // ← 最後に描く
 }
