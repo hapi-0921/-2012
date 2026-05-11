@@ -20,6 +20,9 @@ static int selectCol = 0;
 
 Player::Player()
 {
+
+	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
+
 	 cursorX = 0;
 	 cursorY = 0;
 
@@ -90,8 +93,8 @@ bool Player::GameUpdate(Map& mapchip)
 	//マスのサイズ
 	const int CELLSIZE = 100;
 
-	cursorCol = (pos.x) / CELLSIZE;
-	cursorRow = (pos.y) / CELLSIZE;
+	cursorCol = (pos.x+X) / CELLSIZE;
+	cursorRow = (pos.y+Y) / CELLSIZE;
 
 	//範囲外
 	if (cursorRow < 0 || cursorRow >= 8) return false;
