@@ -24,14 +24,14 @@ public:
 	void Update();
 	void Road();
 	void Move();
-	void Road2();
-	void Road3();
-	void Road4();
+	void Road2();//直線の道の時
+	void Road3();//次の道が直線の時
+	void Road4();//曲線の道の時
 	void Road5();
-	void Road6();
-	void Road7();
-	void Road8();
-	void Road9();
+	void Road6();//曲線の上から下に行けるやつ
+	void Road7();//曲線の下から上に行けるやつ
+	void Road8();//曲線の右から左に行けるやつ
+	void Road9();//曲線の左から右に行けるやつ
 
 
 

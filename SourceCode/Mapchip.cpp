@@ -119,8 +119,10 @@ void Map::Road2()//直線の道の時
 			
 			m.pos.y += m.dirY * m.speed;//移動処理
 			
-			
+			if (m.dirY==-1)
+			{
 				Road7();
+			}
 				if (m.pos.y - 64 <= top && blocheck == false)		//今いるブロックの上端についたら
 				{
 					//m.pos.y = top;
@@ -130,8 +132,10 @@ void Map::Road2()//直線の道の時
 			
 			
 			// 下端
-			
-				Road6();
+				if (m.dirY==1)
+				{
+					Road6();
+				}
 				if (m.pos.y >= bottom && blocheck == false)			//今いるブロックの下端についたら
 				{
 					//m.pos.y = bottom;
@@ -162,7 +166,7 @@ void Map::Road2()//直線の道の時
 	}
 		
 }
-void Map::Road3()
+void Map::Road3()//次の道が直線の時
 {
 	if (map[upmapY][mapX] == 2 && block[upmapY][mapX].RotationCount % 2 == 0)
 	{
@@ -181,9 +185,9 @@ void Map::Road3()
 		left -= chipSize;
 	}
 }
-void Map::Road4()
+void Map::Road4()//曲線の道の時
 {
-	if (map[mapY][mapX] == 3 )//L字の時
+	if (map[mapY][mapX] == 3 )
 	{
 		
 
@@ -427,13 +431,13 @@ void Map::Road7()//曲線の下から上に行けるやつ
 	if (map[upmapY][mapX] == 3 && block[upmapY][mapX].RotationCount == 1)//上が「字の時
 	{
 		phase = 6;
-		top -= 10;
+		top -= 1;
 		blocheck = true;
 	}
 	else if (map[upmapY][mapX] == 3 && block[upmapY][mapX].RotationCount == 2)//上が7字の時
 	{
 		phase = 6;
-		top -= 10;
+		top -= 1;
 		blocheck = true;
 	}
 	else blocheck = false;
@@ -444,13 +448,13 @@ void Map::Road8()//曲線の右から左に行けるやつ
 	if (map[mapY][leftmapX] == 3 && block[mapY][leftmapX].RotationCount == 0)//左がL字の時
 	{
 		phase = 2;
-		left -= 10;
+		left -= 1;
 		blocheck = true;
 	}
 	else if (map[mapY][leftmapX] == 3 && block[mapY][leftmapX].RotationCount == 1)//左が「字の時
 	{
 		phase = 2;
-		left -= 10;
+		left -= 1;
 		blocheck = true;
 	}
 	
@@ -461,13 +465,13 @@ void Map::Road9()//曲線の左から右に行けるやつ
 	if (map[mapY][rightmapX] == 3 && block[mapY][rightmapX].RotationCount == 2)//右が7字の時
 	{
 		phase = 5;
-		right += 10;
+		right += 1;
 		blocheck = true;
 	}
 
 	else if (map[mapY][rightmapX] == 3 && block[mapY][rightmapX].RotationCount == 3)//右が」字の時
 	{
-		right += 10;
+		right += 1;
 		phase = 5;
 		blocheck = true;
 	}
