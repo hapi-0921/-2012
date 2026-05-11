@@ -100,8 +100,6 @@ void Map::Road()	//“¹î•ñ
 void Map::Move()
 {
 
-
-
 	if (mapX < 0 || mapX >= STAGE_X ||
 		mapY < 0 || mapY >= STAGE_Y)
 		return;

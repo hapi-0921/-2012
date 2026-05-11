@@ -82,8 +82,8 @@ bool Player::GameUpdate(Map& mapchip)
 
 	const int CELLSIZE = 100;
 
-	cursorCol = (pos.x) / CELLSIZE;
-	cursorRow = (pos.y) / CELLSIZE;
+	cursorCol = (pos.x+X) / CELLSIZE;
+	cursorRow = (pos.y+Y) / CELLSIZE;
 
 	if (cursorRow < 0 || cursorRow >= 8) return false;
 	if (cursorCol < 0 || cursorCol >= 8) return false;
