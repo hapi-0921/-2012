@@ -310,5 +310,6 @@ void Map::Render()
 		1, 1, 1
 	);
 
+
 	debug::display(1,0,1,2,2); // Å© ç≈å„Ç…ï`Ç≠
 }

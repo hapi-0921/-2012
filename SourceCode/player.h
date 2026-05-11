@@ -41,10 +41,14 @@ public:
 	bool decided;
 	bool IsDecided();
 
-	bool MenuUpdate();
-	bool GameUpdate(Map& mapchip);
+	bool MenuUpdate(int memuMax);//メニュー(titleやresultで使う用)
+	bool GameUpdate(Map& mapchip);//ゲーム内で使う用
 
 	void reset();
+
+	bool GetSelecting();
+	int GetSelectingRow();
+	int GetSelectingCol();
 
 	CursorPos getCursorpos();
 

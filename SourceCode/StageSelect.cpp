@@ -52,7 +52,24 @@ void StageSelect::Update(float delta_time)
         break;
     case 2:
 
-        bool click = player.MenuUpdate();
+        bool click = player.MenuUpdate(3);
+
+        if (TRG(0) & PAD_START)
+        {
+            switch (player.GetCursorIndex())
+            {
+            case 0:
+                manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ１
+                break;
+            case 1:
+                manager->ChangeScene(new  Scene_GameArea2(manager));//ステージ2
+                break;
+            case 2:
+                manager->ChangeScene(new  Scene_GameArea3(manager));//ステージ3
+                break;
+            }
+        }
+
         CursorPos pos = player.getCursorpos();
 
         if (click)
