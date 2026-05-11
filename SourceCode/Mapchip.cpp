@@ -9,7 +9,7 @@ Map::Map()
 	frame = 0;
 	animTimer = 0.0f;
 	direction = 0; // 0:下 1:右 2:左 3:上
-	speed = 50.0f;
+
 	
 	moveTimer = 0.0f;
 	vx = 0;
@@ -37,6 +37,13 @@ Map::Map()
 Map::~Map()
 {
 
+	safe_delete(sprmap1);
+	safe_delete(sprmap2);
+	safe_delete(sprmap3);
+	safe_delete(sprmap4);
+	safe_delete(spr_Character);
+	safe_delete(sprfield);
+
 
 
 
@@ -54,6 +61,8 @@ void Map::Update()
 	//debug::setString("MapY:%d MapX:%d", mapY, mapX);
 	debug::setString("SenterX:%f", senterX);
 	debug::setString("SenterY:%f", senterY);
+
+
 
 	if (m.dirX == 1)
 	{
@@ -143,6 +152,10 @@ void Map::Road()	//道情報
 
 void Map::Move()
 {
+
+	// 移動
+	m.pos.x += vx * m.speed * (1.0f / 60.0f);
+	m.pos.y += vy * m.speed * (1.0f / 60.0f);
 
 	//アニメーション
 	animTimer += 1.0f / 60.0f;
@@ -621,8 +634,6 @@ void Map::Render()
 	}
 
 	//キャラの絵
-	
-
 	int sx = frame * CHARACTER_TEX_W;
 	int sy = direction *  CHARACTER_TEX_H;
 

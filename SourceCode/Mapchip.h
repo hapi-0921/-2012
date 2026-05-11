@@ -86,7 +86,6 @@ public:
 	int frame;
 	float animTimer;
 	int direction; // 0:‰º 1:‰E 2:¶ 3:ã
-	float speed;
 	
 	float moveTimer;
 	float vx;
