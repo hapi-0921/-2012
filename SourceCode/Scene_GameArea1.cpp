@@ -4,7 +4,7 @@
 #include "StageSelect.h"
 #include "Number.h"
 #include "Character.h"
-#include "mapchip.h"
+#include "Mapchip.h"
 
 
 
@@ -59,10 +59,10 @@ void Scene_GameArea1::Update(float delta_time)
         /*fallthrough*/
         break;
     case 2:
-
+        
         character.Move();
         player.GameUpdate(mapchip);
-
+        mapchip.Update();
         if (TRG(0) & PAD_START)
         {
             manager->ChangeScene(new SceneResult(manager, nullptr));

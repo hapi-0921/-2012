@@ -10,7 +10,7 @@ Character::Character()
 	frame = 0;
 	animTimer = 0.0f;
 	posX = 200;
-	posY = 200;
+	posY = 20z0;
 	speed = 50.0f;
 	direction = 0; // 0:â∫ 1:ç∂ 2:âE 3:è„
 	moveTimer = 0.0f;

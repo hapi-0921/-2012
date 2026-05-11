@@ -27,7 +27,7 @@ void SceneGame::Initialize()
 
     player.reset();
 
-    mapchip = new Map();
+    mapchip = new Map;
 }
 
 void SceneGame::Finalize()
