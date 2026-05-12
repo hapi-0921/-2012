@@ -10,7 +10,8 @@
 
 #define X 100
 #define Y 100
-
+#define CHARACTER_TEX_W            (64.0f)    // プレイヤーの画像1つの幅
+#define CHARACTER_TEX_H            (64.0f)    // プレイヤーの画像1つの高さ
 //////////////////////////////////////////
 struct SwapData
 {
@@ -23,7 +24,8 @@ struct SwapData
 
 
 
-#define Mobsoze 64
+
+
 class Map
 {
 public:
@@ -88,11 +90,25 @@ public:
 	int leftmapX = mapX - 1;						//一個左のブロック
 
 	bool blocheck = false;
-	bool Rotationcheck = false;
+
+
+
+	//アニメーション
+	int frame;
+	float animTimer;
+	int direction; // 0:下 1:右 2:左 3:上
+	
+	float moveTimer;
+	float vx;
+	float vy;
+
+
+
+
 	struct Mob
 	{
-		VECTOR2 pos{ 150,150 };
-		int pivot = Mobsoze * 0.5f;
+		VECTOR2 pos{ 150,Y };
+		int pivot = CHARACTER_TEX_W * 0.5f;
 		int angle = 0;
 		int dirY = 1; // 1=下, -1=上
 		int dirX = 1; // 1=右, -1=左
@@ -111,7 +127,7 @@ public:
 	Sprite* sprmap2;//直線
 	Sprite* sprmap3;//曲がる
 	Sprite* sprmap4;//T字
-	Sprite* sprmob;//動くやつ
+	Sprite* spr_Character;//動くやつ
 	Sprite* sprfield;
 
 	BlockData block[STAGE_Y][STAGE_X] = {};//ひとマスの情報
@@ -123,3 +139,5 @@ public:
 	}
 
 };
+
+
