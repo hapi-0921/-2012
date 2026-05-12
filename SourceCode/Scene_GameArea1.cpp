@@ -62,7 +62,19 @@ void Scene_GameArea1::Update(float delta_time)
         
         character.Move();
         player.GameUpdate(mapchip);
+        //////////////////////////////////////////
+
+        // もしmapchipの入れ替えがあったら、blockの入れ替えもするようにする
+        if (player.isSwapped() == true)
+        {
+            mapchip.SwapBlocks(player.getSwapData());
+            player.isSwap = false;
+        }
         mapchip.Update();
+        //////////////////////////////////////////
+
+
+
         if (TRG(0) & PAD_START)
         {
             manager->ChangeScene(new SceneResult(manager, nullptr));
@@ -92,10 +104,6 @@ void Scene_GameArea1::Draw()
 
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
-
-
-    character.Draw();
-
    
     DrawNumber(64,10, stage1_timer);
 

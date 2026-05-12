@@ -80,10 +80,10 @@ bool Player::GameUpdate(Map& mapchip)
 
 	CursorPos pos = getCursorpos();
 
-	const int CELLSIZE = 100;
+	const int CELLSIZE = 128;
 
-	cursorCol = (pos.x+X) / CELLSIZE;
-	cursorRow = (pos.y+Y) / CELLSIZE;
+	cursorCol = (pos.x-X) / CELLSIZE;
+	cursorRow = (pos.y-Y) / CELLSIZE;
 
 	if (cursorRow < 0 || cursorRow >= 8) return false;
 	if (cursorCol < 0 || cursorCol >= 8) return false;
@@ -116,6 +116,11 @@ bool Player::GameUpdate(Map& mapchip)
 			{
 				std::swap(mapchip.map[selectRow][selectCol], 
 						  mapchip.map[cursorRow][cursorCol]);
+
+				// クリックされた瞬間の場所の列と行を保存
+				swapData = { selectRow, selectCol, cursorRow, cursorCol };
+				isSwap = true;
+
 			}
 
 			isSelecting = false;

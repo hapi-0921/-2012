@@ -5,12 +5,21 @@
 #define STAGE_X 8
 #define STAGE_Y 8
 
-#define MapCenter chipSize/2 //マップの真ん中になる
-#define MapDown chipSize      //マップの下、右になる
+#define MapCenter chipSize/2//マップの真ん中になる
+#define MapDown	  64      //マップの下、右になる
 
 #define X 100
 #define Y 100
 
+//////////////////////////////////////////
+struct SwapData
+{
+	int selCol;
+	int selRow;
+	int curCol;
+	int curRow;
+};
+//////////////////////////////////////////
 
 
 
@@ -32,26 +41,29 @@ public:
 	void Road7();//曲線の下から上に行けるやつ
 	void Road8();//曲線の右から左に行けるやつ
 	void Road9();//曲線の左から右に行けるやつ
-
-
+	//////////////////////////////////////
+	void SwapBlocks(const SwapData& sd);
+	///////////////////////////////////////
 
 
 
 	int map[STAGE_X][STAGE_Y] =
-	{ 2,2,2,3,1,1,1,1,
-	  2,3,3,2,1,1,1,1,
-	  3,2,3,3,1,4,1,1,
+	{ 3,3,2,3,1,1,1,1,
+	  3,3,3,2,1,1,1,1,
+	  3,2,3,3,1,1,1,1,
 	  3,2,1,1,2,1,1,1,
 	  1,1,1,1,1,1,1,1,
-	  1,4,1,1,1,2,1,1,
-	  1,1,4,1,1,1,3,1,
+	  1,1,1,1,1,2,1,1,
+	  1,1,1,1,1,1,3,1,
 	  1,1,1,2,1,1,3,1,
 	};
 
-	float posX[1][1] = {};
-	float posY[1][1] = {};
+	
 
 	int prevX = -1;
+		float posX;
+	float posY;
+
 	int prevY = -1;
 	int phase = 0;
 	bool moving = false;
@@ -76,9 +88,10 @@ public:
 	int leftmapX = mapX - 1;						//一個左のブロック
 
 	bool blocheck = false;
+	bool Rotationcheck = false;
 	struct Mob
 	{
-		VECTOR2 pos{ 150,Y };
+		VECTOR2 pos{ 150,150 };
 		int pivot = Mobsoze * 0.5f;
 		int angle = 0;
 		int dirY = 1; // 1=下, -1=上
@@ -87,12 +100,13 @@ public:
 	};
 	struct BlockData
 	{
-
+		int nowangle;
 		int angle;
 		int RotationCount = 0;
+		int pass = 0;
 	};
 	Mob m;
-	const int chipSize = 100; // 1マスのサイズ
+	const float chipSize = 128; // 1マスのサイズ
 	Sprite* sprmap1;//草
 	Sprite* sprmap2;//直線
 	Sprite* sprmap3;//曲がる

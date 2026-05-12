@@ -28,7 +28,7 @@ private:
 
 	Sprite* spr_Character;
 
-
+	
 public:
 	Player();
 	~Player();
@@ -49,5 +49,14 @@ public:
 	CursorPos getCursorpos();
 
 	Map mapchip;
+	//////////////////////////////////////////
+
+	SwapData swapData;		// 入れ替えたデータ
+	bool isSwap = false;	// 入れ替えられたかどうかフラグ
+	SwapData getSwapData() const { return swapData; }
+	bool isSwapped() const { return isSwap; }
+	//////////////////////////////////////////
+
+
 };
 #endif //PLAYER_H

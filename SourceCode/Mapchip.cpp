@@ -1,4 +1,5 @@
 #include"Mapchip.h"
+#include <sstream>
 Map::Map()
 {
 	//出来てないところ
@@ -11,8 +12,14 @@ Map::Map()
 	sprmap4	= sprite_load(L"./Data/Images/mapchip4.png");
 	sprmob= sprite_load(L"./Data/Images/mob.png");
 	sprfield= sprite_load(L"./Data/Images/field.png");
-	
-
+	/*block[0][0].angle = 90;
+	block[0][1].angle = 180;
+	block[1][0].angle = 0;
+	block[1][1].angle = 270;
+	block[1][3].angle = 0;
+	block[2][3].angle = 270;
+	block[2][2].angle = 0;
+	block[1][2].angle = 180;*/
 }
 Map::~Map()
 {
@@ -22,11 +29,14 @@ void Map::Update()
 
 	Move();
 	Road();
+
 	debug::setString("phase:%d", phase);
-	debug::setString("map:%d x:%f y:%f right:%f\n", map[mapY][mapX], m.pos.x, m.pos.y, right);
-	//debug::setString("MapY:%d MapX:%d", mapY, mapX);
-	debug::setString("SenterX:%f", senterX);
-	debug::setString("SenterY:%f", senterY);
+	debug::setString("map:%d x:%f y:%f topY:%f\n", map[mapY][mapX], m.pos.x, m.pos.y, top);
+	debug::setString("leftmapX = %d\n", leftmapX);
+	debug::setString("m.dirY:%d", m.dirY);
+	debug::setString("Left:%f", left);
+	debug::setString("Right:%f", right);
+
 
 
 }
@@ -42,6 +52,8 @@ void Map::Road()	//道情報
 			}
 
 			if (block[i][j].angle >= 360) { block[i][j].angle = 0; }
+			
+
 		}
 	}
 	//---------------------------------
@@ -57,23 +69,27 @@ void Map::Road()	//道情報
 
 	mapX = localX / chipSize;
 	mapY = localY / chipSize;
-
+	if (mapX < 0 || mapX >= STAGE_X ||
+		mapY < 0 || mapY >= STAGE_Y)
+	{
+		return;
+	}
 	//---------------------------------
 	// マス境界（画面座標）
 	//---------------------------------
 
-	left = mapX * chipSize + X;
+	left = mapX * chipSize+X;
 	right = left + chipSize;
 
-	top = mapY * chipSize + Y;
-	bottom = top + chipSize;
+	top = mapY * chipSize + Y ;
+	bottom = top + chipSize ;
 
 	//---------------------------------
 	// マス中央（画面座標）
 	//---------------------------------
 
-	senterX = left + MapCenter;
-	senterY = top + MapCenter;
+	senterX = left+ MapCenter;
+	senterY = top+ MapCenter;
 
 	//---------------------------------
 	// 周囲マス
@@ -85,15 +101,8 @@ void Map::Road()	//道情報
 	leftmapX = mapX - 1;
 	rightmapX = mapX + 1;
 
-	block[0][0].angle = 90;
-	block[0][1].angle = 90;
-	block[0][2].angle = 90;
-	block[0][3].angle = 180;
-	block[1][3].angle = 0;
-	block[2][3].angle = 270;
-	block[2][2].angle = 0;
-	block[1][1].angle = 90;
-	block[1][2].angle = 180;
+
+
 }
 
 
@@ -104,6 +113,28 @@ void Map::Move()
 		mapY < 0 || mapY >= STAGE_Y)
 		return;
 
+	if (block[mapY][mapX].pass % 2 == 0 &&
+		Rotationcheck == false)
+	{
+		// 偶数かつ回っていなければ（Rotationcheckがfalseのとき）
+		Rotationcheck = true;
+		block[mapY][mapX].nowangle = block[mapY][mapX].angle + 90;
+	}
+	else if (block[mapY][mapX].pass % 2 != 0 &&
+			 Rotationcheck == true)
+	{
+		// 奇数かつすでに回ってるのであれば（Rotationcheckがtrueのとき）
+		Rotationcheck = false;
+	}
+
+	// 偶数になった瞬間だけ回転させる
+	if (Rotationcheck &&
+		block[mapY][mapX].nowangle != block[mapY][mapX].angle)
+	{
+		//block[mapY][mapX].angle = block[mapY][mapX].nowangle+90;
+		block[mapY][mapX].angle = block[mapY][mapX].nowangle;
+		//Rotationcheck = false;
+	}
 	Road2();
 	Road4();
 	
@@ -123,11 +154,11 @@ void Map::Road2()//直線の道の時
 			{
 				Road7();
 			}
-				if (m.pos.y - 64 <= top && blocheck == false)		//今いるブロックの上端についたら
+				if (m.pos.y-64<= top && blocheck == false)		//今いるブロックの上端についたら
 				{
-					//m.pos.y = top;
 					m.dirY = 1;					//下に引き返す
 					m.pos.y += m.dirY * m.speed;//移動処理
+					block[mapY][mapX].pass += 1;
 				}
 			
 			
@@ -138,9 +169,9 @@ void Map::Road2()//直線の道の時
 				}
 				if (m.pos.y >= bottom && blocheck == false)			//今いるブロックの下端についたら
 				{
-					//m.pos.y = bottom;
 					m.dirY = -1;				//上に引き返す
 					m.pos.y += m.dirY * m.speed;//移動処理
+					block[mapY][mapX].pass += 1;
 				}
 
 		}
@@ -151,16 +182,18 @@ void Map::Road2()//直線の道の時
 			m.pos.x += m.dirX * m.speed;//移動処理
 			
 
-			if (m.pos.x <= left)		//今いるブロックの左端についたら
+			if (m.pos.x <= left && blocheck == false)		//今いるブロックの左端についたら
 			{
 				m.dirX = 1;			//右に引き返す
 				m.pos.x += m.dirX * m.speed;//移動処理
+				block[mapY][mapX].pass += 1;
 			}
 
-			if (m.pos.x >= right)	//今いるブロックの右端についたら
+			if (m.pos.x >= right && blocheck == false)	//今いるブロックの右端についたら
 			{
 				m.dirX = -1;		//左に引き返す
 				m.pos.x += m.dirX * m.speed;//移動処理
+				block[mapY][mapX].pass += 1;
 			}
 		}
 	}
@@ -168,21 +201,25 @@ void Map::Road2()//直線の道の時
 }
 void Map::Road3()//次の道が直線の時
 {
-	if (map[upmapY][mapX] == 2 && block[upmapY][mapX].RotationCount % 2 == 0)
+	if (upmapY >= 0 && map[upmapY][mapX] == 2 && block[upmapY][mapX].RotationCount % 2 == 0)
 	{
 		top -= chipSize;
+		blocheck = true;
 	}
-	if (map[downmapY][mapX] == 2 && block[downmapY][mapX].RotationCount % 2 == 0)
+	if (downmapY < STAGE_Y && map[downmapY][mapX] == 2 && block[downmapY][mapX].RotationCount % 2 == 0)
 	{
 		bottom += chipSize;
+		blocheck = true;
 	}
-	if (map[mapY][rightmapX] == 2 && block[mapY][rightmapX].RotationCount % 2 == 1)
+	if (rightmapX<STAGE_X&&map[mapY][rightmapX] == 2 && block[mapY][rightmapX].RotationCount % 2 == 1)
 	{
 		right += chipSize;
+		blocheck = true;
 	}
-	if (map[mapY][leftmapX] == 2 && block[mapY][leftmapX].RotationCount % 2 == 1)
+	if (leftmapX>=0&&map[mapY][leftmapX] == 2 && block[mapY][leftmapX].RotationCount % 2 == 1)
 	{
 		left -= chipSize;
+		blocheck = true;
 	}
 }
 void Map::Road4()//曲線の道の時
@@ -231,6 +268,8 @@ void Map::Road4()//曲線の道の時
 				Road9();//曲線の左から右に行けるやつ
 				if (blocheck == false)
 				{
+					block[mapY][mapX].pass += 1;
+
 					if (block[mapY][mapX].RotationCount == 0)//Lの時
 					{
 						m.dirX = -1;	//ｘ反転	 
@@ -281,6 +320,8 @@ void Map::Road4()//曲線の道の時
 				Road7();//曲線の下から上に行けるやつ
 				if (blocheck == false)
 				{
+					block[mapY][mapX].pass += 1;
+
 					if (block[mapY][mapX].RotationCount == 0)//Lの時
 					{
 						m.dirY = 1;		//ｙ反転
@@ -307,6 +348,8 @@ void Map::Road4()//曲線の道の時
 					Road8();//曲線の右から左に行けるやつ
 					if (blocheck == false)
 					{
+						block[mapY][mapX].pass += 1;
+
 						if (block[mapY][mapX].RotationCount == 2)//7の時
 						{
 							m.dirX = 1;	//ｘ反転	 
@@ -379,6 +422,8 @@ void Map::Road4()//曲線の道の時
 					Road6();
 					if (blocheck == false)
 					{
+						block[mapY][mapX].pass += 1;
+
 						if (block[mapY][mapX].RotationCount == 1)//「の時
 						{
 							m.dirX = 0;		//ｘ止める
@@ -403,81 +448,102 @@ void Map::Road4()//曲線の道の時
 void Map::Road5()//上下左右がL字の時
 {
 	
-	
-	
-	
-	
-	
 }
 void Map::Road6()//曲線の上から下に行けるやつ
 {
-	if (map[downmapY][mapX] == 3 && block[downmapY][mapX].RotationCount == 0)//下がL字の時
+	if (downmapY < STAGE_Y &&map[downmapY][mapX] == 3 && block[downmapY][mapX].RotationCount == 0)//下がL字の時
 	{
 		bottom += 1;
 		phase = 0;
 		blocheck = true;
 	}
-	else if (map[downmapY][mapX] == 3 && block[downmapY][mapX].RotationCount == 3)//下が」字の時
+	else if (downmapY < STAGE_Y &&map[downmapY][mapX] == 3 && block[downmapY][mapX].RotationCount == 3)//下が」字の時
 	{
 		phase = 0;
 		bottom += 1;
 		blocheck = true;
 	}
-	else blocheck = false;
+	else
+	{
+		blocheck = false;
+	}
 }
 
 void Map::Road7()//曲線の下から上に行けるやつ
 {
-	if (map[upmapY][mapX] == 3 && block[upmapY][mapX].RotationCount == 1)//上が「字の時
+
+	if (upmapY >= 0 &&map[upmapY][mapX] == 3 && block[upmapY][mapX].RotationCount == 1)//上が「字の時
 	{
 		phase = 6;
 		top -= 1;
 		blocheck = true;
 	}
-	else if (map[upmapY][mapX] == 3 && block[upmapY][mapX].RotationCount == 2)//上が7字の時
+	else if (upmapY >=0 &&map[upmapY][mapX] == 3 && block[upmapY][mapX].RotationCount == 2)//上が7字の時
 	{
 		phase = 6;
 		top -= 1;
 		blocheck = true;
 	}
-	else blocheck = false;
+	else
+	{
+		blocheck = false;
+	}
 
 }
 void Map::Road8()//曲線の右から左に行けるやつ
 {
-	if (map[mapY][leftmapX] == 3 && block[mapY][leftmapX].RotationCount == 0)//左がL字の時
+	if (leftmapX >= 0 && map[mapY][leftmapX] == 3 && block[mapY][leftmapX].RotationCount == 0)//左がL字の時
 	{
 		phase = 2;
 		left -= 1;
 		blocheck = true;
 	}
-	else if (map[mapY][leftmapX] == 3 && block[mapY][leftmapX].RotationCount == 1)//左が「字の時
+	else if (leftmapX >= 0 && map[mapY][leftmapX] == 3 && block[mapY][leftmapX].RotationCount == 1)//左が「字の時
 	{
 		phase = 2;
 		left -= 1;
 		blocheck = true;
 	}
-	
-	else blocheck = false;
+	else
+	{
+		blocheck = false;
+	}
 }
 void Map::Road9()//曲線の左から右に行けるやつ
 {
-	if (map[mapY][rightmapX] == 3 && block[mapY][rightmapX].RotationCount == 2)//右が7字の時
+	if (rightmapX < STAGE_X &&map[mapY][rightmapX] == 3 && block[mapY][rightmapX].RotationCount == 2)//右が7字の時
 	{
 		phase = 5;
 		right += 1;
 		blocheck = true;
 	}
 
-	else if (map[mapY][rightmapX] == 3 && block[mapY][rightmapX].RotationCount == 3)//右が」字の時
+	else if (rightmapX < STAGE_X &&map[mapY][rightmapX] == 3 && block[mapY][rightmapX].RotationCount == 3)//右が」字の時
 	{
 		right += 1;
 		phase = 5;
 		blocheck = true;
 	}
-	else blocheck = false;
+	else
+	{
+		blocheck = false;
+	}
 }
+/////////////////////////////////////////////////////////////////////
+void Map::SwapBlocks(const SwapData& sd)
+{
+	
+	BlockData tmp = block[sd.curRow][sd.curCol];
+	block[sd.curRow][sd.curCol].angle = block[sd.selRow][sd.selCol].angle;
+	block[sd.curRow][sd.curCol].nowangle = block[sd.selRow][sd.selCol].nowangle;
+	block[sd.curRow][sd.curCol].pass = block[sd.selRow][sd.selCol].pass;
+	block[sd.curRow][sd.curCol].RotationCount = block[sd.selRow][sd.selCol].RotationCount;
 
+	block[sd.selRow][sd.selCol].angle = tmp.angle;
+	block[sd.selRow][sd.selCol].nowangle = tmp.nowangle;
+	block[sd.selRow][sd.selCol].pass = tmp.pass;
+	block[sd.selRow][sd.selCol].RotationCount = tmp.RotationCount;
+}
 
 void Map::Render()
 {
@@ -494,17 +560,17 @@ void Map::Render()
 	);
 	for (int i = 0;i < STAGE_Y;i++) {
 		for (int j = 0;j < STAGE_X;j++) {
-			float posX = j * chipSize+X+MapCenter;
-			float posY = i * chipSize+Y+ MapCenter;
+			posX = j * chipSize + X + MapCenter;
+			posY = i * chipSize + Y + MapCenter;
 			switch (map[i][j]) {
 				//通後不可
 			case 1:
 				sprite_render(sprmap1,
 					posX, posY,
-					1, 1,
+					2, 2,
 					0, 0,
-					chipSize, chipSize,
-					MapCenter, MapCenter,
+					64, 64,
+					32, 32,
 					DegToRad(block[i][j].angle),
 					1, 1, 1
 				);
@@ -513,10 +579,10 @@ void Map::Render()
 			case 2:
 				sprite_render(sprmap2,
 					posX, posY,
-					1, 1,
+					2, 2,
 					0, 0,
-					chipSize, chipSize,
-					MapCenter, MapCenter,
+					64, 64,
+					32, 32,
 					DegToRad(block[i][j].angle),
 					1, 1, 1
 				);
@@ -525,10 +591,10 @@ void Map::Render()
 			case 3:
 				sprite_render(sprmap3,
 					posX, posY,
-					1, 1,
+					2, 2,
 					0, 0,
-					chipSize, chipSize,
-					MapCenter, MapCenter,
+					64, 64,
+					32, 32,
 					DegToRad(block[i][j].angle),
 					1, 1, 1
 				);
@@ -537,15 +603,26 @@ void Map::Render()
 			case 4:
 				sprite_render(sprmap4,
 					posX, posY,
-					1, 1,
+					2, 2,
 					0, 0,
-					chipSize, chipSize,
-					MapCenter, MapCenter,
+					64,64,
+					32, 32,
 					DegToRad(block[i][j].angle),
 					1, 1, 1
 				);
 				break;
 			}
+
+			// Debug表示
+			std::stringstream tmp;
+			tmp << block[i][j].angle;
+
+			text_out(
+				0,
+				tmp.str(),
+				posX, posY,
+				1.5f, 1.5f,
+				1, 0, 1, 1);
 		}
 	}
 	sprite_render(sprmob,
