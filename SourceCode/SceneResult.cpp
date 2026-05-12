@@ -87,13 +87,39 @@ void SceneResult::Draw()
     clear(0, 0, 0);
     //背景
     sprite_render(sprResult, 0, 0, 1, 1);
-    sprite_render(sprSelect1button, 400, 200);
-    sprite_render(sprTitlebutton, 900, 200);
+    
+
+    //ボタンの描画
+    //ボタンにカーソルを合わしたときに押し込まれてるように
+    float texW = 400;
+    float texH = 400;
+
+    CursorPos position = player.getCursorpos();
+
+    //選択画面へのボタン
+    if (player.IsHovered(selectButton, position.x, position.y))
+    {
+        sprite_render(sprSelect1button, 600, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+    else
+    {
+        sprite_render(sprSelect1button, 600, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+
+    //タイトルに戻るボタン
+    if (player.IsHovered(titleButton, position.x, position.y))
+    {
+        sprite_render(sprTitlebutton, 1100, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+    else
+    {
+        sprite_render(sprTitlebutton, 1100, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
 
 
     //デバッグ表示
-    Drawbutton(selectButton);
-    Drawbutton(titleButton);
+   /* Drawbutton(selectButton);
+    Drawbutton(titleButton);*/
 
 }
 

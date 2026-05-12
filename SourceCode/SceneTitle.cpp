@@ -137,13 +137,38 @@ void SceneTitle::Draw()
     //背景
     sprite_render(sprTitle, 0, 0);
 
-    sprite_render(sprTutorialbutton, 400, 200);
+    //ボタンの描画
+    //ボタンにカーソルを合わしたときに押し込まれてるように
+    float texW = 400;
+    float texH = 400;
 
-    sprite_render(sprSelectbutton, 900, 200);
+    CursorPos position = player.getCursorpos();
+
+    //チュートリアルへのボタン
+    if (player.IsHovered(startButton, position.x, position.y))
+    {
+        sprite_render(sprTutorialbutton, 600, 400,0.95f,0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+    else
+    {
+        sprite_render(sprTutorialbutton, 600, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+
+    //選択画面へのボタン
+    if (player.IsHovered(howtoButton, position.x, position.y))
+    {
+        sprite_render(sprSelectbutton, 1100, 400, 0.95f, 0.95f,0,0,texW,texH,texW/2,texH/2);
+    }
+    else
+    {
+        sprite_render(sprSelectbutton, 1100, 400,1,1,0, 0, texW, texH, texW / 2, texH / 2);
+    }
 
 
     //デバッグ表示
-    Drawbutton(startButton);
+  /*  Drawbutton(startButton);*/
+
+ 
     /*Drawbutton(howtoButton);*/
 
 
