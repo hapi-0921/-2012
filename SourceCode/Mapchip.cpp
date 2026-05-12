@@ -7,14 +7,14 @@ Map::Map()
 	//基準点が００だから
 
 
-	frame = 0;
-	animTimer = 0.0f;
-	direction = 0; // 0:下 1:右 2:左 3:上
+	m.frame = 0;
+	m.animTimer = 0.0f;
+	m.direction = 0; // 0:下 1:右 2:左 3:上
 
 	
-	moveTimer = 0.0f;
-	vx = 0;
-	vy = 0;
+	m.moveTimer = 0.0f;
+	m.vx = 0;
+	m.vy = 0;
 
 
 	sprmap1	= sprite_load(L"./Data/Images/mapchip1.png");
@@ -69,19 +69,19 @@ void Map::Update()
 
 	if (m.dirX == 1)
 	{
-		direction = 1; // 右
+		m.direction = 1; // 右
 	}
 	else if (m.dirX == -1)
 	{
-		direction = 2; // 左
+		m.direction = 2; // 左
 	}
 	else if (m.dirY == 1)
 	{
-		direction = 0; // 下
+		m.direction = 0; // 下
 	}
 	else if (m.dirY == -1)
 	{
-		direction = 3; // 上
+		m.direction = 3; // 上
 	}
 
 
@@ -156,17 +156,17 @@ void Map::Move()
 {
 
 	// 移動
-	m.pos.x += vx * m.speed * (1.0f / 60.0f);
-	m.pos.y += vy * m.speed * (1.0f / 60.0f);
+	m.pos.x += m.vx * m.speed * (1.0f / 60.0f);
+	m.pos.y += m.vy * m.speed * (1.0f / 60.0f);
 
 	//アニメーション
-	animTimer += 1.0f / 60.0f;
+	m.animTimer += 1.0f / 60.0f;
 
-	if (animTimer >= 0.2f)
+	if (m.animTimer >= 0.2f)
 	{
-		frame++;
-		if (frame >= 4) frame = 0;
-		animTimer = 0;
+		m.frame++;
+		if (m.frame >= 4) m.frame = 0;
+		m.animTimer = 0;
 	}
 
 
@@ -702,8 +702,8 @@ void Map::Render()
 	}
 
 	//キャラの絵
-	int sx = frame * CHARACTER_TEX_W;
-	int sy = direction *  CHARACTER_TEX_H;
+	int sx = m.frame * CHARACTER_TEX_W;
+	int sy = m.direction *  CHARACTER_TEX_H;
 
 	if (spr_Character == nullptr) return;
 

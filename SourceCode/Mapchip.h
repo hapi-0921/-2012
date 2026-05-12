@@ -10,9 +10,7 @@
 
 #define X 100
 #define Y 100
-#define CHARACTER_TEX_W            (64.0f)    // プレイヤーの画像1つの幅
-#define CHARACTER_TEX_H            (64.0f)    // プレイヤーの画像1つの高さ
-//////////////////////////////////////////
+
 struct SwapData
 {
 	int selCol;
@@ -20,7 +18,9 @@ struct SwapData
 	int curCol;
 	int curRow;
 };
-//////////////////////////////////////////
+
+#define CHARACTER_TEX_W            (64.0f)    // プレイヤーの画像1つの幅
+#define CHARACTER_TEX_H            (64.0f)    // プレイヤーの画像1つの高さ
 
 
 
@@ -59,9 +59,6 @@ public:
 	  1,1,1,1,1,1,3,1,
 	  1,1,1,2,1,1,3,1,
 	};
-
-	
-
 	int prevX = -1;
 		float posX;
 	float posY;
@@ -69,6 +66,7 @@ public:
 	int prevY = -1;
 	int phase = 0;
 	bool moving = false;
+	const float chipSize = 128; // 1マスのサイズ
 
 	float localX = m.pos.x - X;
 	float localY = m.pos.y - Y;
@@ -90,30 +88,27 @@ public:
 	int leftmapX = mapX - 1;						//一個左のブロック
 
 	bool blocheck = false;
-
-
-
-	//アニメーション
-	int frame;
-	float animTimer;
-	int direction; // 0:下 1:右 2:左 3:上
-	
-	float moveTimer;
-	float vx;
-	float vy;
-
-
-
-
+	bool Rotationcheck = false;
 	struct Mob
 	{
-		VECTOR2 pos{ 150,Y };
-		int pivot = CHARACTER_TEX_W * 0.5f;
+		VECTOR2 pos{ 150,150 };
+		int pivot = 32;
+
+	//アニメーション
+		int frame;
+		float animTimer;
+		int direction; // 0:下 1:右 2:左 3:上
+	
+		float moveTimer;
+		float vx;
+	    float vy;
+		
 		int angle = 0;
 		int dirY = 1; // 1=下, -1=上
 		int dirX = 1; // 1=右, -1=左
 		int speed = 1;
 	};
+	Mob m;
 	struct BlockData
 	{
 		int nowangle;
@@ -121,8 +116,6 @@ public:
 		int RotationCount = 0;
 		int pass = 0;
 	};
-	Mob m;
-	const float chipSize = 128; // 1マスのサイズ
 	Sprite* sprmap1;//草
 	Sprite* sprmap2;//直線
 	Sprite* sprmap3;//曲がる
@@ -139,5 +132,3 @@ public:
 	}
 
 };
-
-
