@@ -99,7 +99,7 @@ void SceneTitle::Update(float delta_time)
 
         
 
-        bool click = player.MenuUpdate();
+        bool click = player.MenuUpdate(2);
         CursorPos pos = player.getCursorpos();
 
         if (click)

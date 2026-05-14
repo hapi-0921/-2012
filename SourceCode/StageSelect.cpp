@@ -61,7 +61,7 @@ void StageSelect::Update(float delta_time)
         break;
     case 2:
 
-        bool click = player.MenuUpdate();
+        bool click = player.MenuUpdate(3);
         CursorPos pos = player.getCursorpos();
 
         if (click)

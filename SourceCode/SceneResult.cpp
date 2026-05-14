@@ -58,7 +58,7 @@ void SceneResult::Update(float delta_time)
             /*fallthrough*/
             break;
         case 2:
-            bool click = player.MenuUpdate();
+            bool click = player.MenuUpdate(2);
             CursorPos pos = player.getCursorpos();
 
             if (click)

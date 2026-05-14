@@ -35,22 +35,23 @@ public:
 	void Update();
 	void Road();
 	void Move();
-	void Road2();//直線の道の時
-	void Road3();//次の道が直線の時
-	void Road4();//曲線の道の時
-	void Road5();
-	void Road6();//曲線の上から下に行けるやつ
-	void Road7();//曲線の下から上に行けるやつ
-	void Road8();//曲線の右から左に行けるやつ
-	void Road9();//曲線の左から右に行けるやつ
-	//////////////////////////////////////
-	void SwapBlocks(const SwapData& sd);
-	///////////////////////////////////////
+	void Road2();		   //直線の道の時
+	void Road4();		   //曲線の道の時
+	void Rotation();	   //道を回転させる
+	
+	bool CanMoveUp();      //上のマスに行けるか
+	bool CanMoveDown();	   //下のマスに行けるか
+	bool CanMoveLeft();	   //左のマスに行けるか
+	bool CanMoveRight();   //右のマスに行けるか
+	void SetMoveUp();	   //上の向きにセットする
+	void SetMoveDown();	   //下の向きにセットする
+	void SetMoveLeft();	   //左の向きにセットする
+	void SetMoveRight();   //右の向きにセットする
 
 
 
 	int map[STAGE_X][STAGE_Y] =
-	{ 3,3,2,3,1,1,1,1,
+	{ 2,3,2,3,1,1,1,1,
 	  3,3,3,2,1,1,1,1,
 	  3,2,3,3,1,1,1,1,
 	  3,2,1,1,2,1,1,1,
@@ -81,6 +82,8 @@ public:
 	float senterX = mapX * chipSize + MapCenter;	//今いるブロックの真ん中
 	float senterY = mapY * chipSize + MapCenter;	//今いるブロックの真ん中
 
+	float footX = m.pos.x + 32;						//プレイヤーの真ん中X
+	float footY = m.pos.y + 64;						//プレイヤーの足元Y
 
 	int downmapY = mapY + 1;						//一個下のブロック
 	int upmapY = mapY - 1;							//一個上のブロック
@@ -92,7 +95,6 @@ public:
 	struct Mob
 	{
 		VECTOR2 pos{ 150,150 };
-		int pivot = 32;
 
 	//アニメーション
 		int frame;

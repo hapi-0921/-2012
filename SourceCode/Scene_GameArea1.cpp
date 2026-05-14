@@ -62,16 +62,10 @@ void Scene_GameArea1::Update(float delta_time)
         
         character.Move();
         player.GameUpdate(mapchip);
-        //////////////////////////////////////////
-
-        // もしmapchipの入れ替えがあったら、blockの入れ替えもするようにする
-        if (player.isSwapped() == true)
-        {
-            mapchip.SwapBlocks(player.getSwapData());
-            player.isSwap = false;
-        }
+        
+       
         mapchip.Update();
-        //////////////////////////////////////////
+       
 
 
 

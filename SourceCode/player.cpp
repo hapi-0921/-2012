@@ -6,30 +6,39 @@
 
 
 int player_timer;
-static bool prevMouseLeft;
 
+static bool prevMouseLeft;
+static bool prevMouseX = 0;
+static bool prevMouseY = 0;
+
+//カーソル現在地
 static int cursorRow = 0;
 static int cursorCol = 0;
 
 static bool isSelecting = false;
+
+//最初に選択したマス
 static int selectRow = 0;
 static int selectCol = 0;
+
 
 Player::Player()
 {
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
-	 cursorX = 0;
-	 cursorY = 0;
+	cursorX = 0;
+	cursorY = 0;
 
-	 GetcursorIndex = 0;
-	 decided = false;
+	//メニュー用カーソル番号
+	GetcursorIndex = 0;
 
-	 player_timer = 0;
+	decided = false;
 
-	 prevMouseLeft = true;
+	player_timer = 0;
 
+	prevMouseLeft = true;
+	useKeyboard = false;//操作方法
 }
 
 Player::~Player()
@@ -37,35 +46,39 @@ Player::~Player()
 
 }
 
+//マウスの位置情報取得
 CursorPos Player::getCursorpos()
 {
-	 cursorX = getCursorPosX();
-	 cursorY = getCursorPosY();
-	
-	 return{ cursorX,cursorY };
+	cursorX = getCursorPosX();
+	cursorY = getCursorPosY();
+
+	return{ cursorX,cursorY };
 }
 
+//ボタン上にマウスがあるかどうか
 bool Player::IsHovered(Button button, float mouseX, float mouseY)
 {
 	return mouseX >= button.x && mouseX <= button.x + button.width &&
-		 mouseY >= button.y && mouseY <= button.y + button.height;
+		mouseY >= button.y && mouseY <= button.y + button.height;
 }
 
-bool Player::MenuUpdate()
+//メニュー画面(titleやresultで使う用)
+bool Player::MenuUpdate(int menuMax)
 {
 	player_timer++;
 
 	CursorPos pos = getCursorpos();
 
-	if (TRG(0)&PAD_DOWN) GetcursorIndex++;
-	if (TRG(0)&PAD_UP) GetcursorIndex--;
-	
-	
+	//上下入力
+	if (TRG(0) & PAD_LEFT) GetcursorIndex--;
+	if (TRG(0) & PAD_RIGHT) GetcursorIndex++;
 
+	if (GetcursorIndex < 0) GetcursorIndex = menuMax - 1;
+	if (GetcursorIndex > menuMax - 1) GetcursorIndex = 0;
+
+	//クリック取得、連続入力ならないように
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
-
-	
 
 	prevMouseLeft = mouseLeft;
 
@@ -74,35 +87,74 @@ bool Player::MenuUpdate()
 
 }
 
+//ゲーム用
 bool Player::GameUpdate(Map& mapchip)
 {
 	player_timer++;
 
 	CursorPos pos = getCursorpos();
 
+	//マスのサイズ
 	const int CELLSIZE = 128;
 
-	cursorCol = (pos.x-X) / CELLSIZE;
-	cursorRow = (pos.y-Y) / CELLSIZE;
-
-	if (cursorRow < 0 || cursorRow >= 8) return false;
-	if (cursorCol < 0 || cursorCol >= 8) return false;
+	//操作方法の切り替え
+	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
 
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
 
-	prevMouseLeft = mouseLeft;
+	//キーボード操作に切り替え
+	if (KeyInput)
+	{
+		useKeyboard = true;
+	}
 
+	//マウス操作に切り替え
 	if (mouseClick)
 	{
+		useKeyboard = false;
+	}
+
+	if (useKeyboard)
+	{
+		if (TRG(0) & PAD_LEFT) cursorCol--;
+		if (TRG(0) & PAD_RIGHT) cursorCol++;
+		if (TRG(0) & PAD_UP) cursorRow--;
+		if (TRG(0) & PAD_DOWN) cursorRow++;
+	}
+	else
+	{
+		cursorCol = (pos.x - 100) / CELLSIZE;
+		cursorRow = (pos.y - 100) / CELLSIZE;
+	}
+
+	//範囲外
+	if (cursorRow < 0) cursorRow = 0;
+	if (cursorRow > 7) cursorRow = 7;
+
+	if (cursorCol < 0) cursorCol = 0;
+	if (cursorCol > 7) cursorCol = 7;
+
+	//前フレームの保存
+	prevMouseLeft = mouseLeft;
+
+	prevMouseX = pos.x;
+	prevMouseY = pos.y;
+
+	//クリック時
+	if (mouseClick || TRG(0) & PAD_START)
+	{
+		//未選択
 		if (!isSelecting)
 		{
+			//一個目選択
 			selectRow = cursorRow;
 			selectCol = cursorCol;
 			isSelecting = true;
 		}
 		else
 		{
+			//同じ場所クリックでキャンセル
 			if (cursorRow == selectRow && cursorCol == selectCol)
 			{
 				isSelecting = false;
@@ -112,17 +164,21 @@ bool Player::GameUpdate(Map& mapchip)
 			int dr = abs(cursorRow - selectRow);
 			int dc = abs(cursorCol - selectCol);
 
+			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-				std::swap(mapchip.map[selectRow][selectCol], 
-						  mapchip.map[cursorRow][cursorCol]);
-
-				// クリックされた瞬間の場所の列と行を保存
-				swapData = { selectRow, selectCol, cursorRow, cursorCol };
-				isSwap = true;
-
+				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
+					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
+				{
+					isSelecting = false;
+					return false;
+				}
+				std::swap(mapchip.map[selectRow][selectCol],
+					mapchip.map[cursorRow][cursorCol]);
+				std::swap(mapchip.block[selectRow][selectCol],
+					mapchip.block[cursorRow][cursorCol]);
 			}
-
+			//選択解除
 			isSelecting = false;
 		}
 	}
@@ -130,19 +186,53 @@ bool Player::GameUpdate(Map& mapchip)
 	return mouseClick;
 }
 
-
+//状態リセット
 void Player::reset()
 {
 	prevMouseLeft = true;
 	decided = false;
 }
 
+
+//決定状態取得
 bool Player::IsDecided()
 {
 	return decided;
 }
 
+//メニューカーソル番号取得
 int Player::GetCursorIndex()
 {
 	return GetcursorIndex;
+}
+
+
+bool Player::GetSelecting()
+{
+	return isSelecting;
+}
+
+int Player::GetSelectingRow()
+{
+	return selectRow;
+}
+
+int Player::GetSelectingCol()
+{
+	return selectCol;
+}
+
+int Player::GetCursorRow()
+{
+	return cursorRow;
+}
+
+int Player::GetCursorCol()
+{
+	return cursorCol;
+}
+
+bool Player::isKeyboardMode()
+{
+	return useKeyboard;
 }
