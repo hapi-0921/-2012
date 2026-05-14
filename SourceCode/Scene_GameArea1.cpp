@@ -70,19 +70,15 @@ void Scene_GameArea1::Update(float delta_time)
 
 
 
-        if (TRG(0) & PAD_START)
-        {
-            manager->ChangeScene(new SceneResult(manager, nullptr));
-        }
-
-        mapchip.Update();
         //if (TRG(0) & PAD_START)
         //{
         //    manager->ChangeScene(new SceneResult(manager, nullptr));
         //}
 
-        row = (player.GetCursorRow() + 1) * 100;
-        col = (player.GetCursorCol() + 1) * 100;
+        mapchip.Update();
+
+        row = (player.GetCursorRow() + 1) * 128;
+        col = (player.GetCursorCol() + 1) * 128;
             
 
         //1秒で1減るように
