@@ -6,47 +6,47 @@
 
 struct CursorPos
 {
-	int x;
-	int y;
+    int x;
+    int y;
 };
 
 struct Button
 {
-	float x;
-	float y;
-	float width;
-	float height;
-	int index;
+    float x;
+    float y;
+    float width;
+    float height;
+    int index;
 };
 
 class Player
 {
 private:
-	int cursorX;
-	int cursorY;
-	int GetcursorIndex;
+    int cursorX;
+    int cursorY;
+    int GetcursorIndex;
 
 	bool useKeyboard;
 
-	Sprite* spr_Character;
+    Sprite* spr_Character;
 
 
 public:
-	Player();
-	~Player();
+    Player();
+    ~Player();
 
-	bool IsHovered(Button button, float mouseX, float mouseY);
+    bool IsHovered(Button button, float mouseX, float mouseY);
 
-	bool prevMouseLeft;
+    bool prevMouseLeft;
 
-	int GetCursorIndex();
-	bool decided;
-	bool IsDecided();
+    int GetCursorIndex();
+    bool decided;
+    bool IsDecided();
 
 	bool MenuUpdate(int memuMax);//メニュー(titleやresultで使う用)
 	bool GameUpdate(Map& mapchip);//ゲーム内で使う用
 
-	void reset();
+    void reset();
 
 	bool GetSelecting();
 	int GetSelectingRow();
@@ -58,6 +58,6 @@ public:
 
 	CursorPos getCursorpos();
 
-	Map mapchip;
+    Map mapchip;
 };
 #endif //PLAYER_H

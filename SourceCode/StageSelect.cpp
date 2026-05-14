@@ -68,6 +68,7 @@ void StageSelect::Update(float delta_time)
 
         bool click = player.MenuUpdate(3);
 
+
         if (TRG(0) & PAD_START)
         {
             switch (player.GetCursorIndex())
@@ -83,6 +84,7 @@ void StageSelect::Update(float delta_time)
                 break;
             }
         }
+
 
         CursorPos pos = player.getCursorpos();
 
@@ -119,11 +121,48 @@ void StageSelect::Draw()
     setBlendMode(Blender::BS_ALPHA);
 
     clear(0, 0, 0);
+    //背景
     sprite_render(sprSelect, 0, 0, 1, 1);
 
-    sprite_render(sprstage1button, 200, 200);
-    sprite_render(sprstage2button, 700, 200);
-    sprite_render(sprstage3button, 1200, 200);
+    
+
+    //ボタンの描画
+    //ボタンにカーソルを合わしたときに押し込まれてるように
+    float texW = 400;
+    float texH = 400;
+
+    CursorPos position = player.getCursorpos();
+
+    //ステージ1ボタン
+    if (player.IsHovered(stage1Button, position.x, position.y))
+    {
+        sprite_render(sprstage1button, 400, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+    else
+    {
+        sprite_render(sprstage1button, 400, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+
+    //ステージ2ボタン
+    if (player.IsHovered(stage2Button, position.x, position.y))
+    {
+        sprite_render(sprstage2button, 900, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+    else
+    {
+        sprite_render(sprstage2button, 900, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+
+    //ステージ3ボタン
+    if (player.IsHovered(stage3Button, position.x, position.y))
+    {
+        sprite_render(sprstage3button, 1400, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+    }
+    else
+    {
+        sprite_render(sprstage3button, 1400, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+
+    }
 
     if (player.GetCursorIndex() == 0)
     {
@@ -140,9 +179,9 @@ void StageSelect::Draw()
 
 
     //デバッグ表示
-    Drawbutton(stage1Button);
+   /* Drawbutton(stage1Button);
     Drawbutton(stage2Button);
-    Drawbutton(stage3Button);
+    Drawbutton(stage3Button);*/
 
 }
 
