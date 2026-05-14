@@ -19,8 +19,8 @@ int title_timer;
 Sprite* sprTitle;
 
 Sprite* sprTutorialbutton;
-Sprite* sprTitleSelecting;
 Sprite* sprSelectbutton;
+
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
@@ -37,6 +37,7 @@ void SceneTitle::Initialize()
 
     player.reset();
 
+
 }
 
 
@@ -47,8 +48,11 @@ void SceneTitle::Finalize()
 
     safe_delete(sprTitle);
 
-    safe_delete(sprTitleSelecting);
     safe_delete(sprTutorialbutton);
+
+    safe_delete(sprSelectbutton);
+
+
 }
 
 //更新
@@ -66,8 +70,8 @@ void SceneTitle::Update(float delta_time)
         sprTitle = sprite_load(L"./Data/Images/title.png");
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
-        sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
 
+        sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
 
         title_state++;
 
@@ -95,20 +99,7 @@ void SceneTitle::Update(float delta_time)
 
         
 
-        bool click = player.MenuUpdate(2);
-        if (TRG(0) & PAD_START)
-        {
-            switch (player.GetCursorIndex())
-            {
-            case 0:
-                manager->ChangeScene(new SceneTutorial(manager, nullptr));//チュートリアル画面へ
-                break;
-            case 1:
-                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
-                break;
-            }
-        }
-
+        bool click = player.MenuUpdate();
         CursorPos pos = player.getCursorpos();
 
         if (click)
@@ -138,6 +129,9 @@ void SceneTitle::Update(float delta_time)
 //描画
 void SceneTitle::Draw()
 {
+
+
+
     setBlendMode(Blender::BS_ALPHA);
     clear(1, 1, 1);
     //背景
@@ -145,24 +139,13 @@ void SceneTitle::Draw()
 
     sprite_render(sprTutorialbutton, 400, 200);
 
-    sprite_render(sprTutorialbutton, 400, 200);
-
     sprite_render(sprSelectbutton, 900, 200);
 
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    if (player.GetCursorIndex() == 0)
-    {
-        sprite_render(sprTitleSelecting, 600, 400, 1, 1);
-    }
-    if (player.GetCursorIndex() == 1)
-    {
-        sprite_render(sprTitleSelecting, 1100, 400, 1, 1);
-    }
 
     //デバッグ表示
     Drawbutton(startButton);
     /*Drawbutton(howtoButton);*/
+
 
 #ifdef _DEBUG
     DrawImGui();

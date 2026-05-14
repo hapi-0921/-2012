@@ -9,6 +9,7 @@ Sprite* sprSelect;
 Sprite* sprstage1button;
 Sprite* sprstage2button;
 Sprite* sprstage3button;
+Sprite* sprStageSelectpos;
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button stage1Button = { 200,200,400,400,0 };
@@ -31,6 +32,8 @@ void StageSelect::Finalize()
     safe_delete(sprstage2button);
     safe_delete(sprstage3button);
 
+    safe_delete(sprStageSelectpos);
+
     music::stop(0);
 }
 
@@ -45,6 +48,8 @@ void StageSelect::Update(float delta_time)
         sprstage1button = sprite_load(L"./Data/Images/stage1buttun.png");
         sprstage2button = sprite_load(L"./Data/Images/stage2buttun.png");
         sprstage3button = sprite_load(L"./Data/Images/stage3buttun.png");
+
+        sprStageSelectpos = sprite_load(L"./Data/Images/playerpos_kari.png");
 
         select_state++;
 
@@ -119,6 +124,19 @@ void StageSelect::Draw()
     sprite_render(sprstage1button, 200, 200);
     sprite_render(sprstage2button, 700, 200);
     sprite_render(sprstage3button, 1200, 200);
+
+    if (player.GetCursorIndex() == 0)
+    {
+        sprite_render(sprStageSelectpos, 400, 400, 1, 1);
+    }
+    if (player.GetCursorIndex() == 1)
+    {
+        sprite_render(sprStageSelectpos, 900, 400, 1, 1);
+    }
+    if (player.GetCursorIndex() == 2)
+    {
+        sprite_render(sprStageSelectpos, 1400, 400, 1, 1);
+    }
 
 
     //デバッグ表示

@@ -6,7 +6,10 @@
 
 
 int player_timer;
+
 static bool prevMouseLeft;
+static bool prevMouseX = 0;
+static bool prevMouseY = 0;
 
 //カーソル現在地
 static int cursorRow = 0;
@@ -17,6 +20,7 @@ static bool isSelecting = false;
 //最初に選択したマス
 static int selectRow = 0;
 static int selectCol = 0;
+
 
 Player::Player()
 {
@@ -34,7 +38,7 @@ Player::Player()
 	 player_timer = 0;
 
 	 prevMouseLeft = true;
-
+	 useKeyboard = false;//操作方法
 }
 
 Player::~Player()
@@ -93,17 +97,49 @@ bool Player::GameUpdate(Map& mapchip)
 	//マスのサイズ
 	const int CELLSIZE = 100;
 
-	cursorCol = (pos.x+X) / CELLSIZE;
-	cursorRow = (pos.y+Y) / CELLSIZE;
-
-	//範囲外
-	if (cursorRow < 0 || cursorRow >= 8) return false;
-	if (cursorCol < 0 || cursorCol >= 8) return false;
-
+	//操作方法の切り替え
+	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
+	
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
 
+	//キーボード操作に切り替え
+	if (KeyInput)
+	{
+		useKeyboard = true;
+	}
+
+	//マウス操作に切り替え
+	if (mouseClick)
+	{
+		useKeyboard = false;
+	}
+
+	if (useKeyboard)
+	{
+		if (TRG(0) & PAD_LEFT) cursorCol--;
+		if (TRG(0) & PAD_RIGHT) cursorCol++;
+		if (TRG(0) & PAD_UP) cursorRow--;
+		if (TRG(0) & PAD_DOWN) cursorRow++;
+	}
+	else
+	{
+		cursorCol = (pos.x - 100) / CELLSIZE;
+		cursorRow = (pos.y - 100) / CELLSIZE;
+	}
+
+	//範囲外
+	if (cursorRow < 0) cursorRow = 0;
+	if (cursorRow > 7) cursorRow = 7;
+
+	if (cursorCol < 0) cursorCol = 0;
+	if (cursorCol > 7) cursorCol = 7;
+
+	//前フレームの保存
 	prevMouseLeft = mouseLeft;
+
+	prevMouseX = pos.x;
+	prevMouseY = pos.y;
 
 	//クリック時
 	if (mouseClick || TRG(0) & PAD_START) 
@@ -131,8 +167,16 @@ bool Player::GameUpdate(Map& mapchip)
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
+				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
+					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
+				{
+					isSelecting = false;
+					return false;
+				}
 				std::swap(mapchip.map[selectRow][selectCol],
 						  mapchip.map[cursorRow][cursorCol]);
+				std::swap(mapchip.block[selectRow][selectCol],
+					mapchip.block[cursorRow][cursorCol]);
 			}
 			//選択解除
 			isSelecting = false;
@@ -176,4 +220,19 @@ int Player::GetSelectingRow()
 int Player::GetSelectingCol()
 {
 	return selectCol;
+}
+
+int Player::GetCursorRow()
+{
+	return cursorRow;
+}
+
+int Player::GetCursorCol()
+{
+	return cursorCol;
+}
+
+bool Player::isKeyboardMode()
+{
+	return useKeyboard;
 }

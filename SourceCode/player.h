@@ -26,6 +26,8 @@ private:
 	int cursorY;
 	int GetcursorIndex;
 
+	bool useKeyboard;
+
 	Sprite* spr_Character;
 
 
@@ -49,6 +51,10 @@ public:
 	bool GetSelecting();
 	int GetSelectingRow();
 	int GetSelectingCol();
+	int GetCursorRow();
+	int GetCursorCol();
+
+	bool isKeyboardMode();
 
 	CursorPos getCursorpos();
 

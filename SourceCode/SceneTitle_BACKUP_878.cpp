@@ -19,8 +19,12 @@ int title_timer;
 Sprite* sprTitle;
 
 Sprite* sprTutorialbutton;
+<<<<<<< HEAD
 Sprite* sprTitleSelecting;
+=======
 Sprite* sprSelectbutton;
+
+>>>>>>> main
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
@@ -47,8 +51,15 @@ void SceneTitle::Finalize()
 
     safe_delete(sprTitle);
 
-    safe_delete(sprTitleSelecting);
     safe_delete(sprTutorialbutton);
+
+<<<<<<< HEAD
+    safe_delete(sprTitleSelecting);
+=======
+    safe_delete(sprSelectbutton);
+
+
+>>>>>>> main
 }
 
 //更新
@@ -66,8 +77,12 @@ void SceneTitle::Update(float delta_time)
         sprTitle = sprite_load(L"./Data/Images/title.png");
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
-        sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
 
+<<<<<<< HEAD
+        sprTitleSelecting=sprite_load(L"./Data/Images/playerpos_kari.png");
+=======
+        sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
+>>>>>>> main
 
         title_state++;
 
@@ -143,14 +158,9 @@ void SceneTitle::Draw()
     //背景
     sprite_render(sprTitle, 0, 0);
 
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    sprite_render(sprSelectbutton, 900, 200);
-
-    sprite_render(sprTutorialbutton, 400, 200);
-
+<<<<<<< HEAD
+    sprite_render(sprTutorialbutton, 400, 200); 
+    
     if (player.GetCursorIndex() == 0)
     {
         sprite_render(sprTitleSelecting, 600, 400, 1, 1);
@@ -159,6 +169,12 @@ void SceneTitle::Draw()
     {
         sprite_render(sprTitleSelecting, 1100, 400, 1, 1);
     }
+=======
+    sprite_render(sprTutorialbutton, 400, 200);
+
+    sprite_render(sprSelectbutton, 900, 200);
+
+>>>>>>> main
 
     //デバッグ表示
     Drawbutton(startButton);

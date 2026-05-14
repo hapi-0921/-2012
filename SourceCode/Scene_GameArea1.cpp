@@ -9,11 +9,14 @@
 
 
 
+
 Sprite* sprStage1;
+Sprite* sprKeyCurPos;
 
 
 int stage1_state;
 int stage1_timer;
+
 
 void Scene_GameArea1::Initialize()
 {
@@ -31,7 +34,7 @@ void Scene_GameArea1::Finalize()
 {
     safe_delete(sprStage1);
     
-   
+    safe_delete(sprKeyCurPos);
 
 }
 
@@ -43,7 +46,7 @@ void Scene_GameArea1::Update(float delta_time)
         //////// 初期設定 ////////
 
         sprStage1 = sprite_load(L"./Data/Images/stage1.png");
-
+        sprKeyCurPos = sprite_load(L"./Data/Images/playerpos_kari.png");
 
         stage1_state++;
 
@@ -59,15 +62,16 @@ void Scene_GameArea1::Update(float delta_time)
         /*fallthrough*/
         break;
     case 2:
-        
-        character.Move();
         player.GameUpdate(mapchip);
-        mapchip.Update();
-        if (TRG(0) & PAD_START)
-        {
-            manager->ChangeScene(new SceneResult(manager, nullptr));
-        }
 
+        mapchip.Update();
+        //if (TRG(0) & PAD_START)
+        //{
+        //    manager->ChangeScene(new SceneResult(manager, nullptr));
+        //}
+
+        row = (player.GetCursorRow() + 1) * 100;
+        col = (player.GetCursorCol() + 1) * 100;
             
 
         //1秒で1減るように
@@ -94,15 +98,15 @@ void Scene_GameArea1::Draw()
     sprite_render(sprStage1, 0, 0, 1, 1);
 
 
-    character.Draw();
+
 
    
     DrawNumber(64,10, stage1_timer);
 
-    character.Draw();
+
 
     mapchip.Render();
-
+    if (player.isKeyboardMode()) sprite_render(sprKeyCurPos, col , row);
 }
 
 

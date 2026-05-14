@@ -7,11 +7,6 @@
 #include "player.h"
 #include "StageSelect.h"
 #include "SceneTutorial.h"
-#include "audio.h"
-#include "Number.h"
-
-
-
 
 int title_state;
 int title_timer;
@@ -20,7 +15,6 @@ Sprite* sprTitle;
 
 Sprite* sprTutorialbutton;
 Sprite* sprTitleSelecting;
-Sprite* sprSelectbutton;
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
@@ -42,13 +36,13 @@ void SceneTitle::Initialize()
 
 void SceneTitle::Finalize()
 {
-
     music::stop(0);
 
     safe_delete(sprTitle);
 
-    safe_delete(sprTitleSelecting);
     safe_delete(sprTutorialbutton);
+
+    safe_delete(sprTitleSelecting);
 }
 
 //更新
@@ -66,28 +60,28 @@ void SceneTitle::Update(float delta_time)
         sprTitle = sprite_load(L"./Data/Images/title.png");
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
-        sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
 
+        sprTitleSelecting=sprite_load(L"./Data/Images/playerpos_kari.png");
 
         title_state++;
+
 
         //音楽再生（ループ）
         music::play(0, true);
 
-
+        /*fallthrough*/
         break;
-
-
-        
 
     case 1:
         //////// パラメータの設定 ////////
 
         GameLib::setBlendMode(Blender::BS_ALPHA);
 
+
+
+
         title_state++;
 
-       
         break;
 
     case 2:
@@ -116,14 +110,10 @@ void SceneTitle::Update(float delta_time)
             if (player.IsHovered(startButton, pos.x, pos.y))
             {
                 manager->ChangeScene(new SceneTutorial(manager, nullptr));//チュートリアル画面へ
-                music::play(1);
-
             }
             else if (player.IsHovered(howtoButton, pos.x, pos.y))
             {
                 manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
-                music::play(2);
-
             }
         }
 
@@ -143,14 +133,8 @@ void SceneTitle::Draw()
     //背景
     sprite_render(sprTitle, 0, 0);
 
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    sprite_render(sprSelectbutton, 900, 200);
-
-    sprite_render(sprTutorialbutton, 400, 200);
-
+    sprite_render(sprTutorialbutton, 400, 200); 
+    
     if (player.GetCursorIndex() == 0)
     {
         sprite_render(sprTitleSelecting, 600, 400, 1, 1);
@@ -162,7 +146,7 @@ void SceneTitle::Draw()
 
     //デバッグ表示
     Drawbutton(startButton);
-    /*Drawbutton(howtoButton);*/
+    Drawbutton(howtoButton);
 
 #ifdef _DEBUG
     DrawImGui();
