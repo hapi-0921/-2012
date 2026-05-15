@@ -639,7 +639,7 @@ void Map::Render()
 
 	if (spr_Character == nullptr) return;
 
-	sprite_render(spr_Character, m.pos.x - 16, m.pos.y - 16, 1, 1,
+	sprite_render(spr_Character, m.pos.x, m.pos.y, 1, 1,
 		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
 
 	

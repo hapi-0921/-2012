@@ -9,11 +9,15 @@ Sprite* sprSelect;
 Sprite* sprstage1button;
 Sprite* sprstage2button;
 Sprite* sprstage3button;
+Sprite* sprtitlegobutton;
+
+
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button stage1Button = { 200,200,400,400,0 };
 Button stage2Button = { 700,200,400,400,1 };
 Button stage3Button = { 1200,200,400,400,2 };
+Button titlegoButton = { 650,650,560,150,3 };
 
 int select_state;
 int select_timer;
@@ -30,6 +34,7 @@ void StageSelect::Finalize()
     safe_delete(sprstage1button);
     safe_delete(sprstage2button);
     safe_delete(sprstage3button);
+    safe_delete(sprtitlegobutton);
 
     music::stop(0);
 }
@@ -45,7 +50,7 @@ void StageSelect::Update(float delta_time)
         sprstage1button = sprite_load(L"./Data/Images/stage1buttun.png");
         sprstage2button = sprite_load(L"./Data/Images/stage2buttun.png");
         sprstage3button = sprite_load(L"./Data/Images/stage3buttun.png");
-
+        sprtitlegobutton = sprite_load(L"./Data/Images/titlego.png");
         select_state++;
 
 
@@ -84,6 +89,13 @@ void StageSelect::Update(float delta_time)
                 music::play(3);
 
             }
+            else if (player.IsHovered(titlegoButton, pos.x, pos.y))
+            {
+                manager->ChangeScene(new SceneTitle(manager, nullptr));//タイトル画面へ
+                
+
+            }
+
 
         }
         ++select_timer;
@@ -106,6 +118,8 @@ void StageSelect::Draw()
     //ボタンにカーソルを合わしたときに押し込まれてるように
     float texW = 400;
     float texH = 400;
+    float titleW = 560;
+    float titleH = 150;
 
     CursorPos position = player.getCursorpos();
 
@@ -140,12 +154,22 @@ void StageSelect::Draw()
 
     }
 
+    if (player.IsHovered(titlegoButton, position.x, position.y))
+    {
+        sprite_render(sprtitlegobutton, 930, 725, 0.95f, 0.95f, 0, 0, titleW, titleH, titleW / 2, titleH / 2);
+    }
+    else
+    {
+        sprite_render(sprtitlegobutton, 930, 725, 1, 1, 0, 0, titleW, titleH, titleW / 2, titleH / 2);
+
+    }
+
 
     //デバッグ表示
    /* Drawbutton(stage1Button);
     Drawbutton(stage2Button);
     Drawbutton(stage3Button);*/
-
+   
 }
 
 #ifdef _DEBUG
