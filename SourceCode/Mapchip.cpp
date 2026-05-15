@@ -765,11 +765,11 @@ void Map::Render()
 
 	if (spr_Character == nullptr) return;
 
-<<<<<<< HEAD
-	sprite_render(spr_Character, m.pos.x, m.pos.y, 1, 1,
-=======
+
+	
+
 	sprite_render(spr_Character, m.pos.x , m.pos.y, 1, 1,
->>>>>>> bb7e0e7f4ca8c0be2388a2030aad0af4d4336fb2
+
 		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
 
 	

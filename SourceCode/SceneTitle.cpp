@@ -52,6 +52,7 @@ void SceneTitle::Finalize()
 
     safe_delete(sprTitleSelecting);
     safe_delete(sprTutorialbutton);
+    safe_delete(sprSelectbutton);
 }
 
 //更新
@@ -70,7 +71,7 @@ void SceneTitle::Update(float delta_time)
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
         sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
-
+        sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
 
 
         fade = sprite_load(L"./Data/Images/fade.png");
@@ -203,7 +204,7 @@ void SceneTitle::Draw()
 
 
 
-    sprite_render(sprTutorialbutton, 400, 200);
+   
 
     if (player.GetCursorIndex() == 0)
     {
@@ -215,10 +216,10 @@ void SceneTitle::Draw()
     }
 
     //デバッグ表示
-   /* Drawbutton(startButton);
+    Drawbutton(startButton);
 
  
-    Drawbutton(howtoButton);*/
+    Drawbutton(howtoButton);
 
 #ifdef _DEBUG
     DrawImGui();
