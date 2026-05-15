@@ -58,7 +58,22 @@ void SceneResult::Update(float delta_time)
             /*fallthrough*/
             break;
         case 2:
-            bool click = player.MenuUpdate();
+            bool click = player.MenuUpdate(2);
+
+            if (TRG(0) & PAD_START)
+            {
+                switch (player.GetCursorIndex())
+                {
+                case 0:
+                    manager->ChangeScene(new StageSelect(manager, nullptr));//ステージ選択画面へ
+                    break;
+                case 1:
+                    manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
+                    break;
+                }
+            }
+
+
             CursorPos pos = player.getCursorpos();
 
             if (click)

@@ -9,9 +9,13 @@ Sprite* sprSelect;
 Sprite* sprstage1button;
 Sprite* sprstage2button;
 Sprite* sprstage3button;
+<<<<<<< HEAD
 Sprite* sprtitlegobutton;
 
 
+=======
+Sprite* sprStageSelectpos;
+>>>>>>> bb7e0e7f4ca8c0be2388a2030aad0af4d4336fb2
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button stage1Button = { 200,200,400,400,0 };
@@ -36,6 +40,8 @@ void StageSelect::Finalize()
     safe_delete(sprstage3button);
     safe_delete(sprtitlegobutton);
 
+    safe_delete(sprStageSelectpos);
+
     music::stop(0);
 }
 
@@ -50,7 +56,13 @@ void StageSelect::Update(float delta_time)
         sprstage1button = sprite_load(L"./Data/Images/stage1buttun.png");
         sprstage2button = sprite_load(L"./Data/Images/stage2buttun.png");
         sprstage3button = sprite_load(L"./Data/Images/stage3buttun.png");
+<<<<<<< HEAD
         sprtitlegobutton = sprite_load(L"./Data/Images/titlego.png");
+=======
+
+        sprStageSelectpos = sprite_load(L"./Data/Images/playerpos_kari.png");
+
+>>>>>>> bb7e0e7f4ca8c0be2388a2030aad0af4d4336fb2
         select_state++;
 
 
@@ -66,7 +78,26 @@ void StageSelect::Update(float delta_time)
         break;
     case 2:
 
-        bool click = player.MenuUpdate();
+        bool click = player.MenuUpdate(3);
+
+
+        if (TRG(0) & PAD_START)
+        {
+            switch (player.GetCursorIndex())
+            {
+            case 0:
+                manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ１
+                break;
+            case 1:
+                manager->ChangeScene(new  Scene_GameArea2(manager));//ステージ2
+                break;
+            case 2:
+                manager->ChangeScene(new  Scene_GameArea3(manager));//ステージ3
+                break;
+            }
+        }
+
+
         CursorPos pos = player.getCursorpos();
 
         if (click)
@@ -154,6 +185,7 @@ void StageSelect::Draw()
 
     }
 
+<<<<<<< HEAD
     if (player.IsHovered(titlegoButton, position.x, position.y))
     {
         sprite_render(sprtitlegobutton, 930, 725, 0.95f, 0.95f, 0, 0, titleW, titleH, titleW / 2, titleH / 2);
@@ -162,6 +194,19 @@ void StageSelect::Draw()
     {
         sprite_render(sprtitlegobutton, 930, 725, 1, 1, 0, 0, titleW, titleH, titleW / 2, titleH / 2);
 
+=======
+    if (player.GetCursorIndex() == 0)
+    {
+        sprite_render(sprStageSelectpos, 400, 400, 1, 1);
+    }
+    if (player.GetCursorIndex() == 1)
+    {
+        sprite_render(sprStageSelectpos, 900, 400, 1, 1);
+    }
+    if (player.GetCursorIndex() == 2)
+    {
+        sprite_render(sprStageSelectpos, 1400, 400, 1, 1);
+>>>>>>> bb7e0e7f4ca8c0be2388a2030aad0af4d4336fb2
     }
 
 

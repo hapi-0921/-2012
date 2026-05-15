@@ -26,6 +26,9 @@ private:
     Player player;
     Character character;
     Map mapchip;
+    
+    int row;
+    int col;
 
 
 #ifdef _DEBUG

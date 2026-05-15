@@ -63,7 +63,6 @@ void SceneGame::Update(float delta_time)
         case 2:
 
             mapchip->Update();
-            player.MenuUpdate();
             if (player.IsDecided())
             {
                 manager->ChangeScene(new SceneResult(manager));
