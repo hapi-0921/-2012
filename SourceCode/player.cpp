@@ -156,12 +156,17 @@ bool Player::GameUpdate(Map& mapchip)
 	if (mouseClick || TRG(0) & PAD_START)
 
 	{
+		music::play(3);
 		//ñ¢ëIë
 		if (!isSelecting)
 		{
 			//àÍå¬ñ⁄ëIë
 			selectRow = cursorRow;
+			
 			selectCol = cursorCol;
+
+			
+
 			isSelecting = true;
 		}
 		else
@@ -179,12 +184,15 @@ bool Player::GameUpdate(Map& mapchip)
 			//è„â∫ç∂âEÇ»ÇÁì¸ÇÍë÷Ç¶
 			if (dr + dc == 1)
 			{
-				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
-					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
+
+				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
+					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
 				{
 					isSelecting = false;
 					return false;
 				}
+				music::play(4);
+
 				std::swap(mapchip.map[selectRow][selectCol],
 						  mapchip.map[cursorRow][cursorCol]);
 
