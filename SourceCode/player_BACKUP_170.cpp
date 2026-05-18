@@ -30,23 +30,27 @@ Player::Player()
 	cursorX = 0;
 	cursorY = 0;
 
+<<<<<<< HEAD
 	 //メニュー用カーソル番号
 	 GetcursorIndex = 0;
 
 	 decided = false;
+=======
 	//メニュー用カーソル番号
 	GetcursorIndex = 0;
+>>>>>>> main
 
 	decided = false;
 
+<<<<<<< HEAD
 	 prevMouseLeft = true;
 	 useKeyboard = false;//操作方法
-
+=======
 	player_timer = 0;
 
 	prevMouseLeft = true;
 	useKeyboard = false;//操作方法
-
+>>>>>>> main
 }
 
 Player::~Player()
@@ -78,6 +82,7 @@ bool Player::MenuUpdate(int menuMax)
 	CursorPos pos = getCursorpos();
 
 	//上下入力
+<<<<<<< HEAD
 	if (TRG(0)&PAD_LEFT) GetcursorIndex--;
 	if (TRG(0)&PAD_RIGHT) GetcursorIndex++;
 
@@ -87,6 +92,17 @@ bool Player::MenuUpdate(int menuMax)
 	//クリック取得、連続入力ならないように
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);	
+=======
+	if (TRG(0) & PAD_LEFT) GetcursorIndex--;
+	if (TRG(0) & PAD_RIGHT) GetcursorIndex++;
+
+	if (GetcursorIndex < 0) GetcursorIndex = menuMax - 1;
+	if (GetcursorIndex > menuMax - 1) GetcursorIndex = 0;
+
+	//クリック取得、連続入力ならないように
+	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
+>>>>>>> main
 
 	prevMouseLeft = mouseLeft;
 
@@ -103,12 +119,19 @@ bool Player::GameUpdate(Map& mapchip)
 	CursorPos pos = getCursorpos();
 
 	//マスのサイズ
+<<<<<<< HEAD
+	const int CELLSIZE = 100;
 
+	//操作方法の切り替え
+	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
+	
+=======
 	const int CELLSIZE = 128;
 
 	//操作方法の切り替え
 	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
 
+>>>>>>> main
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
 
@@ -151,22 +174,18 @@ bool Player::GameUpdate(Map& mapchip)
 	prevMouseY = pos.y;
 
 	//クリック時
-
+<<<<<<< HEAD
 	if (mouseClick || TRG(0) & PAD_START) 
+=======
 	if (mouseClick || TRG(0) & PAD_START)
-
+>>>>>>> main
 	{
-		music::play(3);
 		//未選択
 		if (!isSelecting)
 		{
 			//一個目選択
 			selectRow = cursorRow;
-			
 			selectCol = cursorCol;
-
-			
-
 			isSelecting = true;
 		}
 		else
@@ -180,27 +199,26 @@ bool Player::GameUpdate(Map& mapchip)
 
 			int dr = abs(cursorRow - selectRow);
 			int dc = abs(cursorCol - selectCol);
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> main
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-=======
-				
 				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
 					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 				{
 					isSelecting = false;
 					return false;
 				}
-				music::play(4);
-
 				std::swap(mapchip.map[selectRow][selectCol],
+<<<<<<< HEAD
 						  mapchip.map[cursorRow][cursorCol]);
-
+=======
+					mapchip.map[cursorRow][cursorCol]);
+>>>>>>> main
 				std::swap(mapchip.block[selectRow][selectCol],
 					mapchip.block[cursorRow][cursorCol]);
 			}

@@ -10,10 +10,17 @@ Sprite* sprstage1button;
 Sprite* sprstage2button;
 Sprite* sprstage3button;
 
+Sprite* sprtitlegobutton;
+
+
+
+Sprite* sprStageSelectpos;
+
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button stage1Button = { 200,200,400,400,0 };
 Button stage2Button = { 700,200,400,400,1 };
 Button stage3Button = { 1200,200,400,400,2 };
+Button titlegoButton = { 650,650,560,150,3 };
 
 int select_state;
 int select_timer;
@@ -30,6 +37,9 @@ void StageSelect::Finalize()
     safe_delete(sprstage1button);
     safe_delete(sprstage2button);
     safe_delete(sprstage3button);
+    safe_delete(sprtitlegobutton);
+
+    safe_delete(sprStageSelectpos);
 
     music::stop(0);
 }
@@ -45,6 +55,10 @@ void StageSelect::Update(float delta_time)
         sprstage1button = sprite_load(L"./Data/Images/stage1buttun.png");
         sprstage2button = sprite_load(L"./Data/Images/stage2buttun.png");
         sprstage3button = sprite_load(L"./Data/Images/stage3buttun.png");
+        sprtitlegobutton = sprite_load(L"./Data/Images/titlego.png");
+
+        sprStageSelectpos = sprite_load(L"./Data/Images/playerpos_kari.png");
+
 
         select_state++;
 
@@ -62,6 +76,25 @@ void StageSelect::Update(float delta_time)
     case 2:
 
         bool click = player.MenuUpdate(3);
+
+
+        if (TRG(0) & PAD_START)
+        {
+            switch (player.GetCursorIndex())
+            {
+            case 0:
+                manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ１
+                break;
+            case 1:
+                manager->ChangeScene(new  Scene_GameArea2(manager));//ステージ2
+                break;
+            case 2:
+                manager->ChangeScene(new  Scene_GameArea3(manager));//ステージ3
+                break;
+            }
+        }
+
+
         CursorPos pos = player.getCursorpos();
 
         if (click)
@@ -75,15 +108,22 @@ void StageSelect::Update(float delta_time)
             else if (player.IsHovered(stage2Button, pos.x, pos.y))
             {
                 manager->ChangeScene(new Scene_GameArea2(manager, nullptr));//ステージ2へ
-                music::play(2);
+                music::play(1);
 
             }
             else if (player.IsHovered(stage3Button, pos.x, pos.y))
             {
                 manager->ChangeScene(new Scene_GameArea3(manager, nullptr));//ステージ3へ
-                music::play(3);
+                music::play(1);
 
             }
+            else if (player.IsHovered(titlegoButton, pos.x, pos.y))
+            {
+                manager->ChangeScene(new SceneTitle(manager, nullptr));//タイトル画面へ
+                
+
+            }
+
 
         }
         ++select_timer;
@@ -100,12 +140,14 @@ void StageSelect::Draw()
     //背景
     sprite_render(sprSelect, 0, 0, 1, 1);
 
-    
+
 
     //ボタンの描画
     //ボタンにカーソルを合わしたときに押し込まれてるように
     float texW = 400;
     float texH = 400;
+    float titleW = 560;
+    float titleH = 150;
 
     CursorPos position = player.getCursorpos();
 
@@ -141,11 +183,36 @@ void StageSelect::Draw()
     }
 
 
-    //デバッグ表示
-   /* Drawbutton(stage1Button);
-    Drawbutton(stage2Button);
-    Drawbutton(stage3Button);*/
+    if (player.IsHovered(titlegoButton, position.x, position.y))
+    {
+        sprite_render(sprtitlegobutton, 930, 725, 0.95f, 0.95f, 0, 0, titleW, titleH, titleW / 2, titleH / 2);
+    }
+    else
+    {
+        sprite_render(sprtitlegobutton, 930, 725, 1, 1, 0, 0, titleW, titleH, titleW / 2, titleH / 2);
 
+
+        if (player.GetCursorIndex() == 0)
+        {
+            sprite_render(sprStageSelectpos, 400, 400, 1, 1);
+        }
+        if (player.GetCursorIndex() == 1)
+        {
+            sprite_render(sprStageSelectpos, 900, 400, 1, 1);
+        }
+        if (player.GetCursorIndex() == 2)
+        {
+            sprite_render(sprStageSelectpos, 1400, 400, 1, 1);
+
+        }
+
+
+        //デバッグ表示
+       /* Drawbutton(stage1Button);
+        Drawbutton(stage2Button);
+        Drawbutton(stage3Button);*/
+
+    }
 }
 
 #ifdef _DEBUG

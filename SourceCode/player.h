@@ -26,7 +26,7 @@ private:
     int cursorY;
     int GetcursorIndex;
 
-    bool useKeyboard;
+	bool useKeyboard;
 
     Sprite* spr_Character;
 
@@ -43,20 +43,20 @@ public:
     bool decided;
     bool IsDecided();
 
-    bool MenuUpdate(int memuMax);//メニュー(titleやresultで使う用)
-    bool GameUpdate(Map& mapchip);//ゲーム内で使う用
+	bool MenuUpdate(int memuMax);//メニュー(titleやresultで使う用)
+	bool GameUpdate(Map& mapchip);//ゲーム内で使う用
 
     void reset();
 
-    bool GetSelecting();
-    int GetSelectingRow();
-    int GetSelectingCol();
-    int GetCursorRow();
-    int GetCursorCol();
+	bool GetSelecting();
+	int GetSelectingRow();
+	int GetSelectingCol();
+	int GetCursorRow();
+	int GetCursorCol();
 
-    bool isKeyboardMode();
+	bool isKeyboardMode();
 
-    CursorPos getCursorpos();
+	CursorPos getCursorpos();
 
     Map mapchip;
 };

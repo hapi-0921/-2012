@@ -30,23 +30,15 @@ Player::Player()
 	cursorX = 0;
 	cursorY = 0;
 
-	 //メニュー用カーソル番号
-	 GetcursorIndex = 0;
-
-	 decided = false;
 	//メニュー用カーソル番号
 	GetcursorIndex = 0;
 
 	decided = false;
 
-	 prevMouseLeft = true;
-	 useKeyboard = false;//操作方法
-
 	player_timer = 0;
 
 	prevMouseLeft = true;
 	useKeyboard = false;//操作方法
-
 }
 
 Player::~Player()
@@ -78,15 +70,15 @@ bool Player::MenuUpdate(int menuMax)
 	CursorPos pos = getCursorpos();
 
 	//上下入力
-	if (TRG(0)&PAD_LEFT) GetcursorIndex--;
-	if (TRG(0)&PAD_RIGHT) GetcursorIndex++;
+	if (TRG(0) & PAD_LEFT) GetcursorIndex--;
+	if (TRG(0) & PAD_RIGHT) GetcursorIndex++;
 
 	if (GetcursorIndex < 0) GetcursorIndex = menuMax - 1;
 	if (GetcursorIndex > menuMax - 1) GetcursorIndex = 0;
-	
+
 	//クリック取得、連続入力ならないように
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
-	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);	
+	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
 
 	prevMouseLeft = mouseLeft;
 
@@ -103,7 +95,6 @@ bool Player::GameUpdate(Map& mapchip)
 	CursorPos pos = getCursorpos();
 
 	//マスのサイズ
-
 	const int CELLSIZE = 128;
 
 	//操作方法の切り替え
@@ -151,22 +142,14 @@ bool Player::GameUpdate(Map& mapchip)
 	prevMouseY = pos.y;
 
 	//クリック時
-
-	if (mouseClick || TRG(0) & PAD_START) 
 	if (mouseClick || TRG(0) & PAD_START)
-
 	{
-		music::play(3);
 		//未選択
 		if (!isSelecting)
 		{
 			//一個目選択
 			selectRow = cursorRow;
-			
 			selectCol = cursorCol;
-
-			
-
 			isSelecting = true;
 		}
 		else
@@ -180,27 +163,18 @@ bool Player::GameUpdate(Map& mapchip)
 
 			int dr = abs(cursorRow - selectRow);
 			int dc = abs(cursorCol - selectCol);
-			
+
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-=======
-				
 				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
 					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 				{
 					isSelecting = false;
 					return false;
 				}
-				music::play(4);
-
 				std::swap(mapchip.map[selectRow][selectCol],
-						  mapchip.map[cursorRow][cursorCol]);
-
+					mapchip.map[cursorRow][cursorCol]);
 				std::swap(mapchip.block[selectRow][selectCol],
 					mapchip.block[cursorRow][cursorCol]);
 			}

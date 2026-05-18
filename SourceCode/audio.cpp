@@ -12,7 +12,7 @@ void audio_init()
 
     music::load(3, L"./Data/Sound/block_click3.wav");
 
-
+    music::load(4, L"./Data/Sound/block_click2.wav");
 
 }
 

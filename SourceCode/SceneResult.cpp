@@ -9,8 +9,8 @@ Sprite* sprSelect1button;
 Sprite* sprTitlebutton;
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
-Button selectButton = { 400,200,400,400,0 };
-Button titleButton = { 900,200,400,400,1 };
+Button titleButton = { 600,200,560,150,0};
+
 
 
 int result_state;
@@ -29,7 +29,7 @@ void SceneResult::Finalize()
 {
     safe_delete(sprResult);
     music::stop(0);
-    safe_delete(sprSelect1button);
+   
     safe_delete(sprTitlebutton);
 }
 
@@ -41,8 +41,8 @@ void SceneResult::Update(float delta_time)
         //////// 初期設定 ////////
 
         sprResult = sprite_load(L"./Data/Images/result.png");
-        sprSelect1button = sprite_load(L"./Data/Images/selectbuttun.png");
-        sprTitlebutton = sprite_load(L"./Data/Images/titlebuttun.png");
+       
+        sprTitlebutton = sprite_load(L"./Data/Images/titlego.png");
 
         result_state++;
         
@@ -59,19 +59,30 @@ void SceneResult::Update(float delta_time)
             break;
         case 2:
             bool click = player.MenuUpdate(2);
+
+            if (TRG(0) & PAD_START)
+            {
+                switch (player.GetCursorIndex())
+                {
+                case 0:
+                    manager->ChangeScene(new StageSelect(manager, nullptr));//ステージ選択画面へ
+                    break;
+                case 1:
+                    manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
+                    break;
+                }
+            }
+
+
             CursorPos pos = player.getCursorpos();
 
             if (click)
             {
-                if (player.IsHovered(selectButton, pos.x, pos.y))
-                {
-                    manager->ChangeScene(new StageSelect(manager, nullptr));//選択画面へ
-                    music::play(1);
-                }
-                else if (player.IsHovered(titleButton, pos.x, pos.y))
+          
+                if (player.IsHovered(titleButton, pos.x, pos.y))
                 {
                     manager->ChangeScene(new SceneTitle(manager,nullptr));//タイトル画面へ
-                    music::play(2);
+                    music::play(1);
                 }
             }
             ++result_timer;
@@ -91,29 +102,19 @@ void SceneResult::Draw()
 
     //ボタンの描画
     //ボタンにカーソルを合わしたときに押し込まれてるように
-    float texW = 400;
-    float texH = 400;
+    float texW = 560;
+    float texH = 150;
 
     CursorPos position = player.getCursorpos();
-
-    //選択画面へのボタン
-    if (player.IsHovered(selectButton, position.x, position.y))
-    {
-        sprite_render(sprSelect1button, 600, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
-    }
-    else
-    {
-        sprite_render(sprSelect1button, 600, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
-    }
 
     //タイトルに戻るボタン
     if (player.IsHovered(titleButton, position.x, position.y))
     {
-        sprite_render(sprTitlebutton, 1100, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTitlebutton, 880, 275, 1.45f, 1.45f, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     else
     {
-        sprite_render(sprTitlebutton, 1100, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTitlebutton, 880, 275, 1.5, 1.5, 0, 0, texW, texH, texW / 2, texH / 2);
     }
 
 

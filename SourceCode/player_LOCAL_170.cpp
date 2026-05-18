@@ -27,26 +27,18 @@ Player::Player()
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
-	cursorX = 0;
-	cursorY = 0;
+	 cursorX = 0;
+	 cursorY = 0;
 
 	 //メニュー用カーソル番号
 	 GetcursorIndex = 0;
 
 	 decided = false;
-	//メニュー用カーソル番号
-	GetcursorIndex = 0;
 
-	decided = false;
+	 player_timer = 0;
 
 	 prevMouseLeft = true;
 	 useKeyboard = false;//操作方法
-
-	player_timer = 0;
-
-	prevMouseLeft = true;
-	useKeyboard = false;//操作方法
-
 }
 
 Player::~Player()
@@ -57,17 +49,17 @@ Player::~Player()
 //マウスの位置情報取得
 CursorPos Player::getCursorpos()
 {
-	cursorX = getCursorPosX();
-	cursorY = getCursorPosY();
-
-	return{ cursorX,cursorY };
+	 cursorX = getCursorPosX();
+	 cursorY = getCursorPosY();
+	
+	 return{ cursorX,cursorY };
 }
 
 //ボタン上にマウスがあるかどうか
 bool Player::IsHovered(Button button, float mouseX, float mouseY)
 {
 	return mouseX >= button.x && mouseX <= button.x + button.width &&
-		mouseY >= button.y && mouseY <= button.y + button.height;
+		 mouseY >= button.y && mouseY <= button.y + button.height;
 }
 
 //メニュー画面(titleやresultで使う用)
@@ -103,12 +95,11 @@ bool Player::GameUpdate(Map& mapchip)
 	CursorPos pos = getCursorpos();
 
 	//マスのサイズ
-
-	const int CELLSIZE = 128;
+	const int CELLSIZE = 100;
 
 	//操作方法の切り替え
 	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
-
+	
 	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
 
@@ -151,22 +142,14 @@ bool Player::GameUpdate(Map& mapchip)
 	prevMouseY = pos.y;
 
 	//クリック時
-
 	if (mouseClick || TRG(0) & PAD_START) 
-	if (mouseClick || TRG(0) & PAD_START)
-
 	{
-		music::play(3);
 		//未選択
 		if (!isSelecting)
 		{
 			//一個目選択
 			selectRow = cursorRow;
-			
 			selectCol = cursorCol;
-
-			
-
 			isSelecting = true;
 		}
 		else
@@ -184,23 +167,14 @@ bool Player::GameUpdate(Map& mapchip)
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-=======
-				
 				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
 					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 				{
 					isSelecting = false;
 					return false;
 				}
-				music::play(4);
-
 				std::swap(mapchip.map[selectRow][selectCol],
 						  mapchip.map[cursorRow][cursorCol]);
-
 				std::swap(mapchip.block[selectRow][selectCol],
 					mapchip.block[cursorRow][cursorCol]);
 			}

@@ -1281,12 +1281,24 @@ void Map::Render()
 	int carsy = m.direction * CHARACTER_TEX_H;
 	if (spr_Character == nullptr) return;
 
+<<<<<<< HEAD
 	sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
+=======
+
+	
+
+	sprite_render(spr_Character, m.pos.x , m.pos.y, 1, 1,
+
+>>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
 
 	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
 		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);
 
 
+<<<<<<< HEAD
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
+=======
+	debug::display(1,0,1,2,2); // © ÅŒã‚É•`‚­
+>>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 }
