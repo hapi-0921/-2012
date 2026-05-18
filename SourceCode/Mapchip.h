@@ -2,8 +2,8 @@
 #include"../GameLib/game_lib.h"
 #include <stdio.h>
 
-#define STAGE_X 8
-#define STAGE_Y 8
+#define STAGE_X 10
+#define STAGE_Y 7
 
 #define MapCenter chipSize/2//マップの真ん中になる
 #define MapDown	  64      //マップの下、右になる
@@ -11,13 +11,6 @@
 #define X 100
 #define Y 100
 
-struct SwapData
-{
-	int selCol;
-	int selRow;
-	int curCol;
-	int curRow;
-};
 
 #define CHARACTER_TEX_W            (64.0f)    // プレイヤーの画像1つの幅
 #define CHARACTER_TEX_H            (64.0f)    // プレイヤーの画像1つの高さ
@@ -25,77 +18,71 @@ struct SwapData
 
 
 
-
 class Map
 {
 public:
-	Map();
-	~Map();
-	void Render();
-	void Update();
-	void Road();
-	void Move();
-	void Road2();		   //直線の道の時
-	void Road4();		   //曲線の道の時
-	void Rotation();	   //道を回転させる
-	
-	bool CanMoveUp();      //上のマスに行けるか
-	bool CanMoveDown();	   //下のマスに行けるか
-	bool CanMoveLeft();	   //左のマスに行けるか
-	bool CanMoveRight();   //右のマスに行けるか
-	void SetMoveUp();	   //上の向きにセットする
-	void SetMoveDown();	   //下の向きにセットする
-	void SetMoveLeft();	   //左の向きにセットする
-	void SetMoveRight();   //右の向きにセットする
-
-
-
-	int map[STAGE_X][STAGE_Y] =
-	{ 2,3,2,3,1,1,1,1,
-	  3,3,3,2,1,1,1,1,
-	  3,2,3,3,1,1,1,1,
-	  3,2,1,1,2,1,1,1,
-	  1,1,1,1,1,1,1,1,
-	  1,1,1,1,1,2,1,1,
-	  1,1,1,1,1,1,3,1,
-	  1,1,1,2,1,1,3,1,
+	int map[STAGE_Y][STAGE_X] =
+	{
+		{2,2,2,2,2,2,3,1,2,2},
+		{1,3,3,2,1,1,6,1,2,2},
+		{3,2,3,3,1,1,2,1,2,2},
+		{3,2,5,1,2,1,1,1,2,2},
+		{1,1,2,1,1,1,7,1,2,2},
+		{1,1,1,1,1,2,1,1,2,2},
+		{2,2,2,2,2,2,2,2,2,2}
 	};
 	int prevX = -1;
-		float posX;
+	float posX;
 	float posY;
 
 	int prevY = -1;
-	int phase = 0;
-	bool moving = false;
 	const float chipSize = 128; // 1マスのサイズ
-
-	float localX = m.pos.x - X;
-	float localY = m.pos.y - Y;
-
-	int mapX = (m.pos.x) / chipSize;				//playerがいるマス
-	int mapY = (m.pos.y) / chipSize;				//playerがいるマス
-
-	float top = mapY * chipSize;					//今いるブロックの上端
-	float bottom = mapY * chipSize + chipSize;		//今いるブロックの下端
-	float left = mapX * chipSize;					//今いるブロックの左端
-	float right = mapX * chipSize + chipSize;		//今いるブロックの右端
-	float senterX = mapX * chipSize + MapCenter;	//今いるブロックの真ん中
-	float senterY = mapY * chipSize + MapCenter;	//今いるブロックの真ん中
-
-	float footX = m.pos.x + 32;						//プレイヤーの真ん中X
-	float footY = m.pos.y + 64;						//プレイヤーの足元Y
-
-	int downmapY = mapY + 1;						//一個下のブロック
-	int upmapY = mapY - 1;							//一個上のブロック
-	int rightmapX = mapX + 1;						//一個右のブロック
-	int leftmapX = mapX - 1;						//一個左のブロック
 
 	bool blocheck = false;
 	bool Rotationcheck = false;
-	struct Mob
+	struct RoadInfo
+	{
+		int mapX;
+		int mapY;
+
+		float left;
+		float right;
+		float top;
+		float bottom;
+
+		float senterX;
+		float senterY;
+
+		int upmapY;
+		int downmapY;
+
+		int leftmapX;
+		int rightmapX;
+
+		float footX;
+		float footY;
+
+		float localX;
+		float localY;
+	};
+	struct MoveObject
 	{
 		VECTOR2 pos{ 150,150 };
 
+		int dirY = 1;
+		int dirX = 1;
+		int speed = 1;
+		int phase = 0;
+		bool moving = false;
+		bool canRotate = true;
+		bool canCountPass = true;
+		bool cartocollide = false;
+		bool active = false;
+		float cartimer = 0;
+	};
+	struct Mob
+	{
+		
 	//アニメーション
 		int frame;
 		float animTimer;
@@ -105,32 +92,96 @@ public:
 		float vx;
 	    float vy;
 		
-		int angle = 0;
-		int dirY = 1; // 1=下, -1=上
-		int dirX = 1; // 1=右, -1=左
-		int speed = 1;
+		bool housepoint = false;
+		bool pianopoint = false;
+		bool schoolpoint = false;
+		bool tocollide = false;
+		MoveObject move;
+		
 	};
 	Mob m;
+	bool goal = false;
+	struct Car
+	{
+		MoveObject move;
+		bool carmove = false;
+	};
+	Car c;
 	struct BlockData
 	{
 		int nowangle;
 		int angle;
 		int RotationCount = 0;
 		int pass = 0;
+		bool rotated=false;
 	};
+
+	enum phase
+	{
+		upsenter,
+		senterright,
+		rightsenter,
+		senterup,
+		senterleft,
+		leftsenter,
+		downsenter,
+		senterdown,
+	};
+	enum Direction
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	};
+
+	RoadInfo infon = Road(m.move);
+
 	Sprite* sprmap1;//草
 	Sprite* sprmap2;//直線
 	Sprite* sprmap3;//曲がる
 	Sprite* sprmap4;//T字
 	Sprite* spr_Character;//動くやつ
 	Sprite* sprfield;
+	Sprite* sprCar;
+	Sprite*sprmap5;
+	Sprite*sprmap6;
+	Sprite*sprmap7;
+	Sprite* sprpass1;
+	Sprite* sprpass2;
 
 	BlockData block[STAGE_Y][STAGE_X] = {};//ひとマスの情報
+	Map();
+	~Map();
+	void Render();
+	void Update();
+	RoadInfo Road(MoveObject& obj);
+	void Move(MoveObject& obj, RoadInfo& info);
+	void Road2(MoveObject& obj ,RoadInfo& info);		   //直線の道の時
+	void Road4(MoveObject& obj, RoadInfo& info);		   //曲線の道の時
+	void CarMove(MoveObject& obj, RoadInfo& info);
+	void Rotation(MoveObject& obj, RoadInfo& info);	   //道を回転させる
 
+	bool CanMove(RoadInfo& info, Direction dir);
+
+	void SetMoveUp(MoveObject& obj);	   //上の向きにセットする
+	void SetMoveDown(MoveObject& obj);	   //下の向きにセットする
+	void SetMoveLeft(MoveObject& obj);	   //左の向きにセットする
+	void SetMoveRight(MoveObject& obj);   //右の向きにセットする
+	bool GoHouse(MoveObject& obj,RoadInfo& info);
+	bool Gopiano(MoveObject& obj, RoadInfo& info);
+	bool Goschool(MoveObject& obj, RoadInfo& info);
+	void SetPosFromMap(MoveObject& obj, int mapX, int mapY);
+	bool HitBox(float ax, float ay, float aw, float ah,
+		float bx, float by, float bw, float bh);
 	float DegToRad(float degree)
 	{
 		const float PI = 3.1415926535f;
 		return degree * PI / 180.0f;
 	}
 
+	// Infoを更新する
+
+	void UpdateInfo(MoveObject& obj, RoadInfo& info);
+	void UpdateInfo(int mapX, int mapY, RoadInfo& info);
 };
