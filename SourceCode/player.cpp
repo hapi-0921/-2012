@@ -167,8 +167,8 @@ bool Player::GameUpdate(Map& mapchip)
 			//è„â∫ç∂âEÇ»ÇÁì¸ÇÍë÷Ç¶
 			if (dr + dc == 1)
 			{
-				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
-					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
+				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
+					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
 				{
 					isSelecting = false;
 					return false;
