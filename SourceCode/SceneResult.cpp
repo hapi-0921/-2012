@@ -82,7 +82,7 @@ void SceneResult::Update(float delta_time)
                 if (player.IsHovered(titleButton, pos.x, pos.y))
                 {
                     manager->ChangeScene(new SceneTitle(manager,nullptr));//タイトル画面へ
-                    music::play(2);
+                    music::play(1);
                 }
             }
             ++result_timer;

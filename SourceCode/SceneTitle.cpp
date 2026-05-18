@@ -129,7 +129,7 @@ void SceneTitle::Update(float delta_time)
             else if (player.IsHovered(howtoButton, pos.x, pos.y))
             {
                 fade_start = true;
-                music::play(2);
+                music::play(1);
 
             }
             

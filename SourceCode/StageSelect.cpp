@@ -108,13 +108,13 @@ void StageSelect::Update(float delta_time)
             else if (player.IsHovered(stage2Button, pos.x, pos.y))
             {
                 manager->ChangeScene(new Scene_GameArea2(manager, nullptr));//ステージ2へ
-                music::play(2);
+                music::play(1);
 
             }
             else if (player.IsHovered(stage3Button, pos.x, pos.y))
             {
                 manager->ChangeScene(new Scene_GameArea3(manager, nullptr));//ステージ3へ
-                music::play(3);
+                music::play(1);
 
             }
             else if (player.IsHovered(titlegoButton, pos.x, pos.y))
