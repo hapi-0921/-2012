@@ -1,7 +1,7 @@
 ﻿#include "SceneResult.h"
 #include "SceneManager.h"
 #include "SceneTitle.h"
-#include "StageSelect.h"
+#include "Scene_GameArea1.h"
 
 Sprite* sprResult;
 
@@ -65,7 +65,7 @@ void SceneResult::Update(float delta_time)
                 switch (player.GetCursorIndex())
                 {
                 case 0:
-                    manager->ChangeScene(new StageSelect(manager, nullptr));//ステージ選択画面へ
+                    manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ゲームへ
                     break;
                 case 1:
                     manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
@@ -73,14 +73,14 @@ void SceneResult::Update(float delta_time)
                 }
             }
 
-
+            
             CursorPos pos = player.getCursorpos();
 
             if (click)
             {
                 if (player.IsHovered(selectButton, pos.x, pos.y))
                 {
-                    manager->ChangeScene(new StageSelect(manager, nullptr));//選択画面へ
+                    manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//選択画面へ
                     music::play(1);
                 }
                 else if (player.IsHovered(titleButton, pos.x, pos.y))

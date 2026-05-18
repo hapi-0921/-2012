@@ -25,7 +25,7 @@ static int selectCol = 0;
 Player::Player()
 {
 
-	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
+	//spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
 	cursorX = 0;
 	cursorY = 0;
@@ -133,8 +133,8 @@ bool Player::GameUpdate(Map& mapchip)
 	}
 	else
 	{
-		cursorCol = (pos.x - 100) / CELLSIZE;
-		cursorRow = (pos.y - 100) / CELLSIZE;
+		cursorCol = (pos.x - X) / CELLSIZE;
+		cursorRow = (pos.y - Y) / CELLSIZE;
 	}
 
 	//�͈͊O

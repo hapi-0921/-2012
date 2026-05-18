@@ -5,7 +5,7 @@
 #include "SceneResult.h"
 #include "SceneBase.h"
 #include "player.h"
-#include "StageSelect.h"
+#include "Scene_GameArea1.h"
 #include "SceneTutorial.h"
 #include "audio.h"
 #include "Number.h"
@@ -49,6 +49,7 @@ void SceneTitle::Finalize()
 
     safe_delete(sprTitleSelecting);
     safe_delete(sprTutorialbutton);
+    safe_delete(sprSelectbutton);
 }
 
 //更新
@@ -66,7 +67,7 @@ void SceneTitle::Update(float delta_time)
         sprTitle = sprite_load(L"./Data/Images/title.png");
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
-        sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
+        sprTitleSelecting = sprite_load(L"./Data/Images/cursor.png");
 
 
         title_state++;
@@ -91,6 +92,7 @@ void SceneTitle::Update(float delta_time)
         break;
 
     case 2:
+        bool click = player.MenuUpdate(2);
         if (TRG(0) & PAD_START)
         {
             switch (player.GetCursorIndex())
@@ -99,12 +101,14 @@ void SceneTitle::Update(float delta_time)
                 manager->ChangeScene(new SceneTutorial(manager, nullptr));//チュートリアル画面へ
                 break;
             case 1:
-                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
+                manager->ChangeScene(new Scene_GameArea1(manager));//ステージ選択画面へ
                 break;
             }
         }
 
-        bool click = player.MenuUpdate(2);
+        
+
+
         CursorPos pos = player.getCursorpos();
 
         if (click)
@@ -117,7 +121,7 @@ void SceneTitle::Update(float delta_time)
             }
             else if (player.IsHovered(howtoButton, pos.x, pos.y))
             {
-                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
+                manager->ChangeScene(new Scene_GameArea1(manager, nullptr));
                 music::play(2);
 
             }
@@ -144,43 +148,38 @@ void SceneTitle::Draw()
     float texW = 400;
     float texH = 400;
 
-
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    sprite_render(sprSelectbutton, 900, 200);
-
     CursorPos position = player.getCursorpos();
 
     //チュートリアルへのボタン
     if (player.IsHovered(startButton, position.x, position.y))
     {
-        sprite_render(sprTutorialbutton, 600, 400,0.95f,0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutorialbutton, 600, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     else
     {
         sprite_render(sprTutorialbutton, 600, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
     }
-
     //選択画面へのボタン
     if (player.IsHovered(howtoButton, position.x, position.y))
     {
-        sprite_render(sprSelectbutton, 1100, 400, 0.95f, 0.95f,0,0,texW,texH,texW/2,texH/2);
+        sprite_render(sprSelectbutton, 1100, 400, 0.95f, 0.95f, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     else
     {
-        sprite_render(sprSelectbutton, 1100, 400,1,1,0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprSelectbutton, 1100, 400, 1, 1, 0, 0, texW, texH, texW / 2, texH / 2);
     }
 
 
+    sprite_render(sprSelectbutton, 900, 200);
     sprite_render(sprTutorialbutton, 400, 200);
 
     if (player.GetCursorIndex() == 0)
     {
-        sprite_render(sprTitleSelecting, 600, 400, 1, 1);
+        sprite_render(sprTitleSelecting, 600, 400, 2, 2);
     }
     if (player.GetCursorIndex() == 1)
     {
-        sprite_render(sprTitleSelecting, 1100, 400, 1, 1);
+        sprite_render(sprTitleSelecting, 1100, 400, 2, 2);
     }
 
     //デバッグ表示

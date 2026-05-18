@@ -12,10 +12,12 @@
 
 Sprite* sprStage1;
 Sprite* sprKeyCurPos;
+Sprite* sprFrame;
 
 
 int stage1_state;
 int stage1_timer;
+int stage1_frame_timer;
 
 
 void Scene_GameArea1::Initialize()
@@ -46,7 +48,8 @@ void Scene_GameArea1::Update(float delta_time)
         //////// 初期設定 ////////
 
         sprStage1 = sprite_load(L"./Data/Images/stage1.png");
-        sprKeyCurPos = sprite_load(L"./Data/Images/playerpos_kari.png");
+        sprKeyCurPos = sprite_load(L"./Data/Images/cursor.png");
+        sprFrame= sprite_load(L"./Data/Images/frame.png");
 
         stage1_state++;
 
@@ -91,7 +94,7 @@ void Scene_GameArea1::Update(float delta_time)
         }
 
 
-       
+        stage1_frame_timer++;
         break;
 
     }
@@ -110,7 +113,11 @@ void Scene_GameArea1::Draw()
 
 
     mapchip.Render();
-    if (player.isKeyboardMode()) sprite_render(sprKeyCurPos, col , row);
+    if ((stage1_frame_timer / 32) % 2 == 0 && player.GetSelecting())
+    {
+        sprite_render(sprFrame, (player.GetSelectingCol() + 1) * 128 - 20, (player.GetSelectingRow() + 1) * 128 - 30);
+    }
+    if (player.isKeyboardMode()) sprite_render(sprKeyCurPos, col, row+15, 2, 2);
 }
 
 
