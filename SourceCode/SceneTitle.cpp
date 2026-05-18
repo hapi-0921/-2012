@@ -71,7 +71,7 @@ void SceneTitle::Update(float delta_time)
         sprTitle = sprite_load(L"./Data/Images/title.png");
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
-        sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
+        sprTitleSelecting = sprite_load(L"./Data/Images/cursor.png");
         sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
 
 
@@ -209,11 +209,11 @@ void SceneTitle::Draw()
 
     if (player.GetCursorIndex() == 0)
     {
-        sprite_render(sprTitleSelecting, 600, 400, 1, 1);
+        sprite_render(sprTitleSelecting, 842, 392, 2, 2);
     }
     if (player.GetCursorIndex() == 1)
     {
-        sprite_render(sprTitleSelecting, 1100, 400, 1, 1);
+        sprite_render(sprTitleSelecting, 842, 792, 2, 2);
     }
 
     //デバッグ表示
