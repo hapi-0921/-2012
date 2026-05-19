@@ -2,11 +2,15 @@
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "StageSelect.h"
+#include "Scene_GameArea1.h"
 
 Sprite* sprResult;
 
 Sprite* sprSelect1button;
 Sprite* sprTitlebutton;
+
+Sprite* Gameclear;
+Sprite* Gameover;
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button titleButton = { 600,200,560,150,0};
@@ -31,6 +35,9 @@ void SceneResult::Finalize()
     music::stop(0);
    
     safe_delete(sprTitlebutton);
+    safe_delete(Gameclear);
+    safe_delete(Gameover);
+
 }
 
 void SceneResult::Update(float delta_time)
@@ -43,6 +50,10 @@ void SceneResult::Update(float delta_time)
         sprResult = sprite_load(L"./Data/Images/result.png");
        
         sprTitlebutton = sprite_load(L"./Data/Images/titlego.png");
+
+        Gameclear = sprite_load(L"./Data/Images/Clear.png");
+
+        Gameover = sprite_load(L"./Data/Images/Gameover.png");
 
         result_state++;
         
@@ -65,7 +76,7 @@ void SceneResult::Update(float delta_time)
                 switch (player.GetCursorIndex())
                 {
                 case 0:
-                    manager->ChangeScene(new StageSelect(manager, nullptr));//ステージ選択画面へ
+                    manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ選択画面へ
                     break;
                 case 1:
                     manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
@@ -117,6 +128,10 @@ void SceneResult::Draw()
         sprite_render(sprTitlebutton, 880, 275, 1.5, 1.5, 0, 0, texW, texH, texW / 2, texH / 2);
     }
 
+    sprite_render(Gameclear, 1200, 300, 5, 5, 0, 0, 64, 64, 32, 32,170);
+
+
+    sprite_render(Gameover, 1200, 800, 5, 5, 0, 0, 64, 64, 32, 32, 170);
 
     //デバッグ表示
    /* Drawbutton(selectButton);

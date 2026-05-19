@@ -2,6 +2,7 @@
 #include "SceneTitle.h"
 #include "SceneManager.h"
 #include "SceneGame.h"
+#include "Scene_GameArea1.h"
 #include "SceneResult.h"
 #include "SceneBase.h"
 #include "player.h"
@@ -70,7 +71,7 @@ void SceneTitle::Update(float delta_time)
         sprTitle = sprite_load(L"./Data/Images/title.png");
 
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
-        sprTitleSelecting = sprite_load(L"./Data/Images/playerpos_kari.png");
+        sprTitleSelecting = sprite_load(L"./Data/Images/cursor.png");
         sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
 
 
@@ -110,7 +111,7 @@ void SceneTitle::Update(float delta_time)
                 manager->ChangeScene(new SceneTutorial(manager, nullptr));//チュートリアル画面へ
                 break;
             case 1:
-                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
+                manager->ChangeScene(new Scene_GameArea1(manager));//ステージ選択画面へ
                 break;
             }
         }
@@ -145,7 +146,7 @@ void SceneTitle::Update(float delta_time)
 
             if (fade_out)
             {
-                manager->ChangeScene(new StageSelect(manager));//ステージ選択画面へ
+                manager->ChangeScene(new Scene_GameArea1(manager));//ステージ選択画面へ
                 break;
             }
         }
@@ -208,11 +209,11 @@ void SceneTitle::Draw()
 
     if (player.GetCursorIndex() == 0)
     {
-        sprite_render(sprTitleSelecting, 600, 400, 1, 1);
+        sprite_render(sprTitleSelecting, 842, 392, 2, 2);
     }
     if (player.GetCursorIndex() == 1)
     {
-        sprite_render(sprTitleSelecting, 1100, 400, 1, 1);
+        sprite_render(sprTitleSelecting, 842, 792, 2, 2);
     }
 
     //デバッグ表示

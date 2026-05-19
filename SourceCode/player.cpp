@@ -25,7 +25,7 @@ static int selectCol = 0;
 Player::Player()
 {
 
-	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
+	//spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
 	cursorX = 0;
 	cursorY = 0;
@@ -78,8 +78,8 @@ bool Player::MenuUpdate(int menuMax)
 	CursorPos pos = getCursorpos();
 
 	//上下入力
-	if (TRG(0)&PAD_LEFT) GetcursorIndex--;
-	if (TRG(0)&PAD_RIGHT) GetcursorIndex++;
+	if (TRG(0) & PAD_LEFT || TRG(0) & PAD_UP) GetcursorIndex--;
+	if (TRG(0) & PAD_RIGHT || TRG(0) & PAD_DOWN) GetcursorIndex++;
 
 	if (GetcursorIndex < 0) GetcursorIndex = menuMax - 1;
 	if (GetcursorIndex > menuMax - 1) GetcursorIndex = 0;
@@ -133,8 +133,8 @@ bool Player::GameUpdate(Map& mapchip)
 	}
 	else
 	{
-		cursorCol = (pos.x - 100) / CELLSIZE;
-		cursorRow = (pos.y - 100) / CELLSIZE;
+		cursorCol = (pos.x - X) / CELLSIZE;
+		cursorRow = (pos.y - Y) / CELLSIZE;
 	}
 
 	//範囲外
@@ -142,7 +142,11 @@ bool Player::GameUpdate(Map& mapchip)
 	if (cursorRow > 7) cursorRow = 7;
 
 	if (cursorCol < 0) cursorCol = 0;
+<<<<<<< HEAD
 	if (cursorCol > 12) cursorCol = 12;
+=======
+	if (cursorCol > 9) cursorCol = 9;
+>>>>>>> e933d2d311af5d3df278bf4b55a0911bf3ac88af
 
 	//前フレームの保存
 	prevMouseLeft = mouseLeft;
@@ -184,13 +188,47 @@ bool Player::GameUpdate(Map& mapchip)
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
+<<<<<<< HEAD
 				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
 					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
 				
+=======
+				//mobの位置取得
+				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
+
+				// mobがいるマスは動かせない
+				if ((selectRow == mobRow && selectCol == mobCol) ||
+					(cursorRow == mobRow && cursorCol == mobCol))
+>>>>>>> e933d2d311af5d3df278bf4b55a0911bf3ac88af
 				{
 					isSelecting = false;
 					return false;
 				}
+
+				//mobcarの位置取得
+				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
+				int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
+
+				if ((selectRow == carRow && selectCol == carCol) ||
+					(cursorRow == carRow && cursorCol == carCol))
+				{
+					isSelecting = false;
+					return false;
+				}
+
+				// 動かせない特殊マス
+				int selectType = mapchip.map[selectRow][selectCol];
+				int cursorType = mapchip.map[cursorRow][cursorCol];
+
+				// house(5) piano(6) school(7) は移動禁止
+				if ((selectType >= 5 && selectType <= 7) ||
+					(cursorType >= 5 && cursorType <= 7))
+				{
+					isSelecting = false;
+					return false;
+				}
+
 				music::play(4);
 
 				std::swap(mapchip.map[selectRow][selectCol],
