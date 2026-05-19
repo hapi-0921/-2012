@@ -142,11 +142,7 @@ bool Player::GameUpdate(Map& mapchip)
 	if (cursorRow > 7) cursorRow = 7;
 
 	if (cursorCol < 0) cursorCol = 0;
-<<<<<<< HEAD
 	if (cursorCol > 12) cursorCol = 12;
-=======
-	if (cursorCol > 9) cursorCol = 9;
->>>>>>> e933d2d311af5d3df278bf4b55a0911bf3ac88af
 
 	//前フレームの保存
 	prevMouseLeft = mouseLeft;
@@ -188,19 +184,17 @@ bool Player::GameUpdate(Map& mapchip)
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-				
-=======
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
+				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
+					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
+				
+				
 
 				// mobがいるマスは動かせない
 				if ((selectRow == mobRow && selectCol == mobCol) ||
 					(cursorRow == mobRow && cursorCol == mobCol))
->>>>>>> e933d2d311af5d3df278bf4b55a0911bf3ac88af
 				{
 					isSelecting = false;
 					return false;

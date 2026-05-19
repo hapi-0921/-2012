@@ -1387,33 +1387,10 @@ void Map::Render()
 		}
 	}
 
-	//ƒLƒƒƒ‰‚ÌŠG
-<<<<<<< HEAD
-	
-
-	Animation(m.move, spr_Character);
+	Animation(m.move,spr_Character);
 	Animation(c.move, sprCar);
 
-
-	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
-=======
-	int sx = m.frame * CHARACTER_TEX_W;
-	int sy = m.direction * CHARACTER_TEX_H;
-
-	int carsx = m.frame * CHARACTER_TEX_W;
-	int carsy = m.direction * CHARACTER_TEX_H;
-	if (spr_Character == nullptr) return;
-
-
-	sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
-		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
-		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
 
 
->>>>>>> e933d2d311af5d3df278bf4b55a0911bf3ac88af
 }
