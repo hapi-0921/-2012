@@ -17,7 +17,7 @@ void SceneTutorial::Initialize()
 void SceneTutorial::Finalize()
 {
     safe_delete(sprTutorial);
- 
+
 }
 
 void SceneTutorial::Update(float delta_time)

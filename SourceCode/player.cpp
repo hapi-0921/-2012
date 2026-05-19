@@ -142,7 +142,7 @@ bool Player::GameUpdate(Map& mapchip)
 	if (cursorRow > 7) cursorRow = 7;
 
 	if (cursorCol < 0) cursorCol = 0;
-	if (cursorCol > 7) cursorCol = 7;
+	if (cursorCol > 12) cursorCol = 12;
 
 	//前フレームの保存
 	prevMouseLeft = mouseLeft;
@@ -184,14 +184,9 @@ bool Player::GameUpdate(Map& mapchip)
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
 				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
 					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-=======
 				
-				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
-					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 				{
 					isSelecting = false;
 					return false;

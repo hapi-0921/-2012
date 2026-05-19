@@ -4,20 +4,29 @@ Map::Map()
 {
 	//チェックポイントの前の道は固定にする
 	//変えたらばぐっちゃうよ～ん
-	m.frame = 0;
-	m.animTimer = 0.0f;
-	m.direction = 0; // 0:下 1:右 2:左 3:上
+	m.move.frame = 0;
+	m.move.animTimer = 0.0f;
+	m.move.direction = 0; // 0:下 1:右 2:左 3:上
 
 
-	m.moveTimer = 0.0f;
-	m.vx = 0;
-	m.vy = 0;
+	m.move.moveTimer = 0.0f;
+	m.move.vx = 0;
+	m.move.vy = 0;
 
+	c.move.frame = 0;
+	c.move.animTimer = 0.0f;
+	c.move.direction = 0; // 0:下 1:右 2:左 3:上
+	
+	c.move.moveTimer = 0.0f;
+	c.move.vx = 0;
+	c.move.vy = 0;
 
 	sprmap1 = sprite_load(L"./Data/Images/mapchip1.png");
 	sprmap2 = sprite_load(L"./Data/Images/mapchip2.png");
+	sprnotmap2 = sprite_load(L"./Data/Images/Road_Straight_Yellow.png");
+
 	sprmap3 = sprite_load(L"./Data/Images/mapchip3.png");
-	sprmap4 = sprite_load(L"./Data/Images/mapchip4.png");
+	sprmap4 = sprite_load(L"./Data/Images/park.png");
 	sprmap5 = sprite_load(L"./Data/Images/House.png");
 	sprmap6 = sprite_load(L"./Data/Images/Piano.png");
 	sprmap7 = sprite_load(L"./Data/Images/School.png");
@@ -26,20 +35,100 @@ Map::Map()
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 	sprfield = sprite_load(L"./Data/Images/field.png");
 	sprCar = sprite_load(L"./Data/Images/Track-1.png");
-	block[0][0].angle = 90;
+	// 0行目
 	block[0][1].angle = 90;
-	block[0][2].angle = 90;
+	block[0][2].angle = 180;
+	block[0][3].angle = 0;
 	block[0][4].angle = 90;
-	block[0][5].angle = 90;
-	block[0][6].angle = 90;
-	block[0][7].angle = 270;
-
+	block[0][5].angle = 0;
+	block[0][6].angle = 0;
+	block[0][7].angle = 90;
+	block[0][8].angle = 0;
+	block[0][9].angle = 90;
+	block[0][10].angle = 180;
+	block[0][11].angle = 0;
+	//1行目
 	block[1][0].angle = 0;
-	block[1][1].angle = 270;
+	block[1][1].angle = 0;
+	block[1][2].angle = 90;
 	block[1][3].angle = 0;
-	block[2][3].angle = 270;
-	block[2][2].angle = 0;
-	block[1][2].angle = 180;
+	block[1][4].angle = 90;
+	block[1][5].angle = 0;
+	block[1][6].angle = 180;
+	block[1][7].angle = 0;
+	block[1][8].angle = 0;
+	block[1][9].angle = 0;
+	block[1][10].angle = 270;
+	block[1][11].angle = 0;
+	//2行目
+	block[2][0].angle = 90;
+	block[2][1].angle = 90;
+	block[2][2].angle = 270;
+	block[2][3].angle = 180;
+	block[2][4].angle = 0;
+	block[2][5].angle = 0;
+	block[2][6].angle = 0;
+	block[2][7].angle = 90;
+	block[2][8].angle = 90;
+	block[2][9].angle = 0;
+	block[2][10].angle = 0;
+	block[2][11].angle = 0;
+
+	//3行目
+
+	block[3][0].angle = 0;
+	block[3][1].angle = 0;
+	block[3][2].angle = 180;
+	block[3][3].angle = 0;
+	block[3][4].angle = 90;
+	block[3][5].angle = 0;
+	block[3][6].angle = 90;
+	block[3][7].angle = 90;
+	block[3][8].angle = 0;
+	block[3][9].angle = 270;
+	block[3][10].angle = 90;
+	block[3][11].angle = 90;
+	//4行目
+	block[4][0].angle = 0;
+	block[4][1].angle = 270;
+	block[4][2].angle = 0;
+	block[4][3].angle = 0;
+	block[4][4].angle = 90;
+	block[4][5].angle = 0;
+	block[4][6].angle = 0;
+	block[4][7].angle = 90;
+	block[4][8].angle = 90;
+	block[4][9].angle = 180;
+	block[4][10].angle = 0;
+	block[4][11].angle = 0;
+	//5行目
+	block[5][0].angle = 90;
+	block[5][1].angle = 90;
+	block[5][2].angle = 270;
+	block[5][3].angle = 0;
+	block[5][4].angle = 0;
+	block[5][5].angle = 180;
+	block[5][6].angle = 0;
+	block[5][7].angle = 0;
+	block[5][8].angle = 0;
+	block[5][9].angle = 0;
+	block[5][10].angle = 90;
+	block[5][11].angle = 90;
+	//6行目
+	block[6][0].angle = 180;
+	block[6][1].angle = 0;
+	block[6][2].angle = 90;
+	block[6][3].angle = 0;
+	block[6][4].angle = 0;
+	block[6][5].angle = 0;
+	block[6][6].angle = 0;
+	block[6][7].angle = 90;
+	block[6][8].angle = 90;
+	block[6][9].angle = 180;
+	block[6][10].angle = 00;
+	block[6][11].angle = 0;
+
+	block[0][0].notmove = true;
 	m.move.canRotate = true;
 	m.move.canCountPass = true;
 
@@ -80,8 +169,8 @@ void Map::Update()
 		}
 		GoHouse(m.move, Minfo);
 		Gopiano(m.move, Minfo);
-		Goschool(m.move, Minfo);
-		if (m.schoolpoint)
+		Gopark(m.move, Minfo);
+		if (m.housepoint)
 		{
 			goal = true;
 		}
@@ -90,32 +179,13 @@ void Map::Update()
 		{
 			m.tocollide = true;
 		}
-		debug::setString(
-			"dirX:%d dirY:%d rot:%d",
-			m.move.dirX,
-			m.move.dirY,
-			block[Minfo.mapY][Minfo.mapX].RotationCount
-		);
+	
+		
+
+		
 
 
-
-
-		if (m.move.dirX == 1)
-		{
-			m.direction = 1; // 右
-		}
-		else if (m.move.dirX == -1)
-		{
-			m.direction = 2; // 左
-		}
-		else if (m.move.dirY == 1)
-		{
-			m.direction = 0; // 下
-		}
-		else if (m.move.dirY == -1)
-		{
-			m.direction = 3; // 上
-		}
+		
 
 	}
 	if (c.move.cartocollide)//車が一回跳ね返ったら場外に出す
@@ -138,10 +208,7 @@ void Map::Update()
 		c.move.cartimer = 0;
 		c.move.cartocollide = false;
 	}
-	debug::setString(
-		"player collide:%d  car collide:%d",
-		m.housepoint,m.pianopoint
-	);
+	
 }
 Map::RoadInfo Map::Road(MoveObject& obj)
 {
@@ -205,15 +272,7 @@ Map::RoadInfo Map::Road(MoveObject& obj)
 }
 void Map::Move(MoveObject& obj, RoadInfo& info)
 {
-	//アニメーション
-	m.animTimer += 1.0f / 60.0f;
-
-	if (m.animTimer >= 0.2f)
-	{
-		m.frame++;
-		if (m.frame >= 4) m.frame = 0;
-		m.animTimer = 0;
-	}
+	
 
 
 
@@ -274,7 +333,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 							obj.cartocollide = true;
 						}
 						SetMoveDown(obj);
-						if (obj.canRotate)
+						if (obj.canRotate&&!block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -318,7 +377,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 						SetMoveUp(obj);
 						obj.pos.y += obj.dirY * obj.speed;//移動処理
 
-						if (obj.canRotate)
+						if (obj.canRotate&&!block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -359,7 +418,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 						}
 						SetMoveRight(obj);
 						obj.pos.x += obj.dirX * obj.speed;//移動処理
-						if (obj.canRotate)
+						if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -400,7 +459,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 						}
 						SetMoveLeft(obj);
 						obj.pos.x += obj.dirX * obj.speed;//移動処理
-						if (obj.canRotate)
+						if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -471,7 +530,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//曲線の道の時
 				}
 				else
 				{
-					if (obj.canRotate)
+					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -532,7 +591,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//曲線の道の時
 				else
 				{
 
-					if (obj.canRotate)
+					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -566,7 +625,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//曲線の道の時
 				}
 				else
 				{
-					if (obj.canRotate)
+					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -656,7 +715,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//曲線の道の時
 				}
 				else
 				{
-					if (obj.canRotate)
+					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -760,7 +819,7 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info)
 
 							c.carmove = true;
 							c.move.active = true;
-							c.move.pos.x += 100;
+							c.move.pos.x += 64;
 
 							r = (r + 1) % 4;
 							return;
@@ -973,19 +1032,19 @@ bool Map::CanMove(RoadInfo& info, Direction dir)
 	int rot = block[checkY][checkX].RotationCount;
 
 	// 特殊マス
-	if (mapType == 5)
+	if (mapType == 4)
 	{
 		return true;
 	}
 
 	if (mapType == 6)
 	{
-		return m.housepoint;
+		return m.parkpoint;
 	}
 
-	if (mapType == 7)
+	if (mapType == 5)
 	{
-		return m.housepoint && m.pianopoint;
+		return m.parkpoint && m.pianopoint;
 	}
 	
 	// 直線
@@ -1028,34 +1087,35 @@ bool Map::CanMove(RoadInfo& info, Direction dir)
 	
 }
 
-
-bool Map::GoHouse(MoveObject& obj,RoadInfo& info)
+bool Map::Gopark(MoveObject& obj, RoadInfo& info)
 {
-	if (map[info.mapY][info.mapX] == 5)
+	if (map[info.mapY][info.mapX] == 4)
 	{
-		m.housepoint = true;
-		SetPosFromMap(obj, 2, 4);
+		m.parkpoint = true;
+		SetPosFromMap(obj, 3, 5);
 		SetMoveDown(obj);
 	}
 	return false;
 }
+
+
 
 bool Map::Gopiano(MoveObject& obj, RoadInfo& info)
 {
 	if (map[info.mapY][info.mapX] == 6)
 	{
 		m.pianopoint = true;
-		SetPosFromMap(obj, 6, 2);
+		SetPosFromMap(obj, 9, 1);
 		SetMoveDown(obj);
 	}
 	return false;
 }
-
-bool Map::Goschool(MoveObject& obj, RoadInfo& info)
+bool Map::GoHouse(MoveObject& obj, RoadInfo& info)
 {
-	if (map[info.mapY][info.mapX] == 7)
+	if (map[info.mapY][info.mapX] == 5)
 	{
-		m.schoolpoint = true;
+		m.housepoint = true;
+		
 	}
 	return false;
 }
@@ -1133,6 +1193,44 @@ bool Map::HitBox(float ax, float ay, float aw, float ah,
 		ay + ah > by);
 }
 
+void Map::Animation(MoveObject& obj,Sprite*spr)
+{
+	//アニメーション
+	obj.animTimer += 1.0f / 60.0f;
+
+	if (obj.animTimer >= 0.2f)
+	{
+		obj.frame++;
+		if (obj.frame >= 4) obj.frame = 0;
+		obj.animTimer = 0;
+	}
+	if (obj.dirX == 1)
+	{
+		obj.direction = 1; // 右
+	}
+	else if (obj.dirX == -1)
+	{
+		obj.direction = 2; // 左
+	}
+	else if (obj.dirY == 1)
+	{
+		obj.direction = 0; // 下
+	}
+	else if (obj.dirY == -1)
+	{
+		obj.direction = 3; // 上
+	}
+	int sx = obj.frame * CHARACTER_TEX_W;
+	int sy = obj.direction * CHARACTER_TEX_H;
+
+	if (spr== nullptr) return;
+	sprite_render(spr, obj.pos.x, obj.pos.y,
+		1, 1,
+		sx, sy,
+		CHARACTER_TEX_W, CHARACTER_TEX_H);
+
+}
+
 void Map::Render()
 {
 
@@ -1150,32 +1248,7 @@ void Map::Render()
 		for (int j = 0;j < STAGE_X;j++) {
 			posX = j * chipSize + X + MapCenter;
 			posY = i * chipSize + Y + MapCenter;
-			switch (block[i][j].pass%3)
-			{
-			case 1:
-				sprite_render(sprpass1,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-
-			case 2:
-				sprite_render(sprpass2,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1);
-				break;
-
-			}
+			
 			switch (map[i][j]) {
 				//通後不可
 			case 1:
@@ -1191,15 +1264,31 @@ void Map::Render()
 				break;
 				//直線
 			case 2:
-				sprite_render(sprmap2,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
+				if (block[i][j].notmove)
+				{
+					sprite_render(sprnotmap2,
+						posX, posY,
+						2, 2,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+				}
+				else
+				{
+					sprite_render(sprmap2,
+						posX, posY,
+						2, 2,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+				}
+				
 				break;
 				//曲線
 			case 3:
@@ -1259,7 +1348,32 @@ void Map::Render()
 				);
 				break;
 			}
-			
+			switch (block[i][j].pass % 3)
+			{
+			case 1:
+				sprite_render(sprpass1,
+					posX, posY,
+					2, 2,
+					0, 0,
+					64, 64,
+					32, 32,
+					DegToRad(block[i][j].angle),
+					1, 1, 1
+				);
+				break;
+
+			case 2:
+				sprite_render(sprpass2,
+					posX, posY,
+					2, 2,
+					0, 0,
+					64, 64,
+					32, 32,
+					DegToRad(block[i][j].angle),
+					1, 1, 1);
+				break;
+
+			}
 			// Debug表示
 			std::stringstream tmp;
 			tmp << block[i][j].pass;
@@ -1274,31 +1388,11 @@ void Map::Render()
 	}
 
 	//キャラの絵
-	int sx = m.frame * CHARACTER_TEX_W;
-	int sy = m.direction * CHARACTER_TEX_H;
-
-	int carsx = m.frame * CHARACTER_TEX_W;
-	int carsy = m.direction * CHARACTER_TEX_H;
-	if (spr_Character == nullptr) return;
-
-<<<<<<< HEAD
-	sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
-=======
-
 	
 
-	sprite_render(spr_Character, m.pos.x , m.pos.y, 1, 1,
-
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
-		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
-		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);
+	Animation(m.move, spr_Character);
+	Animation(c.move, sprCar);
 
 
-<<<<<<< HEAD
 	debug::display(1, 0, 1, 2, 2); // ← 最後に描く
-=======
-	debug::display(1,0,1,2,2); // ← 最後に描く
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 }

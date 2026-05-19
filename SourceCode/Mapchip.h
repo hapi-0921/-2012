@@ -2,7 +2,7 @@
 #include"../GameLib/game_lib.h"
 #include <stdio.h>
 
-#define STAGE_X 10
+#define STAGE_X 12
 #define STAGE_Y 7
 
 #define MapCenter chipSize/2//マップの真ん中になる
@@ -23,13 +23,13 @@ class Map
 public:
 	int map[STAGE_Y][STAGE_X] =
 	{
-		{2,2,2,2,2,2,3,1,2,2},
-		{1,3,3,2,1,1,6,1,2,2},
-		{3,2,3,3,1,1,2,1,2,2},
-		{3,2,5,1,2,1,1,1,2,2},
-		{1,1,2,1,1,1,7,1,2,2},
-		{1,1,1,1,1,2,1,1,2,2},
-		{2,2,2,2,2,2,2,2,2,2}
+		{7,2,3,2,2,2,1,2,1,2,3,2},
+		{2,3,3,2,3,1,3,1,2,6,3,2},
+		{2,2,3,3,1,2,3,2,2,2,1,3},
+		{1,3,3,1,3,3,2,2,1,3,2,2},
+		{3,3,1,4,3,1,2,3,2,3,1,2},
+		{2,2,3,2,3,3,3,2,3,1,2,2},
+		{3,1,2,2,1,2,1,2,2,3,5,1}
 	};
 	int prevX = -1;
 	float posX;
@@ -67,7 +67,7 @@ public:
 	};
 	struct MoveObject
 	{
-		VECTOR2 pos{ 150,150 };
+		VECTOR2 pos{ 228,150 };
 
 		int dirY = 1;
 		int dirX = 1;
@@ -79,25 +79,21 @@ public:
 		bool cartocollide = false;
 		bool active = false;
 		float cartimer = 0;
-	};
-	struct Mob
-	{
-		
-	//アニメーション
 		int frame;
 		float animTimer;
 		int direction; // 0:下 1:右 2:左 3:上
-	
+
 		float moveTimer;
 		float vx;
-	    float vy;
-		
+		float vy;
+	};
+	struct Mob
+	{
+		bool parkpoint = false;
 		bool housepoint = false;
 		bool pianopoint = false;
-		bool schoolpoint = false;
 		bool tocollide = false;
 		MoveObject move;
-		
 	};
 	Mob m;
 	bool goal = false;
@@ -114,6 +110,7 @@ public:
 		int RotationCount = 0;
 		int pass = 0;
 		bool rotated=false;
+		bool notmove = false;
 	};
 
 	enum phase
@@ -139,6 +136,8 @@ public:
 
 	Sprite* sprmap1;//草
 	Sprite* sprmap2;//直線
+	Sprite* sprnotmap2;
+
 	Sprite* sprmap3;//曲がる
 	Sprite* sprmap4;//T字
 	Sprite* spr_Character;//動くやつ
@@ -149,6 +148,7 @@ public:
 	Sprite*sprmap7;
 	Sprite* sprpass1;
 	Sprite* sprpass2;
+
 
 	BlockData block[STAGE_Y][STAGE_X] = {};//ひとマスの情報
 	Map();
@@ -170,14 +170,21 @@ public:
 	void SetMoveRight(MoveObject& obj);   //右の向きにセットする
 	bool GoHouse(MoveObject& obj,RoadInfo& info);
 	bool Gopiano(MoveObject& obj, RoadInfo& info);
-	bool Goschool(MoveObject& obj, RoadInfo& info);
+	bool Gopark(MoveObject& obj, RoadInfo& info);
+
 	void SetPosFromMap(MoveObject& obj, int mapX, int mapY);
 	bool HitBox(float ax, float ay, float aw, float ah,
 		float bx, float by, float bw, float bh);
+	void Animation(MoveObject& obj,Sprite* spr);
 	float DegToRad(float degree)
 	{
 		const float PI = 3.1415926535f;
 		return degree * PI / 180.0f;
+	}
+	static Map& Instance()
+	{
+		static Map map;
+		return map;
 	}
 
 	// Infoを更新する
