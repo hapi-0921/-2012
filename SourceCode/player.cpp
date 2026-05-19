@@ -184,14 +184,11 @@ bool Player::GameUpdate(Map& mapchip)
 			//ã‰º¶‰E‚È‚ç“ü‚ê‘Ö‚¦
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
+
 				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
 					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-=======
+
 				
-				if ((selectRow == mapchip.mapY && selectCol == mapchip.mapX) ||
-					(cursorRow == mapchip.mapY && cursorCol == mapchip.mapX))
->>>>>>> e89a1284352d2d8367ff706802f803d681e2c6a9
 				{
 					isSelecting = false;
 					return false;
