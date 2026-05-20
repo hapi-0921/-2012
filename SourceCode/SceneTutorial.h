@@ -1,7 +1,10 @@
 #pragma once
+#include"vector"
 #include"SceneBase.h"
 #include"SceneTitle.h"
 #include"SceneGame.h"
+#include"player.h"
+#include"Mapchip.h"
 class SceneTutorial :public SceneBase
 {
 public:
@@ -16,7 +19,8 @@ public:
 
 private:
     SceneBase* nextScenePtr;
-
+    Map Tutorialmap;
+    Player player;
 #ifdef _DEBUG
     void DrawImGui();
 #endif
