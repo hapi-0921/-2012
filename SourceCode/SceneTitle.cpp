@@ -19,6 +19,7 @@ int title_timer;
 float fade_A;
 bool fade_start;
 bool fade_out;
+int Roadframe;
 Sprite* fade;
 Sprite* sprTitle;
 
@@ -26,10 +27,12 @@ Sprite* sprTutorialbutton;
 Sprite* sprTitleSelecting;
 Sprite* sprSelectbutton;
 
+Sprite* sprRoad;
+
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
-Button startButton = { 650,200 + 64,384,256,0 };//850/200
-Button howtoButton = { 650,600 + 64,384,256,1 };//850/200
+Button startButton = { 250,430 + 64,384,256,0 };//850/200
+Button howtoButton = { 1286,430 + 64,384,256,1 };//850/200
 
 
 
@@ -38,6 +41,9 @@ void SceneTitle::Initialize()
 {
     title_state = 0;
     title_timer = 0;
+    Roadframe = 0;
+   
+   
 
     player.reset();
 
@@ -54,6 +60,7 @@ void SceneTitle::Finalize()
     safe_delete(sprTitleSelecting);
     safe_delete(sprTutorialbutton);
     safe_delete(sprSelectbutton);
+    safe_delete(sprRoad);
 }
 
 //更新
@@ -73,7 +80,8 @@ void SceneTitle::Update(float delta_time)
         sprTutorialbutton = sprite_load(L"./Data/Images/tutorialbuttun.png");
         sprTitleSelecting = sprite_load(L"./Data/Images/cursor.png");
         sprSelectbutton = sprite_load(L"./Data/Images/selectbuttun.png");
-
+       
+        sprRoad = sprite_load(L"./Data/Images/TitleRoad.png");
 
         fade = sprite_load(L"./Data/Images/fade.png");
 
@@ -103,6 +111,26 @@ void SceneTitle::Update(float delta_time)
         break;
 
     case 2:
+
+        character.Move();
+
+        title_timer++;
+
+
+        //アニメーション
+        if (title_timer > 10)
+        {
+            Roadframe++;
+
+            title_timer = 0;
+
+            if (Roadframe >= 4)
+            {
+                Roadframe = 0;
+            }
+        }
+
+
         if (TRG(0) & PAD_START)
         {
             switch (player.GetCursorIndex())
@@ -151,10 +179,11 @@ void SceneTitle::Update(float delta_time)
             }
         }
 
+           
 
 
-    
-            title_timer++;
+
+
             break;
         
 
@@ -169,58 +198,79 @@ void SceneTitle::Draw()
     //背景
     sprite_render(sprTitle, 0, 0);
 
+    //アニメーション描画
+    int frameWidth = 128;
+    int frameHeight = 128;
+
+    int srcX = Roadframe * frameWidth;
+
+
+    sprite_render(
+        sprRoad,
+        960,
+        540,
+        5,
+        5,
+        srcX,
+        0,
+        frameWidth,
+        frameHeight,
+        frameWidth / 2,
+        frameHeight / 2
+    );
+
+    character.Draw();
+
     //ボタンの描画
     //ボタンにカーソルを合わしたときに押し込まれてるように
     float texW = 64;
     float texH = 64;
-
-
-    sprite_render(sprTutorialbutton, 400, 200);
-
-    sprite_render(sprSelectbutton, 900, 200);
 
     CursorPos position = player.getCursorpos();
 
     //チュートリアルへのボタン
     if (player.IsHovered(startButton, position.x, position.y))
     {
-        sprite_render(sprTutorialbutton, 842, 392,5.95f,5.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutorialbutton, 444, 622,5.95f,5.95f, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     else
     {
-        sprite_render(sprTutorialbutton, 842, 392,6, 6, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutorialbutton, 444, 622,6, 6, 0, 0, texW, texH, texW / 2, texH / 2);
     }
 
     //選択画面へのボタン
     if (player.IsHovered(howtoButton, position.x, position.y))
     {
-        sprite_render(sprSelectbutton, 842, 792, 5.95f, 5.95f,0,0,texW,texH,texW/2,texH/2);
+        sprite_render(sprSelectbutton, 1480, 622, 5.95f, 5.95f,0,0,texW,texH,texW/2,texH/2);
     }
     else
     {
-        sprite_render(sprSelectbutton, 842, 792,6,6,0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprSelectbutton, 1480, 622,6,6,0, 0, texW, texH, texW / 2, texH / 2);
     }
 
     sprite_render(fade, 0, 0, 1, 1, 0, 0, 1920, 1080, 0, 0, 0, 1, 1, 1, (fade_A));
 
-
+    
 
    
 
     if (player.GetCursorIndex() == 0)
     {
-        sprite_render(sprTitleSelecting, 842, 392, 2, 2);
+        sprite_render(sprTitleSelecting, 444, 622, 2, 2);
     }
     if (player.GetCursorIndex() == 1)
     {
-        sprite_render(sprTitleSelecting, 842, 792, 2, 2);
+        sprite_render(sprTitleSelecting, 1480, 622, 2, 2);
     }
 
+    
+
+
     //デバッグ表示
-    Drawbutton(startButton);
+    /*Drawbutton(startButton);
 
  
-    Drawbutton(howtoButton);
+    Drawbutton(howtoButton);*/
 
 #ifdef _DEBUG
     DrawImGui();

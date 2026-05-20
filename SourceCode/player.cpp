@@ -165,7 +165,48 @@ bool Player::GameUpdate(Map& mapchip)
 			
 			selectCol = cursorCol;
 
-			
+			//mobの位置取得
+			int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
+			int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
+
+
+			// mobがいるマスは動かせない
+			if ((selectRow == mobRow && selectCol == mobCol) ||
+				(cursorRow == mobRow && cursorCol == mobCol))
+
+			{
+				isSelecting = false;
+				return false;
+			}
+
+			//mobcarの位置取得
+			int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
+			int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
+
+			if ((selectRow == carRow && selectCol == carCol) ||
+				(cursorRow == carRow && cursorCol == carCol))
+			{
+				isSelecting = false;
+				return false;
+			}
+
+			// 動かせない特殊マス
+			int selectType = mapchip.map[selectRow][selectCol];
+			int cursorType = mapchip.map[cursorRow][cursorCol];
+
+			// house(5) piano(6) school(7) は移動禁止
+			if ((selectType >= 4 && selectType <= 7) ||
+				(cursorType >= 4 && cursorType <= 7))
+			{
+				isSelecting = false;
+				return false;
+			}
+
+			if ((selectType == 1) || (cursorType == 1))
+			{
+				isSelecting = false;
+				return false;
+			}
 
 			isSelecting = true;
 		}
@@ -186,15 +227,35 @@ bool Player::GameUpdate(Map& mapchip)
 			{
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
+<<<<<<< HEAD
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
+<<<<<<< HEAD
+=======
+				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
+					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
+
+
+					// mobがいるマスは動かせない
+					if ((selectRow == mobRow && selectCol == mobCol) ||
+						(cursorRow == mobRow && cursorCol == mobCol))
+					{
+						isSelecting = false;
+						return false;
+					}
+=======
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
+				
+>>>>>>> 4aeddd4b34b96d7ea19922f8c104a1bf6bb6b500
 
 				// mobがいるマスは動かせない
 				if ((selectRow == mobRow && selectCol == mobCol) ||
 					(cursorRow == mobRow && cursorCol == mobCol))
+
 				{
 					isSelecting = false;
 					return false;
 				}
+>>>>>>> 17ee7e6b780f058925e08bb9e151ad9025c9ba08
 
 				//mobcarの位置取得
 				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
@@ -212,8 +273,14 @@ bool Player::GameUpdate(Map& mapchip)
 				int cursorType = mapchip.map[cursorRow][cursorCol];
 
 				// house(5) piano(6) school(7) は移動禁止
-				if ((selectType >= 5 && selectType <= 7) ||
-					(cursorType >= 5 && cursorType <= 7))
+				if ((selectType >= 4 && selectType <= 7) ||
+					(cursorType >= 4 && cursorType <= 7))
+				{
+					isSelecting = false;
+					return false;
+				}
+
+				if ((selectType == 1) || (cursorType == 1))
 				{
 					isSelecting = false;
 					return false;
@@ -222,7 +289,7 @@ bool Player::GameUpdate(Map& mapchip)
 				music::play(4);
 
 				std::swap(mapchip.map[selectRow][selectCol],
-						  mapchip.map[cursorRow][cursorCol]);
+					mapchip.map[cursorRow][cursorCol]);
 
 				std::swap(mapchip.block[selectRow][selectCol],
 					mapchip.block[cursorRow][cursorCol]);

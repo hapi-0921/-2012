@@ -9,15 +9,15 @@ Character::Character()
 {
 	frame = 0;
 	animTimer = 0.0f;
-	posX = 200;
-	posY = 200;
+	posX = 830;
+	posY = 540;
 	speed = 50.0f;
 	direction = 0; // 0:下 1:左 2:右 3:上
 	moveTimer = 0.0f;
 	vx = 0;
 	vy = 0;
 
-	spr_Character = sprite_load(L"./Data/Images/Character_kari.png");
+	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
 	if (spr_Character == nullptr)
 	{
@@ -34,24 +34,9 @@ void Character::Move()
 {
 	moveTimer += 1.0f / 60.0f;
 
-	if (moveTimer > 1.0f) //1秒ごとに方向変える（仮）
-	{
-		int r = rand() % 4;
+	
 
-		switch (r)
-		{
-		case 0: vx = 1; vy = 0; direction = 1; break; //左
-		case 1: vx = -1; vy = 0; direction = 2; break; // 右
-		case 2: vx = 0; vy = 1; direction = 0; break; // 下
-		case 3: vx = 0; vy = -1; direction = 3; break; // 上
-		}
-
-		moveTimer = 0;
-	}
-
-	// 移動
-	posX += vx * speed * (1.0f / 60.0f);
-	posY += vy * speed * (1.0f / 60.0f);
+	
 
 
 	//アニメーション
@@ -72,9 +57,9 @@ void Character::Draw()
 	int frameHeight = CHARACTER_TEX_H ;
 
 	int sx = frame * frameWidth;
-	int sy = direction * frameHeight;
+	int sy = 0;
 
-	sprite_render(spr_Character,posX, posY, 2, 2,
+	sprite_render(spr_Character,posX, posY, 4, 4,
 		sx, sy, frameWidth, frameHeight);
 
 	if (spr_Character == nullptr) return;
