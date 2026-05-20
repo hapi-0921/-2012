@@ -202,7 +202,8 @@ bool Player::GameUpdate(Map& mapchip)
 				return false;
 			}
 
-			if ((selectType == 1) || (cursorType == 1))
+			if (mapchip.block[selectRow][selectCol].notmove ||
+				mapchip.block[cursorRow][cursorCol].notmove)
 			{
 				isSelecting = false;
 				return false;
@@ -259,7 +260,8 @@ bool Player::GameUpdate(Map& mapchip)
 					return false;
 				}
 
-				if ((selectType == 1) || (cursorType == 1))
+				if (mapchip.block[selectRow][selectCol].notmove ||
+					mapchip.block[cursorRow][cursorCol].notmove)
 				{
 					isSelecting = false;
 					return false;

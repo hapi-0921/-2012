@@ -1393,15 +1393,6 @@ void Map::Render()
 	int carsy = m.move.direction * CHARACTER_TEX_H;
 	if (spr_Character == nullptr) return;
 
-
-	sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
-		m.move.vx, m.move.vy, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
-		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-
-
 	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
 
 }
