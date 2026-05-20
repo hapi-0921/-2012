@@ -30,7 +30,7 @@ public:
 	float posY;
 
 	int prevY = -1;
-	const float chipSize = 128; // 1マスのサイズ
+	 float chipSize = 128; // 1マスのサイズ
 
 	bool blocheck = false;
 	bool Rotationcheck = false;
@@ -134,7 +134,8 @@ public:
 	int DangerY = 0;
 	int Dangerangle = 0;
 	int gametimer = 0;
-
+	bool tutorial = false;
+	int scale = 0;
 	RoadInfo infon = Road(m.move);
 
 	Sprite* sprmap1;//草
