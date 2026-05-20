@@ -52,13 +52,11 @@ Map::Map()
 	block[1][1].angle = 0;
 	block[1][2].angle = 90;
 	block[1][3].angle = 0;
-<<<<<<< HEAD
 	block[2][3].angle = 270;
 	block[2][2].angle = 0;
 	block[1][2].angle = 180;
 
 
-=======
 	block[1][4].angle = 90;
 	block[1][5].angle = 0;
 	block[1][6].angle = 180;
@@ -136,7 +134,7 @@ Map::Map()
 	block[6][11].angle = 0;
 
 	block[0][0].notmove = true;
->>>>>>> fb6b1efc7c9ab129d8a5e2045412b2fd045421f2
+
 	m.move.canRotate = true;
 	m.move.canCountPass = true;
 
@@ -1256,7 +1254,6 @@ void Map::Render()
 		for (int j = 0;j < STAGE_X;j++) {
 			posX = j * chipSize + X + MapCenter;
 			posY = i * chipSize + Y + MapCenter;
-			
 			switch (map[i][j]) {
 				//’ÊŒã•s‰Â
 			case 1:
@@ -1296,7 +1293,6 @@ void Map::Render()
 						1, 1, 1
 					);
 				}
-				
 				break;
 				//‹Èü
 			case 3:
@@ -1395,29 +1391,10 @@ void Map::Render()
 		}
 	}
 
-	Animation(m.move,spr_Character);
+	Animation(m.move, spr_Character);
 	Animation(c.move, sprCar);
 
-<<<<<<< HEAD
-	int carsx = m.frame * CHARACTER_TEX_W;
-	int carsy = m.direction * CHARACTER_TEX_H;
-	if (spr_Character == nullptr) return;
-
-
-	sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
-		sx, sy, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
-		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);
-
-
-
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
 
-	debug::display(1,0,1,2,2); // © ÅŒã‚É•`‚­
-=======
-	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
-
->>>>>>> fb6b1efc7c9ab129d8a5e2045412b2fd045421f2
 
 }

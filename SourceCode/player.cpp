@@ -184,29 +184,20 @@ bool Player::GameUpdate(Map& mapchip)
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
-<<<<<<< HEAD
-
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-
-				
-=======
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
 					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-				
-				
 
-				// mobがいるマスは動かせない
-				if ((selectRow == mobRow && selectCol == mobCol) ||
-					(cursorRow == mobRow && cursorCol == mobCol))
->>>>>>> fb6b1efc7c9ab129d8a5e2045412b2fd045421f2
-				{
-					isSelecting = false;
-					return false;
-				}
+
+					// mobがいるマスは動かせない
+					if ((selectRow == mobRow && selectCol == mobCol) ||
+						(cursorRow == mobRow && cursorCol == mobCol))
+					{
+						isSelecting = false;
+						return false;
+					}
 
 				//mobcarの位置取得
 				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
@@ -234,7 +225,7 @@ bool Player::GameUpdate(Map& mapchip)
 				music::play(4);
 
 				std::swap(mapchip.map[selectRow][selectCol],
-						  mapchip.map[cursorRow][cursorCol]);
+					mapchip.map[cursorRow][cursorCol]);
 
 				std::swap(mapchip.block[selectRow][selectCol],
 					mapchip.block[cursorRow][cursorCol]);

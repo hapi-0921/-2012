@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "SceneBase.h"
 #include "player.h"
+#include "Character.h"
 class SceneGame;
 
 
@@ -23,6 +24,8 @@ private:
     SceneBase* nextScenePtr;
 
     Player player;
+
+    Character character;
 
     int cursorIndex;
 
