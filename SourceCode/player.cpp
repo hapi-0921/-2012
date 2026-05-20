@@ -227,12 +227,7 @@ bool Player::GameUpdate(Map& mapchip)
 			{
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-<<<<<<< HEAD
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-
-
 					// mobがいるマスは動かせない
 					if ((selectRow == mobRow && selectCol == mobCol) ||
 						(cursorRow == mobRow && cursorCol == mobCol))
@@ -240,19 +235,6 @@ bool Player::GameUpdate(Map& mapchip)
 						isSelecting = false;
 						return false;
 					}
-=======
-				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
-				
-
-				// mobがいるマスは動かせない
-				if ((selectRow == mobRow && selectCol == mobCol) ||
-					(cursorRow == mobRow && cursorCol == mobCol))
-
-				{
-					isSelecting = false;
-					return false;
-				}
->>>>>>> 17ee7e6b780f058925e08bb9e151ad9025c9ba08
 
 				//mobcarの位置取得
 				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
