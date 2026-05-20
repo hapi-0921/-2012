@@ -10,6 +10,20 @@ int tutorial_timer;
 
 void SceneTutorial::Initialize()
 {
+    Tutorialmap.map.resize(4);
+
+    for (int y = 0; y < 4; y++)
+    {
+        Tutorialmap. map[y].resize(4);
+    }
+
+    Tutorialmap. map =
+    {
+        {7,2,3,1},
+        {1,2,1,1},
+        {1,3,2,1},
+        {2,1,3,5},
+    };
     tutorial_state = 0;
     tutorial_timer = 0;
 }
@@ -44,7 +58,8 @@ void SceneTutorial::Update(float delta_time)
         /*fallthrough*/
         break;
     case 2:
-
+        Tutorialmap.TutorialUpdate();
+        player.GameUpdate(Tutorialmap);
         if (TRG(0) & PAD_START)
         {
             manager->ChangeScene(new SceneTitle(manager, nullptr));
@@ -61,7 +76,7 @@ void SceneTutorial::Draw()
 
     clear(0, 0, 0);
     sprite_render(sprTutorial, 0, 0, 1, 1);
-
+    Tutorialmap.Render();
 }
 
 #ifdef _DEBUG

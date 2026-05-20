@@ -187,10 +187,6 @@ bool Player::GameUpdate(Map& mapchip)
 				//mob‚ÌˆÊ’uŽæ“¾
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-				
-				
 
 				// mob‚ª‚¢‚éƒ}ƒX‚Í“®‚©‚¹‚È‚¢
 				if ((selectRow == mobRow && selectCol == mobCol) ||
