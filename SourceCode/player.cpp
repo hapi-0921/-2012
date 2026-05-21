@@ -51,7 +51,6 @@ Player::Player()
 
 Player::~Player()
 {
-
 }
 
 //マウスの位置情報取得
@@ -142,7 +141,13 @@ bool Player::GameUpdate(Map& mapchip)
 	if (cursorRow > 7) cursorRow = 7;
 
 	if (cursorCol < 0) cursorCol = 0;
-	if (cursorCol > 12) cursorCol = 12;
+	if (cursorCol > 11) cursorCol = 11;
+
+	if (selectRow < 0) selectRow = 0;
+	if (selectRow > 7) selectRow = 7;
+
+	if (selectCol < 0) selectCol = 0;
+	if (selectCol > 11) selectCol = 11;
 
 	//前フレームの保存
 	prevMouseLeft = mouseLeft;
