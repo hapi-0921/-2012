@@ -74,13 +74,9 @@ Map::Map()
 	block[1][2].angle = 180;
 
 
-<<<<<<< HEAD
 
 
-=======
-=======
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
+
 	block[1][4].angle = 90;
 	block[1][5].angle = 0;
 	block[1][6].angle = 180;
@@ -157,13 +153,13 @@ Map::Map()
 	block[6][10].angle = 00;
 	block[6][11].angle = 0;
 
-<<<<<<< HEAD
+
 	block[0][0].notmove = true;
 
 
 
 
-=======
+
 
 	block[0][0].notmove = true;
 	block[2][9].notmove = true;
@@ -173,11 +169,8 @@ Map::Map()
 	block[1][9].notmove = true;
 	block[6][10].notmove = true;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
+
 	m.move.canRotate = true;
 
 	c.move.canRotate = false;
@@ -1549,12 +1542,11 @@ void Map::Render()
 					);
 					break;
 
-<<<<<<< HEAD
+
 
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
 
-=======
-<<<<<<< HEAD
+
 				case 2:
 					sprite_render(sprpass2,
 						posX, posY,
@@ -1584,29 +1576,27 @@ void Map::Render()
 	
 		
 
-=======
 
 	//ƒLƒƒƒ‰‚ÌŠG
 
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
+
 	Animation(m.move, spr_Character);
 	Animation(c.move, sprCar);
 	if(gametimer >> 6 & 0x01)
 	sprite_render(sprDanger, DangerX, DangerY, 1, 1, 1, 1, 64, 64, 32, 32, DegToRad(Dangerangle));
-<<<<<<< HEAD
+
 	
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
-=======
+
 
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
 
 	int carsx = m.move.frame * CHARACTER_TEX_W;
 	int carsy = m.move.direction * CHARACTER_TEX_H;
 	if (spr_Character == nullptr) return;
 
 
-<<<<<<< HEAD
+
 	/*sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
 		m.move.vx, m.move.vy, CHARACTER_TEX_W, CHARACTER_TEX_H);
 
@@ -1620,10 +1610,8 @@ void Map::Render()
 
 
 
-=======
+
 
 
 	debug::display(1, 0, 1, 2, 2); // © ÅŒã‚É•`‚­
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
 }
