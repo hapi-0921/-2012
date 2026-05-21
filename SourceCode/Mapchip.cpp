@@ -148,6 +148,16 @@ Map::Map()
 	block[6][10].angle = 00;
 	block[6][11].angle = 0;
 
+<<<<<<< HEAD
+=======
+
+	block[0][0].notmove = true;
+
+
+
+
+
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba
 
 	block[0][0].notmove = true;
 	block[2][9].notmove = true;
@@ -156,6 +166,11 @@ Map::Map()
 	block[4][3].notmove = true;
 	block[1][9].notmove = true;
 	block[6][10].notmove = true;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba
 	m.move.canRotate = true;
 
 	c.move.canRotate = false;
@@ -261,6 +276,20 @@ void Map::Update()
 		}
 		gametimer++;
 	}
+<<<<<<< HEAD
+=======
+	if (!c.move.active)
+	{
+		c.cartimer++;
+	}
+	if (c.cartimer >= 300)
+	{
+		c.carmove = false;
+		c.cartimer = 0;
+		c.move.cartocollide = false;
+	}
+	gametimer++;
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba
 }
 void Map::TutorialUpdate()
 {
@@ -272,6 +301,7 @@ void Map::TutorialUpdate()
 }
 void Map::TutorialCar()
 {
+<<<<<<< HEAD
 		static int timer = 0;
 
 		timer++;
@@ -328,6 +358,9 @@ void Map::TutorialCar()
 		}
 	}
 	
+=======
+}
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba
 Map::RoadInfo Map::Road(MoveObject& obj)
 {
 	//---------------------------------
@@ -1514,6 +1547,7 @@ void Map::Render()
 		1, 1, 1
 	);
 
+<<<<<<< HEAD
 	for (int i = 0;i < map.size();i++) {				//ÉuÉçÉbÉNï`âÊ
 		for (int j = 0;j < map[i].size();j++) {
 			posX = j * chipSize + X + MapCenter;
@@ -1522,6 +1556,34 @@ void Map::Render()
 				//í å„ïsâ¬
 			case 1:
 				sprite_render(sprmap1,
+=======
+
+
+	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
+
+
+	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
+
+				case 2:
+					sprite_render(sprpass2,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1);
+					break;
+
+				}
+				// Debugï\é¶
+				std::stringstream tmp;
+				tmp << block[i][j].pass;
+
+				text_out(
+					0,
+					tmp.str(),
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba
 					posX, posY,
 					scale, scale,
 					0, 0,
@@ -1662,8 +1724,14 @@ void Map::Render()
 
 	//ÉLÉÉÉâÇÃäG
 
+
+
+	//ÉLÉÉÉâÇÃäG
+
+
 	Animation(m.move, spr_Character);
 	Animation(c.move, sprCar);
+<<<<<<< HEAD
 	if (c.warning)
 	{
 		if (gametimer >> 4 & 0x01)
@@ -1682,8 +1750,46 @@ void Map::Render()
 	}
 	
 
+=======
+	if(gametimer >> 6 & 0x01)
+	sprite_render(sprDanger, DangerX, DangerY, 1, 1, 1, 1, 64, 64, 32, 32, DegToRad(Dangerangle));
+
+
+	
+	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
+
+
+	
+	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
+
+	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
+
+	int carsx = m.move.frame * CHARACTER_TEX_W;
+	int carsy = m.move.direction * CHARACTER_TEX_H;
+	if (spr_Character == nullptr) return;
+
+
+
+	/*sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
+		m.move.vx, m.move.vy, CHARACTER_TEX_W, CHARACTER_TEX_H);
+
+	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
+		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);*/
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba
+
+
+
+	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
+<<<<<<< HEAD
+}
+=======
+
+
+
+
 
 
 
 	debug::display(1, 0, 1, 2, 2); // Å© ç≈å„Ç…ï`Ç≠
 }
+>>>>>>> df388fa094fc4b0414216a463573cafd9151fcba

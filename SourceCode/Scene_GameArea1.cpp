@@ -24,7 +24,7 @@ int stage1_frame_timer;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-    stage1_timer = 90;
+    stage1_timer = 5;
 
 
 
@@ -94,6 +94,12 @@ void Scene_GameArea1::Update(float delta_time)
             frame = 0;
         }
 
+        // 時間切れ
+        if (stage1_timer <= 0)
+        {
+            manager->ChangeScene(new SceneResult(manager, stage1_timer));
+        }
+
 
         stage1_frame_timer++;
         break;
@@ -108,10 +114,10 @@ void Scene_GameArea1::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
 
-    sprite_render(sprClock, 1712, 1, 1.5, 1.5);
+    sprite_render(sprClock, 1624, 5, 2, 2);
 
 
-    DrawNumber(1856,10, stage1_timer);
+    DrawNumber(1756,15, stage1_timer);
 
 
 

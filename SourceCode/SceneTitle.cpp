@@ -194,9 +194,9 @@ void SceneTitle::Update(float delta_time)
 void SceneTitle::Draw()
 {
     setBlendMode(Blender::BS_ALPHA);
-    clear(1, 1, 1);
+   
     //背景
-    sprite_render(sprTitle, 0, 0);
+    clear(0.5f, 0.8f, 1.0f);//空色
 
     //アニメーション描画
     int frameWidth = 128;
