@@ -104,7 +104,7 @@ bool Player::GameUpdate(Map& mapchip)
 
 	//マスのサイズ
 
-	const int CELLSIZE = 128;
+	const int CELLSIZE = 192;
 
 	//操作方法の切り替え
 	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
@@ -229,17 +229,6 @@ bool Player::GameUpdate(Map& mapchip)
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-<<<<<<< HEAD
-
-				// mobがいるマスは動かせない
-				if ((selectRow == mobRow && selectCol == mobCol) ||
-					(cursorRow == mobRow && cursorCol == mobCol))
-
-				{
-					isSelecting = false;
-					return false;
-				}
-=======
 					// mobがいるマスは動かせない
 					if ((selectRow == mobRow && selectCol == mobCol) ||
 						(cursorRow == mobRow && cursorCol == mobCol))
@@ -247,7 +236,6 @@ bool Player::GameUpdate(Map& mapchip)
 						isSelecting = false;
 						return false;
 					}
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
 
 				//mobcarの位置取得
 				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;

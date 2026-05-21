@@ -20,14 +20,20 @@ void SceneTutorial::Initialize()
     Tutorialmap. map =
     {
         {7,2,3,1},
-        {1,2,3,1},
-        {1,3,2,1},
+        {1,2,3,3},
+        {2,2,2,2},
         {2,1,3,5},
     };
     Tutorialmap.tutorial = true;
     tutorial_state = 0;
     tutorial_timer = 0;
     Tutorialmap.m.move.pos.x = 300;
+
+    Tutorialmap.scale = 3;
+    Tutorialmap.chipSize = 192;
+    Tutorialmap.block[1][3].angle = 180;
+    Tutorialmap.m.move.speed = 2;
+    Tutorialmap.c.move.speed = 4;
 }
 
 void SceneTutorial::Finalize()
@@ -65,10 +71,7 @@ void SceneTutorial::Update(float delta_time)
 
 
 
-        /* if (TRG(0) & PAD_START)
-         {
-             manager->ChangeScene(new SceneTitle(manager, nullptr));
-         }*/
+        
 
 
         switch (step)
@@ -91,24 +94,72 @@ void SceneTutorial::Update(float delta_time)
             }
             break;
         case 2:
+            stop = false;
             Tutorialmap.TutorialUpdate();
-            if (Tutorialmap.m.move.pos.y >= 227)
+            if (Tutorialmap.m.move.pos.y >= 226)
             {
                 step = 3;
-                //
             }
             break;
-        case 3:
+        case 3://playerにマス動かさせる
+            stop = true;
             player.GameUpdate(Tutorialmap);
             if (Tutorialmap.map[1][2] == 2)
             {
                 step = 4;
             }
             break;
-        
-    case 4:
-        Tutorialmap.TutorialUpdate();
-        break;
+        case 4:
+            stop = false;
+            Tutorialmap.TutorialUpdate();
+            if (Tutorialmap.m.move.pos.y >= 418)
+            {
+                step = 5;
+                
+            }
+            break;
+
+        case 5://車出す
+            stop = true;
+            Tutorialmap.TutorialCar();
+            if (Tutorialmap.c.move.pos.x == 2000)
+            {
+                step = 6;
+            }
+            break;
+        case 6://車の説明
+            if (TRG(0) & PAD_START)
+            {
+                step = 7;
+            }
+            break;
+        case 7://
+            Tutorialmap.TutorialUpdate();
+            if (Tutorialmap.block[1][2].pass==2)
+            {
+                step = 8;
+            }
+            break;
+        case 8://道が回る説明
+            if (TRG(0) & PAD_START)
+            {
+                step = 9;
+            }
+            break;
+        case 9://ゴールに付いたら
+            Tutorialmap.TutorialUpdate();
+            if (Tutorialmap.m.move.pos.y >= 600)
+            {
+                step = 10;
+            }
+            break;
+        case 10://チュートリアル終わり
+             if (TRG(0) & PAD_START)
+         {
+             manager->ChangeScene(new SceneTitle(manager, nullptr));
+         }
+            break;
+       
     }
         ++tutorial_timer;
         break;
