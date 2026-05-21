@@ -61,7 +61,7 @@ public:
 	};
 	struct MoveObject
 	{
-		VECTOR2 pos{ 228,150 };
+		VECTOR2 pos{  };
 
 		int dirY = 1;
 		int dirX = 1;
@@ -71,7 +71,7 @@ public:
 		bool canRotate = true;//車かモブか
 		bool cartocollide = false;//車が壁にぶつかったか
 		bool active = false;
-		float cartimer = 0;//車がいなくなったら動くタイマー
+		float carsporntimer = 0;//車がいなくなったら動くタイマー
 		int frame;
 		float animTimer;
 		int direction; // 0:下 1:右 2:左 3:上
@@ -100,10 +100,17 @@ public:
 	{
 		MoveObject move;
 		bool carmove = false;
+		int cartimer = 0;
+
+		int warningTimer = 0;
+		bool warning = false;
+		int spawnType = -1;
+		int spawnIndex = -1;
 	};
 	Car c;
 	struct BlockData
 	{
+		
 		int nowangle;
 		int angle;
 		int RotationCount = 0;
@@ -160,6 +167,7 @@ public:
 	void Render();
 	void Update();
 	void TutorialUpdate();
+	void TutorialCar();
 	RoadInfo Road(MoveObject& obj);
 	void Move(MoveObject& obj, RoadInfo& info);
 	void Road2(MoveObject& obj ,RoadInfo& info);		   //直線の道の時
@@ -181,6 +189,7 @@ public:
 	void SetPosFromMap(MoveObject& obj, int mapX, int mapY);
 	bool HitBox(float ax, float ay, float aw, float ah,
 		float bx, float by, float bw, float bh);
+	void Playertocollide();
 	void Animation(MoveObject& obj,Sprite* spr);
 	float DegToRad(float degree)
 	{
