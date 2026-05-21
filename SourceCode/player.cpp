@@ -51,6 +51,7 @@ Player::Player()
 
 Player::~Player()
 {
+
 }
 
 //マウスの位置情報取得
@@ -103,7 +104,7 @@ bool Player::GameUpdate(Map& mapchip)
 
 	//マスのサイズ
 
-	const int CELLSIZE = 192;
+	
 
 	//操作方法の切り替え
 	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
@@ -141,13 +142,7 @@ bool Player::GameUpdate(Map& mapchip)
 	if (cursorRow > 7) cursorRow = 7;
 
 	if (cursorCol < 0) cursorCol = 0;
-	if (cursorCol > 11) cursorCol = 11;
-
-	if (selectRow < 0) selectRow = 0;
-	if (selectRow > 7) selectRow = 7;
-
-	if (selectCol < 0) selectCol = 0;
-	if (selectCol > 11) selectCol = 11;
+	if (cursorCol > 12) cursorCol = 12;
 
 	//前フレームの保存
 	prevMouseLeft = mouseLeft;
@@ -233,16 +228,10 @@ bool Player::GameUpdate(Map& mapchip)
 			{
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 
-				// mobがいるマスは動かせない
-				if ((selectRow == mobRow && selectCol == mobCol) ||
-					(cursorRow == mobRow && cursorCol == mobCol))
-
-				{
-					isSelecting = false;
-					return false;
-				}
+			
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
+				
 					// mobがいるマスは動かせない
 					if ((selectRow == mobRow && selectCol == mobCol) ||
 						(cursorRow == mobRow && cursorCol == mobCol))

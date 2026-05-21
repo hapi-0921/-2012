@@ -5,8 +5,12 @@
 class SceneResult :public SceneBase
 {
 public:
-    SceneResult(SceneManager* mgr, SceneBase* next = nullptr)
-        :SceneBase(mgr), nextScenePtr(next) {
+    int clearTime;
+
+    SceneResult(SceneManager* mgr, int time, SceneBase* next = nullptr)
+        : SceneBase(mgr), nextScenePtr(next)
+    {
+        clearTime = time;
     }
 
     void Initialize() override;

@@ -10,6 +10,12 @@ int tutorial_timer;
 
 void SceneTutorial::Initialize()
 {
+    sprruru1 =sprite_load(L"./Data/Images/ruru1.png");
+    sprruru2 =sprite_load(L"./Data/Images/ruru2.png");
+    sprruru3 =sprite_load(L"./Data/Images/ruru3.png");
+    sprruru4 =sprite_load(L"./Data/Images/ruru4.png");
+    sprruru5 =sprite_load(L"./Data/Images/ruru5.png");
+    sprmemo= sprite_load(L"./Data/Images/MemoBackground.png");
     Tutorialmap.map.resize(4);
 
     for (int y = 0; y < 4; y++)
@@ -34,6 +40,7 @@ void SceneTutorial::Initialize()
     Tutorialmap.block[1][3].angle = 180;
     Tutorialmap.m.move.speed = 2;
     Tutorialmap.c.move.speed = 4;
+    player.CELLSIZE = 192;
 }
 
 void SceneTutorial::Finalize()
@@ -76,6 +83,12 @@ void SceneTutorial::Update(float delta_time)
 
         switch (step)
         {
+        case -1:
+            if (TRG(0) & PAD_START)
+            {
+                step = 0;
+            }
+            break;
         case 0:
             Tutorialmap.TutorialUpdate();
             if (Tutorialmap.block[0][2].pass == 1)
@@ -124,12 +137,6 @@ void SceneTutorial::Update(float delta_time)
             Tutorialmap.TutorialCar();
             if (Tutorialmap.c.move.pos.x == 2000)
             {
-                step = 6;
-            }
-            break;
-        case 6://車の説明
-            if (TRG(0) & PAD_START)
-            {
                 step = 7;
             }
             break;
@@ -172,6 +179,10 @@ void SceneTutorial::Draw()
 
     clear(0, 0, 0);
     sprite_render(sprTutorial, 0, 0, 1, 1);
+
+    sprite_render(sprmemo, 1020, 100, 13, 13, 1, 1, 64, 64);
+
+    //sprite_render(sprruru1, 1000, 150, 1, 1, 1, 1, 900, 800);
     Tutorialmap.Render();
     if (!stop)
     {
@@ -179,7 +190,60 @@ void SceneTutorial::Draw()
     }
     text_out(1,"端につくと反転する", 800, 200, 1, 1, 0, 1, 1);
     debug::display(1, 0, 1, 2, 2); // ← 最後に描く
+    switch (step)
+    {
+    case -1:
+        sprite_render(sprruru1, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+            break;
+    case 0:
+        sprite_render(sprruru1, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        break;
 
+    case 1://ブロックが端についたら説明
+        sprite_render(sprruru2, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        break;
+    case 2:
+        sprite_render(sprruru2, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+
+        break;
+    case 3://playerにマス動かさせる
+        sprite_render(sprruru3, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+
+        break;
+    case 4:
+        sprite_render(sprruru3, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+
+        break;
+
+    case 5://車出す
+        sprite_render(sprruru4, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+
+        break;
+    case 6://車の説明
+        sprite_render(sprruru4, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        break;
+    case 7://
+        sprite_render(sprruru4, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        break;
+    case 8://道が回る説明
+        sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        break;
+    case 9://ゴールに付いたら
+        Tutorialmap.TutorialUpdate();
+        if (Tutorialmap.m.move.pos.y >= 600)
+        {
+            step = 10;
+        }
+        break;
+    case 10://チュートリアル終わり
+        if (TRG(0) & PAD_START)
+        {
+            manager->ChangeScene(new SceneTitle(manager, nullptr));
+        }
+        break;
+
+
+    }
 }
 
 #ifdef _DEBUG

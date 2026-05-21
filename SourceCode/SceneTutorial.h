@@ -18,8 +18,13 @@ public:
     void Draw() override;
 private:
     bool stop = false;
-    int step = 0;
-
+    int step = -1;
+    Sprite* sprruru1;
+    Sprite* sprruru2;
+    Sprite* sprruru3;
+    Sprite* sprruru4;
+    Sprite* sprruru5;
+    Sprite* sprmemo;
     SceneBase* nextScenePtr;
     Map Tutorialmap;
     Player player;
