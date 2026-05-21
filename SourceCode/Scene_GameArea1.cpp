@@ -13,6 +13,7 @@
 Sprite* sprStage1;
 Sprite* sprKeyCurPos;
 Sprite* sprFrame;
+Sprite* sprClock;
 
 
 int stage1_state;
@@ -50,7 +51,7 @@ void Scene_GameArea1::Update(float delta_time)
         sprStage1 = sprite_load(L"./Data/Images/stage1.png");
         sprKeyCurPos = sprite_load(L"./Data/Images/cursor.png");
         sprFrame= sprite_load(L"./Data/Images/frame.png");
-
+        sprClock = sprite_load(L"./Data/Images/Clock.png");
         stage1_state++;
 
 
@@ -107,8 +108,10 @@ void Scene_GameArea1::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
 
-   
-    DrawNumber(64,10, stage1_timer);
+    sprite_render(sprClock, 1712, 1, 1.5, 1.5);
+
+
+    DrawNumber(1856,10, stage1_timer);
 
 
 

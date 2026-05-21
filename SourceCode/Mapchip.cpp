@@ -2,6 +2,7 @@
 #include <sstream>
 Map::Map()
 {
+	
 	map.resize(STAGE_Y);
 
 	for (int y = 0; y < STAGE_Y; y++)
@@ -67,6 +68,19 @@ Map::Map()
 	block[1][1].angle = 0;
 	block[1][2].angle = 90;
 	block[1][3].angle = 0;
+
+	block[2][3].angle = 270;
+	block[2][2].angle = 0;
+	block[1][2].angle = 180;
+
+
+<<<<<<< HEAD
+
+
+=======
+=======
+>>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
+>>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
 	block[1][4].angle = 90;
 	block[1][5].angle = 0;
 	block[1][6].angle = 180;
@@ -143,6 +157,13 @@ Map::Map()
 	block[6][10].angle = 00;
 	block[6][11].angle = 0;
 
+<<<<<<< HEAD
+	block[0][0].notmove = true;
+
+
+
+
+=======
 
 	block[0][0].notmove = true;
 	block[2][9].notmove = true;
@@ -152,7 +173,11 @@ Map::Map()
 	block[1][9].notmove = true;
 	block[6][10].notmove = true;
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
+>>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
 	m.move.canRotate = true;
 
 	c.move.canRotate = false;
@@ -937,7 +962,7 @@ void Map::CarMoveChack(MoveObject& obj, RoadInfo& info)
 		r = (r + 1) % 4;
 	}
 
-	debug::setString("rondom%d", r);
+	
 }
 
 void Map::CarMove(MoveObject& obj, RoadInfo& info,int j,int type)
@@ -1344,8 +1369,13 @@ bool Map::HitBox(float ax, float ay, float aw, float ah,
 
 void Map::Animation(MoveObject& obj,Sprite*spr)
 {
-	//アニメーション
-	obj.animTimer += 1.0f / 60.0f;
+	if (!tutorial)
+	{
+		//アニメーション
+
+		obj.animTimer += 1.0f / 60.0f;
+	}
+	
 
 	if (obj.animTimer >= 0.2f)
 	{
@@ -1393,163 +1423,207 @@ void Map::Render()
 		0,
 		1, 1, 1
 	);
-	for (int i = 0;i < map.size();i++) {				//ブロック描画
-		for (int j = 0;j < map[i].size();j++) {
-			posX = j * chipSize + X + MapCenter;
-			posY = i * chipSize + Y + MapCenter;
-			switch (map[i][j]) {
-				//通後不可
-			case 1:
-				sprite_render(sprmap1,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-				//直線
-			case 2:
-				if (block[i][j].notmove)
-				{
-					sprite_render(sprnotmap2,
-						posX, posY,
-						2, 2,
-						0, 0,
-						64, 64,
-						32, 32,
-						DegToRad(block[i][j].angle),
-						1, 1, 1
-					);
-				}
-				else
-				{
-					sprite_render(sprmap2,
-						posX, posY,
-						2, 2,
-						0, 0,
-						64, 64,
-						32, 32,
-						DegToRad(block[i][j].angle),
-						1, 1, 1
-					);
-				}
-				break;
-				//曲線
-			case 3:
-				sprite_render(sprmap3,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-				//T字
-			case 4:
-				sprite_render(sprmap4,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-			case 5:
-				sprite_render(sprmap5,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-			case 6:
-				sprite_render(sprmap6,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-			case 7:
-				sprite_render(sprmap7,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-			}
-			switch (block[i][j].pass % 3)
-			{
-			case 1:
-				sprite_render(sprpass1,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1
-				);
-				break;
-
-			case 2:
-				sprite_render(sprpass2,
-					posX, posY,
-					2, 2,
-					0, 0,
-					64, 64,
-					32, 32,
-					DegToRad(block[i][j].angle),
-					1, 1, 1);
-				break;
-
-			}
-			// Debug表示
-			std::stringstream tmp;
-			tmp << block[i][j].pass;
-
-			text_out(
-				0,
-				tmp.str(),
-				posX, posY,
-				1.5f, 1.5f,
-				1, 0, 1, 1);
-		}
+	if (!tutorial)
+	{
+		scale = 2;
+		chipSize = 128;
 	}
+	else
+	{
+		scale = 3;
+		chipSize = 192;
+	}
+		for (int i = 0;i < map.size();i++) {				//ブロック描画
+			for (int j = 0;j < map[i].size();j++) {
+				posX = j * chipSize + X + MapCenter;
+				posY = i * chipSize + Y + MapCenter;
+				switch (map[i][j]) {
+					//通後不可
+				case 1:
+					sprite_render(sprmap1,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
+					//直線
+				case 2:
+					if (block[i][j].notmove)
+					{
+						sprite_render(sprnotmap2,
+							posX, posY,
+							scale, scale,
+							0, 0,
+							64, 64,
+							32, 32,
+							DegToRad(block[i][j].angle),
+							1, 1, 1
+						);
+					}
+					else
+					{
+						sprite_render(sprmap2,
+							posX, posY,
+							scale, scale,
+							0, 0,
+							64, 64,
+							32, 32,
+							DegToRad(block[i][j].angle),
+							1, 1, 1
+						);
+					}
+					break;
+					//曲線
+				case 3:
+					sprite_render(sprmap3,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
+					//T字
+				case 4:
+					sprite_render(sprmap4,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
+				case 5:
+					sprite_render(sprmap5,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
+				case 6:
+					sprite_render(sprmap6,
+						posX, posY,
+						2, 2,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
+				case 7:
+					sprite_render(sprmap7,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
+				}
+				switch (block[i][j].pass % 3)
+				{
+				case 1:
+					sprite_render(sprpass1,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1
+					);
+					break;
 
+<<<<<<< HEAD
+
+	debug::display(1, 0, 1, 2, 2); // ← 最後に描く
+
+=======
+<<<<<<< HEAD
+				case 2:
+					sprite_render(sprpass2,
+						posX, posY,
+						scale, scale,
+						0, 0,
+						64, 64,
+						32, 32,
+						DegToRad(block[i][j].angle),
+						1, 1, 1);
+					break;
+
+				}
+				// Debug表示
+				std::stringstream tmp;
+				tmp << block[i][j].pass;
+
+				text_out(
+					0,
+					tmp.str(),
+					posX, posY,
+					1.5f, 1.5f,
+					1, 0, 1, 1);
+			}
+		}
+	
+	
+	
+		
+
+=======
 
 	//キャラの絵
 
+>>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
 	Animation(m.move, spr_Character);
 	Animation(c.move, sprCar);
 	if(gametimer >> 6 & 0x01)
 	sprite_render(sprDanger, DangerX, DangerY, 1, 1, 1, 1, 64, 64, 32, 32, DegToRad(Dangerangle));
+<<<<<<< HEAD
+	
+	debug::display(1, 0, 1, 2, 2); // ← 最後に描く
+=======
 
 	debug::display(1, 0, 1, 2, 2); // ← 最後に描く
+>>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
 
 	int carsx = m.move.frame * CHARACTER_TEX_W;
 	int carsy = m.move.direction * CHARACTER_TEX_H;
 	if (spr_Character == nullptr) return;
 
 
+<<<<<<< HEAD
+	/*sprite_render(spr_Character, m.move.pos.x, m.move.pos.y, 1, 1,
+		m.move.vx, m.move.vy, CHARACTER_TEX_W, CHARACTER_TEX_H);
+
+	sprite_render(sprCar, c.move.pos.x, c.move.pos.y, 1, 1,
+		1, 1, CHARACTER_TEX_W, CHARACTER_TEX_H);*/
+
 
 
 	debug::display(1, 0, 1, 2, 2); // ← 最後に描く
+
+
+
+
+=======
+
+
+	debug::display(1, 0, 1, 2, 2); // ← 最後に描く
+>>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
+>>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
 }
