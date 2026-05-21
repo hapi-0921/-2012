@@ -48,10 +48,7 @@ void Scene_GameArea2::Update(float delta_time)
         break;
     case 2:
 
-        if (TRG(0) & PAD_START)
-        {
-            manager->ChangeScene(new SceneResult(manager, nullptr));
-        }
+       
 
 
 

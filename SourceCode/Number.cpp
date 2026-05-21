@@ -56,8 +56,8 @@ void DrawNumber(int x, int y, int number)
         sprite_render(sprNumber[d],
             x - offsetX,
             y,
-            1.0f,
-            1.0f);
+            2.0f,
+            2.0f);
 
         offsetX += 64;
     }
