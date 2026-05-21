@@ -95,7 +95,7 @@ public:
 		MoveObject move;
 	};
 	Mob m;
-	bool goal = false;
+	bool goal = true;
 	struct Car
 	{
 		MoveObject move;
@@ -106,6 +106,7 @@ public:
 		bool warning = false;
 		int spawnType = -1;
 		int spawnIndex = -1;
+
 	};
 	Car c;
 	struct BlockData
@@ -143,6 +144,10 @@ public:
 	int gametimer = 0;
 	bool tutorial = false;
 	int scale = 0;
+	int topStart = -1;
+	int bottomStart = -1;
+	int leftStart = -1;
+	int rightStart = -1;
 	RoadInfo infon = Road(m.move);
 
 	Sprite* sprmap1;//ëê

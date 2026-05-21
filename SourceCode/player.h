@@ -25,13 +25,14 @@ private:
     int cursorX;
     int cursorY;
     int GetcursorIndex;
-
+    
 	bool useKeyboard;
 
     Sprite* spr_Character;
 
 
 public:
+    int CELLSIZE = 128;
     Player();
     ~Player();
 
