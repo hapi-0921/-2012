@@ -228,27 +228,29 @@ bool Player::GameUpdate(Map& mapchip)
 			{
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-<<<<<<< HEAD
-
-				//int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-				//if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
-				//	(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
-
-
-				//	// mobがいるマスは動かせない
-				//	if ((selectRow == mobRow && selectCol == mobCol) ||
-				//		(cursorRow == mobRow && cursorCol == mobCol))
-				//	{
-				//		isSelecting = false;
-				//		return false;
-				//	}
-
-				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
-				
-=======
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 <<<<<<< HEAD
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
+=======
+<<<<<<< HEAD
+=======
+				if ((selectRow == mapchip.infon.mapY && selectCol == mapchip.infon.mapX) ||
+					(cursorRow == mapchip.infon.mapY && cursorCol == mapchip.infon.mapX))
+
+
+>>>>>>> 69d3198967fede820ee3255b670beceb399465ea
+					// mobがいるマスは動かせない
+					if ((selectRow == mobRow && selectCol == mobCol) ||
+						(cursorRow == mobRow && cursorCol == mobCol))
+					{
+						isSelecting = false;
+						return false;
+					}
+<<<<<<< HEAD
+=======
+=======
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
+				
+>>>>>>> 4aeddd4b34b96d7ea19922f8c104a1bf6bb6b500
 
 				// mobがいるマスは動かせない
 				if ((selectRow == mobRow && selectCol == mobCol) ||
@@ -258,19 +260,8 @@ bool Player::GameUpdate(Map& mapchip)
 					isSelecting = false;
 					return false;
 				}
-<<<<<<< HEAD
-
-=======
-=======
-					// mobがいるマスは動かせない
-					if ((selectRow == mobRow && selectCol == mobCol) ||
-						(cursorRow == mobRow && cursorCol == mobCol))
-					{
-						isSelecting = false;
-						return false;
-					}
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
+>>>>>>> 17ee7e6b780f058925e08bb9e151ad9025c9ba08
+>>>>>>> 69d3198967fede820ee3255b670beceb399465ea
 
 				//mobcarの位置取得
 				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;

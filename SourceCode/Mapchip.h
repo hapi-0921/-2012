@@ -1,6 +1,7 @@
 #pragma once
 #include"../GameLib/game_lib.h"
 #include <stdio.h>
+#include <vector>
 
 #define STAGE_X 12
 #define STAGE_Y 7
@@ -21,22 +22,15 @@
 class Map
 {
 public:
-	int map[STAGE_Y][STAGE_X] =
-	{
-		{7,2,3,2,2,2,1,2,1,2,3,2},
-		{2,3,3,2,3,1,3,1,2,6,3,2},
-		{2,2,3,3,1,2,3,2,2,2,1,3},
-		{1,3,3,1,3,3,2,2,1,3,2,2},
-		{3,3,1,4,3,1,2,3,2,3,1,2},
-		{2,2,3,2,3,3,3,2,3,1,2,2},
-		{3,1,2,2,1,2,1,2,2,3,5,1}
-	};
+	std::vector<std::vector<int>> map; 
+
+	
 	int prevX = -1;
 	float posX;
 	float posY;
 
 	int prevY = -1;
-	const float chipSize = 128; // 1マスのサイズ
+	 float chipSize = 128; // 1マスのサイズ
 
 	bool blocheck = false;
 	bool Rotationcheck = false;
@@ -74,11 +68,10 @@ public:
 		int speed = 1;
 		int phase = 0;
 		bool moving = false;
-		bool canRotate = true;
-		bool canCountPass = true;
-		bool cartocollide = false;
+		bool canRotate = true;//車かモブか
+		bool cartocollide = false;//車が壁にぶつかったか
 		bool active = false;
-		float cartimer = 0;
+		float cartimer = 0;//車がいなくなったら動くタイマー
 		int frame;
 		float animTimer;
 		int direction; // 0:下 1:右 2:左 3:上
@@ -89,6 +82,12 @@ public:
 	};
 	struct Mob
 	{
+		bool hit = false;
+		int hitTimer = 0;
+		float knockbackX = 0;
+		float knockbackY = 0;
+		bool invincible = false;
+		int invincibleTimer = 0;
 		bool parkpoint = false;
 		bool housepoint = false;
 		bool pianopoint = false;
@@ -131,7 +130,12 @@ public:
 		LEFT,
 		RIGHT
 	};
-
+	int DangerX = 0;
+	int DangerY = 0;
+	int Dangerangle = 0;
+	int gametimer = 0;
+	bool tutorial = false;
+	int scale = 0;
 	RoadInfo infon = Road(m.move);
 
 	Sprite* sprmap1;//草
@@ -148,21 +152,23 @@ public:
 	Sprite*sprmap7;
 	Sprite* sprpass1;
 	Sprite* sprpass2;
-
+	Sprite* sprDanger;
 
 	BlockData block[STAGE_Y][STAGE_X] = {};//ひとマスの情報
 	Map();
 	~Map();
 	void Render();
 	void Update();
+	void TutorialUpdate();
 	RoadInfo Road(MoveObject& obj);
 	void Move(MoveObject& obj, RoadInfo& info);
 	void Road2(MoveObject& obj ,RoadInfo& info);		   //直線の道の時
 	void Road4(MoveObject& obj, RoadInfo& info);		   //曲線の道の時
-	void CarMove(MoveObject& obj, RoadInfo& info);
+	void CarMoveChack(MoveObject& obj, RoadInfo& info);
+	void CarMove(MoveObject& obj, RoadInfo& info, int j,int type);
 	void Rotation(MoveObject& obj, RoadInfo& info);	   //道を回転させる
 
-	bool CanMove(RoadInfo& info, Direction dir);
+	bool CanMove(MoveObject& obj,RoadInfo& info, Direction dir);
 
 	void SetMoveUp(MoveObject& obj);	   //上の向きにセットする
 	void SetMoveDown(MoveObject& obj);	   //下の向きにセットする
