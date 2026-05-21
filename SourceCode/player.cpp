@@ -249,31 +249,8 @@ bool Player::GameUpdate(Map& mapchip)
 				//	}
 
 				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
-				
-<<<<<<< HEAD
-=======
-=======
-				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
->>>>>>> 521fcb95a9e776ee73eeb4ab1aae6032a4206e8c
-
-				
-
-<<<<<<< HEAD
-=======
-				{
-					isSelecting = false;
-					return false;
-				}
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> af2dfc5e5b5013593059680cef703311320f62e1
->>>>>>> 521fcb95a9e776ee73eeb4ab1aae6032a4206e8c
+			
+			
 					// mob‚ª‚¢‚éƒ}ƒX‚Í“®‚©‚¹‚È‚¢
 					if ((selectRow == mobRow && selectCol == mobCol) ||
 						(cursorRow == mobRow && cursorCol == mobCol))
@@ -281,15 +258,6 @@ bool Player::GameUpdate(Map& mapchip)
 						isSelecting = false;
 						return false;
 					}
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 57d3b40bcbd153302ee8a51b352d300752c0cfce
->>>>>>> 7da9d476c1c25f9d24d5c6a8ea6f915df5334742
->>>>>>> af2dfc5e5b5013593059680cef703311320f62e1
->>>>>>> 521fcb95a9e776ee73eeb4ab1aae6032a4206e8c
 
 				//mobcar‚ÌˆÊ’uŽæ“¾
 				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
