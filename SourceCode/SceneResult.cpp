@@ -48,7 +48,7 @@ void SceneResult::Initialize()
 void SceneResult::Finalize()
 {
     safe_delete(sprResult);
-    music::stop(0);
+    music::stop(9);
    
     safe_delete(sprTitlebutton);
     safe_delete(Gameclear);
@@ -57,6 +57,8 @@ void SceneResult::Finalize()
     safe_delete(GameclearRogo);
     safe_delete(GameoverRogo);
     safe_delete(ClearPlayer);
+
+
 }
 
 void SceneResult::Update(float delta_time)
@@ -80,9 +82,24 @@ void SceneResult::Update(float delta_time)
 
         GameclearRogo = sprite_load(L"./Data/Images/ClearRogo.png");
         GameoverRogo = sprite_load(L"./Data/Images/GameoverRogo.png");
+
+        if (clearTime > 0)
+        {
+            music::play(11);
+        }
+        else//０以下ならゲームオーバー画面へ
+        {
+            music::play(10);
+            music::setVolume(10, 1.8f);
+
+        }
+
         result_state++;
         
+        //音楽再生（ループ）
+       /* music::play(9, true);*/
 
+       
             break;
 
         case 1:

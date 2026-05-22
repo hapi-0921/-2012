@@ -26,7 +26,7 @@ Sprite* sprNext;
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
 Button tutolialButton = { 1704,424,120,138,0 };
-Button nextButton = { 1500,850,120,120,1 };
+Button nextButton = { 1300,920,120,120,1 };
 
 int stage1_state;
 int stage1_timer;
@@ -40,7 +40,7 @@ bool tutorialOpen = false;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-    stage1_timer = 300;
+    stage1_timer = 3;
 
 
 
@@ -246,7 +246,7 @@ void Scene_GameArea1::Draw()
         {
             sprite_render(
                 sprNext,
-                1560, 920,   // 表示位置
+                1360, 990,   // 表示位置
                 0.5f, 0.5f,  // scaleX, scaleY
                 0, 0,
                 360, 360,    // 元画像サイズ
@@ -257,7 +257,7 @@ void Scene_GameArea1::Draw()
         {
             sprite_render(
                 sprNext,
-                1560, 920,
+                1360, 990,
                 0.5f, 0.6f,
                 0, 0,
                 360, 360,

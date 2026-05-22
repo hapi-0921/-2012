@@ -52,6 +52,8 @@ void SceneTutorial::Finalize()
 {
     safe_delete(sprTutorial);
 
+    music::stop(6);
+
 }
 
 void SceneTutorial::Update(float delta_time)
@@ -62,6 +64,9 @@ void SceneTutorial::Update(float delta_time)
         //////// 初期設定 ////////
 
         sprTutorial = sprite_load(L"./Data/Images/tutorial.png");
+
+        //音楽再生（ループ）
+        music::play(6, true);
 
 
         tutorial_state++;
