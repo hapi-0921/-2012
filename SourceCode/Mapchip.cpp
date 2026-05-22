@@ -71,7 +71,6 @@ Map::~Map()
 }
 
 
-
 void Map::Update()
 {
 	if (!goal)
@@ -157,7 +156,7 @@ void Map::TutorialCar()
 {
 		static int timer = 0;
 
-		timer++;
+	timer++;
 
 		// 1秒後にDanger表示
 		if (timer == 60)
@@ -166,44 +165,44 @@ void Map::TutorialCar()
 			DangerY = Y + chipSize * 2 + MapCenter;
 			Dangerangle = 90;
 
-			c.warning = true;
-		}
+		c.warning = true;
+	}
 
 		// 2秒後に車出現
 		if (timer == 180)
 		{
 			c.warning = false;
 
-			// 上から出す
-			SetPosFromMap(c.move, 0, 2);
-			SetMoveRight(c.move);
+		// 上から出す
+		SetPosFromMap(c.move, 0, 2);
+		SetMoveRight(c.move);
 
-			c.move.pos.x -= 100;
-			c.move.pos.y += 50;
-			c.move.active = true;
-			c.carmove = true;
-		}
+		c.move.pos.x -= 100;
+		c.move.pos.y += 50;
+		c.move.active = true;
+		c.carmove = true;
+	}
 
-		// 車移動
-		if (c.carmove)
-		{
-			RoadInfo info = Road(c.move); 
-			Move(c.move, info);
-		}
+	// 車移動
+	if (c.carmove)
+	{
+		RoadInfo info = Road(c.move);
+		Move(c.move, info);
+	}
 
-		// 下端についたら引き返す
-		if (c.move.pos.x >= X + chipSize * 3)
-		{
-			c.move.cartocollide = true;
-			SetMoveLeft(c.move);
-		}
+	// 下端についたら引き返す
+	if (c.move.pos.x >= X + chipSize * 3)
+	{
+		c.move.cartocollide = true;
+		SetMoveLeft(c.move);
+	}
 
-		// 場外で消す
-		if (c.move.pos.x < 100 &&
-			c.move.cartocollide)
-		{
-			c.move.active = false;
-			c.carmove = false;
+	// 場外で消す
+	if (c.move.pos.x < 100 &&
+		c.move.cartocollide)
+	{
+		c.move.active = false;
+		c.carmove = false;
 
 			c.move.pos.x = 2000;
 			c.move.pos.y = 2000;
@@ -275,7 +274,7 @@ void Map::Move(MoveObject& obj, RoadInfo& info)
 {
 
 
-		
+
 	if (c.move.cartocollide)
 	{
 		if (info.mapX < 0 || info.mapX >= map[0].size() ||
@@ -286,7 +285,7 @@ void Map::Move(MoveObject& obj, RoadInfo& info)
 			return;
 		}
 	}
-	
+
 
 	Road2(obj, info);
 	Road4(obj, info);
@@ -325,7 +324,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 					else
 					{
 
-						
+
 						if (&obj == &c.move &&
 							!obj.cartocollide)
 						{
@@ -345,7 +344,6 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 			}
 
 
-
 			// 下端
 			if (obj.dirY == 1)
 			{
@@ -362,7 +360,6 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 					}
 					else
 					{
-						
 						if (&obj == &c.move &&
 							!obj.cartocollide)
 						{
@@ -401,7 +398,6 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 					}
 					else
 					{
-						
 						if (&obj == &c.move &&
 							!obj.cartocollide)
 						{
@@ -436,7 +432,6 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//直線の道の時
 					}
 					else
 					{
-						
 						if (&obj == &c.move &&
 							!obj.cartocollide)
 						{
@@ -465,7 +460,6 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//曲線の道の時
 	{
 		return;
 	}
-
 	if (map[info.mapY][info.mapX] == 3)
 	{
 
@@ -723,7 +717,6 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//曲線の道の時
 				}
 
 
-
 			}
 		}
 	}
@@ -732,7 +725,7 @@ void Map::CarMoveChack(MoveObject& obj, RoadInfo& info)
 {
 	static int r = 0;
 
-	
+
 
 	// 最初だけランダム
 	if (topStart == -1)		topStart = rand() % map[0].size();
@@ -813,7 +806,6 @@ void Map::CarMoveChack(MoveObject& obj, RoadInfo& info)
 							c.warningTimer = 300;
 							c.spawnType = 1;
 							c.spawnIndex = j;
-
 
 
 							bottomStart = (j + 1) % map[0].size();
@@ -937,7 +929,6 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 		break;
 	}
 }
-
 
 
 
@@ -1180,7 +1171,6 @@ bool Map::CanMove(MoveObject& obj, RoadInfo& info, Direction dir)
 
 
 
-
 	return false;
 
 }
@@ -1208,7 +1198,6 @@ bool Map::Gopark(MoveObject& obj, RoadInfo& info)
 	}
 	return false;
 }
-
 
 
 bool Map::Gopiano(MoveObject& obj, RoadInfo& info)
