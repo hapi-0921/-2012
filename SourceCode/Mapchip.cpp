@@ -21,7 +21,7 @@ Map::Map()
 		{1,3,3,1,3,3,2,2,1,3,2,2},
 		{3,3,1,4,3,1,2,3,2,3,1,2},
 		{2,2,3,2,3,3,3,2,3,1,2,2},
-		{3,1,2,2,1,2,1,2,2,3,5,1}
+		{3,1,2,3,1,2,1,2,2,3,5,1}
 	};
 
 	srand((unsigned int)time(nullptr));
@@ -61,6 +61,9 @@ Map::Map()
 
 	m.move.canRotate = true;
 	c.move.canRotate = false;
+
+	m.move.speed = 2.5;
+	c.move.speed = 2.8;
 }
 
 
@@ -97,6 +100,7 @@ void Map::Update()
 			
 
 		}
+		
 		debug::setString("car%d", c.move.cartocollide);
 		Playertocollide();
 		if (c.warning)
@@ -142,7 +146,7 @@ void Map::Update()
 		{
 			c.cartimer++;
 		}
-		if (c.cartimer >= 1800)
+		if (c.cartimer >= 800)
 		{
 			c.move.pos.x = 2000;
 			c.move.pos.y = 2000;
@@ -339,7 +343,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//íºê¸ÇÃìπÇÃéû
 							obj.cartocollide = true;
 						}
 						SetMoveDown(obj);
-						if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+						if (!block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -377,7 +381,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//íºê¸ÇÃìπÇÃéû
 						SetMoveUp(obj);
 						obj.pos.y += obj.dirY * obj.speed;//à⁄ìÆèàóù
 
-						if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+						if ( !block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -413,7 +417,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//íºê¸ÇÃìπÇÃéû
 						}
 						SetMoveRight(obj);
 						obj.pos.x += obj.dirX * obj.speed;//à⁄ìÆèàóù
-						if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+						if ( !block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -447,7 +451,7 @@ void Map::Road2(MoveObject& obj, RoadInfo& info)//íºê¸ÇÃìπÇÃéû
 						}
 						SetMoveLeft(obj);
 						obj.pos.x += obj.dirX * obj.speed;//à⁄ìÆèàóù
-						if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+						if ( !block[info.mapY][info.mapX].notmove)
 						{
 							block[info.mapY][info.mapX].pass += 1;
 							Rotation(obj, info);
@@ -521,7 +525,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//ã»ê¸ÇÃìπÇÃéû
 				}
 				else
 				{
-					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+					if (!block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -583,7 +587,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//ã»ê¸ÇÃìπÇÃéû
 				else
 				{
 
-					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+					if ( !block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -618,7 +622,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//ã»ê¸ÇÃìπÇÃéû
 				}
 				else
 				{
-					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+					if ( !block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -709,7 +713,7 @@ void Map::Road4(MoveObject& obj, RoadInfo& info)//ã»ê¸ÇÃìπÇÃéû
 				}
 				else
 				{
-					if (obj.canRotate && !block[info.mapY][info.mapX].notmove)
+					if (!block[info.mapY][info.mapX].notmove)
 					{
 						block[info.mapY][info.mapX].pass += 1;
 						Rotation(obj, info);
@@ -1329,23 +1333,23 @@ void Map::Playertocollide()
 		music::setVolume(7, 1.5f);
 		if (c.move.dirX == -1)
 		{
-			m.knockbackX = -6;
+			m.knockbackX = -3;
 			m.knockbackY = 0;
 		}
 		else if (c.move.dirX == 1)
 		{
-			m.knockbackX = 6;
+			m.knockbackX = 3;
 			m.knockbackY = 0;
 		}
 		else if (c.move.dirY == -1)
 		{
 			m.knockbackX = 0;
-			m.knockbackY = -6;
+			m.knockbackY = -3;
 		}
 		else if (c.move.dirY == 1)
 		{
 			m.knockbackX = 0;
-			m.knockbackY = 6;
+			m.knockbackY = 3;
 		}
 
 	}
@@ -1588,7 +1592,7 @@ void Map::Render()
 				}
 				break;
 			case 5:
-				if (m.pianopoint)
+				if (m.housepoint)
 				{
 					sprite_render(sprmap5,
 						posX, posY,
@@ -1600,7 +1604,7 @@ void Map::Render()
 						1, 1, 1
 					);
 				}
-				else if (!m.pianopoint)
+				else if (!m.housepoint)
 				{
 					sprite_render(sprmap5gray,
 						posX, posY,
@@ -1614,7 +1618,7 @@ void Map::Render()
 				}
 				break;
 			case 6:
-				if (m.housepoint)
+				if (m.pianopoint)
 				{
 
 					sprite_render(sprmap6,
@@ -1627,7 +1631,7 @@ void Map::Render()
 						1, 1, 1
 					);
 				}
-				else if (!m.housepoint)
+				else if (!m.pianopoint)
 				{
 					sprite_render(sprmap6gray,
 						posX, posY,

@@ -40,7 +40,11 @@ bool tutorialOpen = false;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
+<<<<<<< HEAD
     stage1_timer = 3;
+=======
+    stage1_timer = 10;
+>>>>>>> c638bc9c25551681f3d5ce8d082ac9fe767efd82
 
 
 
