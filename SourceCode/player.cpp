@@ -15,6 +15,9 @@ static bool prevMouseY = 0;
 static int cursorRow = 0;
 static int cursorCol = 0;
 
+static int TutorialRow = 0;
+static int TutorialCol = 0;
+
 static bool isSelecting = false;
 
 //最初に選択したマス
@@ -97,22 +100,13 @@ bool Player::MenuUpdate(int menuMax)
 
 //ゲーム用
 bool Player::GameUpdate(Map& mapchip)
-{
-	if (Tutorial)
-	{
-		CELLSIZE = 192;
-	}
-	else if (!Tutorial)
-	{
-		CELLSIZE = 128;
-	}
+{	
+	//マスのサイズ
+	CELLSIZE = 128;
+
 	player_timer++;
 
 	CursorPos pos = getCursorpos();
-
-	//マスのサイズ
-
-
 
 	//操作方法の切り替え
 	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
@@ -159,24 +153,21 @@ bool Player::GameUpdate(Map& mapchip)
 	prevMouseY = pos.y;
 
 	//クリック時
-
 	if (mouseClick || TRG(0) & PAD_START)
-		if (mouseClick || TRG(0) & PAD_START)
+	{
 
+		//未選択
+		if (!isSelecting)
 		{
-			
-			//未選択
-			if (!isSelecting)
-			{
-				//一個目選択
-				selectRow = cursorRow;
-				selectCol = cursorCol;
+			//一個目選択
+			selectRow = cursorRow;
+			selectCol = cursorCol;
 
-				music::play(3);
+			music::play(3);
 
-				//mobの位置取得
-				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
+			//mobの位置取得
+			int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
+			int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 
 			if (selectRow < 0 || selectRow >= mapchip.map.size())
 			{
@@ -198,14 +189,14 @@ bool Player::GameUpdate(Map& mapchip)
 				return false;
 			}
 
-				// mobがいるマスは動かせない
-				if ((selectRow == mobRow && selectCol == mobCol) ||
-					(cursorRow == mobRow && cursorCol == mobCol))
+			// mobがいるマスは動かせない
+			if ((selectRow == mobRow && selectCol == mobCol) ||
+				(cursorRow == mobRow && cursorCol == mobCol))
 
-				{
-					isSelecting = false;
-					return false;
-				}
+			{
+				isSelecting = false;
+				return false;
+			}
 
 			//mobcarの位置取得
 			int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
@@ -226,24 +217,24 @@ bool Player::GameUpdate(Map& mapchip)
 				return false;
 			}
 
-				// 動かせない特殊マス
-				int selectType = mapchip.map[selectRow][selectCol];
-				int cursorType = mapchip.map[cursorRow][cursorCol];
+			// 動かせない特殊マス
+			int selectType = mapchip.map[selectRow][selectCol];
+			int cursorType = mapchip.map[cursorRow][cursorCol];
 
-				// house(5) piano(6) school(7) は移動禁止
-				if ((selectType >= 4 && selectType <= 7) ||
-					(cursorType >= 4 && cursorType <= 7))
-				{
-					isSelecting = false;
-					return false;
-				}
+			// house(5) piano(6) school(7) は移動禁止
+			if ((selectType >= 4 && selectType <= 7) ||
+				(cursorType >= 4 && cursorType <= 7))
+			{
+				isSelecting = false;
+				return false;
+			}
 
-				if (mapchip.block[selectRow][selectCol].notmove ||
-					mapchip.block[cursorRow][cursorCol].notmove)
-				{
-					isSelecting = false;
-					return false;
-				}
+			if (mapchip.block[selectRow][selectCol].notmove ||
+				mapchip.block[cursorRow][cursorCol].notmove)
+			{
+				isSelecting = false;
+				return false;
+			}
 
 			isSelecting = true;
 		}
@@ -277,67 +268,161 @@ bool Player::GameUpdate(Map& mapchip)
 
 			int dr = abs(cursorRow - selectRow);
 			int dc = abs(cursorCol - selectCol);
-			
+
 			//上下左右なら入れ替え
 			if (dr + dc == 1)
 			{
 				//mobの位置取得
 				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
 
-			
-				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
-				
-					// mobがいるマスは動かせない
-					if ((selectRow == mobRow && selectCol == mobCol) ||
-						(cursorRow == mobRow && cursorCol == mobCol))
-					{
-						isSelecting = false;
-						return false;
-					}
 
-					//mobcarの位置取得
-					int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
-					int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 
-					if ((selectRow == carRow && selectCol == carCol) ||
-						(cursorRow == carRow && cursorCol == carCol))
-					{
-						isSelecting = false;
-						return false;
-					}
-
-					// 動かせない特殊マス
-					int selectType = mapchip.map[selectRow][selectCol];
-					int cursorType = mapchip.map[cursorRow][cursorCol];
-
-					// house(5) piano(6) school(7) は移動禁止
-					if ((selectType >= 4 && selectType <= 7) ||
-						(cursorType >= 4 && cursorType <= 7))
-					{
-						isSelecting = false;
-						return false;
-					}
-
-					if (mapchip.block[selectRow][selectCol].notmove ||
-						mapchip.block[cursorRow][cursorCol].notmove)
-					{
-						isSelecting = false;
-						return false;
-					}
-
-					music::play(4);
-
-					std::swap(mapchip.map[selectRow][selectCol],
-						mapchip.map[cursorRow][cursorCol]);
-
-					std::swap(mapchip.block[selectRow][selectCol],
-						mapchip.block[cursorRow][cursorCol]);
+				// mobがいるマスは動かせない
+				if ((selectRow == mobRow && selectCol == mobCol) ||
+					(cursorRow == mobRow && cursorCol == mobCol))
+				{
+					isSelecting = false;
+					return false;
 				}
-				//選択解除
-				isSelecting = false;
+
+				//mobcarの位置取得
+				int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
+				int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
+
+				if ((selectRow == carRow && selectCol == carCol) ||
+					(cursorRow == carRow && cursorCol == carCol))
+				{
+					isSelecting = false;
+					return false;
+				}
+
+				// 動かせない特殊マス
+				int selectType = mapchip.map[selectRow][selectCol];
+				int cursorType = mapchip.map[cursorRow][cursorCol];
+
+				// house(5) piano(6) school(7) は移動禁止
+				if ((selectType >= 4 && selectType <= 7) ||
+					(cursorType >= 4 && cursorType <= 7))
+				{
+					isSelecting = false;
+					return false;
+				}
+
+				if (mapchip.block[selectRow][selectCol].notmove ||
+					mapchip.block[cursorRow][cursorCol].notmove)
+				{
+					isSelecting = false;
+					return false;
+				}
+
+				music::play(4);
+
+				std::swap(mapchip.map[selectRow][selectCol],
+					mapchip.map[cursorRow][cursorCol]);
+
+				std::swap(mapchip.block[selectRow][selectCol],
+					mapchip.block[cursorRow][cursorCol]);
 			}
+			//選択解除
+			isSelecting = false;
+		}
+	}
+
+	return mouseClick;
+}
+
+bool Player::TutorialUpdate(Map& Tutorialmap)
+{
+	CELLSIZE = 192;
+
+	player_timer++;
+
+	CursorPos pos = getCursorpos();
+
+	bool KeyInput = TRG(0) & PAD_LEFT || TRG(0) & PAD_RIGHT || TRG(0) & PAD_UP || TRG(0) & PAD_DOWN;
+
+	bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+	bool mouseClick = (!prevMouseLeft && mouseLeft && player_timer > 30);
+
+	if (TutorialRow < 0) TutorialRow = 0;
+	if (TutorialRow > 3) TutorialRow = 3;
+
+	if (TutorialCol < 0) TutorialCol = 0;
+	if (TutorialCol > 3) TutorialCol = 3;
+
+	//キーボード操作に切り替え
+	if (KeyInput)
+	{
+		useKeyboard = true;
+	}
+
+	//マウス操作に切り替え
+	if (mouseClick)
+	{
+		useKeyboard = false;
+	}
+
+	if (useKeyboard)
+	{
+		if (TRG(0) & PAD_LEFT) TutorialCol--;
+		if (TRG(0) & PAD_RIGHT) TutorialCol++;
+		if (TRG(0) & PAD_UP) TutorialRow--;
+		if (TRG(0) & PAD_DOWN) TutorialRow++;
+	}
+	else
+	{
+		TutorialCol = (pos.x - X) / CELLSIZE;
+		TutorialRow = (pos.y - Y) / CELLSIZE;
+	}
+
+	prevMouseLeft = mouseLeft;
+
+	if (mouseClick || TRG(0) & PAD_START)
+	{
+		if (!isSelecting)
+		{
+			//一個目選択
+			selectRow = TutorialRow;
+			selectCol = TutorialCol;
+
+			music::play(3);
+
+			if (!((selectRow == 1 && selectCol == 1)||
+				(selectRow == 1 && selectCol == 2)))
+			{
+				isSelecting = false;
+				return false;
+			}
+
+			isSelecting = true;
+		}
+		else
+		{
+			if (TutorialRow == selectRow && TutorialCol == selectCol)
+			{
+				isSelecting = false;
+				return true;
+			}
+
+				music::play(4);		
+
+				if ((TutorialRow == 1 && TutorialCol == 2) ||
+					(TutorialRow == 1 && TutorialCol == 1))
+				{
+					std::swap(Tutorialmap.map[selectRow][selectCol],
+						Tutorialmap.map[TutorialRow][TutorialCol]);
+
+					std::swap(Tutorialmap.block[selectRow][selectCol],
+						Tutorialmap.block[TutorialRow][TutorialCol]);
+
+					isSelecting = false;
+					useKeyboard = false;
+				}
+
 		}
 
+	}
 	return mouseClick;
 }
 
@@ -390,4 +475,14 @@ int Player::GetCursorCol()
 bool Player::isKeyboardMode()
 {
 	return useKeyboard;
+}
+
+int Player::GetTutorialRow()
+{
+	return TutorialRow;
+}
+
+int Player::GetTutorialCol()
+{
+	return TutorialCol;
 }

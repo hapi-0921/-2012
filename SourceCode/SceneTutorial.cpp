@@ -17,6 +17,7 @@ void SceneTutorial::Initialize()
     sprruru5 =sprite_load(L"./Data/Images/ruru5.png");
     sprruru6= sprite_load(L"./Data/Images/ruru6.png");
     sprmemo= sprite_load(L"./Data/Images/MemoBackground.png");
+    sprKeyCurPosTu = sprite_load(L"./Data/Images/cursor.png");
     Tutorialmap.map.resize(4);
 
     for (int y = 0; y < 4; y++)
@@ -82,7 +83,8 @@ void SceneTutorial::Update(float delta_time)
 
 
 
-        
+        row = (player.GetTutorialRow() + 1) * 198;
+        col = (player.GetTutorialCol() + 1) * 198;
 
 
         switch (step)
@@ -122,7 +124,7 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 3://player‚Éƒ}ƒX“®‚©‚³‚¹‚é
             stop = true;
-            player.GameUpdate(Tutorialmap);
+            player.TutorialUpdate(Tutorialmap);
             if (Tutorialmap.map[1][2] == 2)
             {
                 step = 4;
@@ -258,6 +260,7 @@ void SceneTutorial::Draw()
 
     }
 
+    if (player.isKeyboardMode()) sprite_render(sprKeyCurPosTu, col, row + 15, 2, 2);
 }
 
 #ifdef _DEBUG
