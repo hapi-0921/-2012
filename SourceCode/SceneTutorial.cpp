@@ -15,6 +15,7 @@ void SceneTutorial::Initialize()
     sprruru3 =sprite_load(L"./Data/Images/ruru3.png");
     sprruru4 =sprite_load(L"./Data/Images/ruru4.png");
     sprruru5 =sprite_load(L"./Data/Images/ruru5.png");
+    sprruru6= sprite_load(L"./Data/Images/ruru6.png");
     sprmemo= sprite_load(L"./Data/Images/MemoBackground.png");
     Tutorialmap.map.resize(4);
 
@@ -40,7 +41,10 @@ void SceneTutorial::Initialize()
     Tutorialmap.block[1][3].angle = 180;
     Tutorialmap.m.move.speed = 2;
     Tutorialmap.c.move.speed = 4;
+    Tutorialmap.n.pos.x = 725;
+    Tutorialmap.n.pos.y = 670;
     player.CELLSIZE = 192;
+    step = 0;
 }
 
 void SceneTutorial::Finalize()
@@ -84,12 +88,14 @@ void SceneTutorial::Update(float delta_time)
         switch (step)
         {
         case -1:
+            stop = true;
             if (TRG(0) & PAD_START)
             {
                 step = 0;
             }
             break;
         case 0:
+            stop = false;
             Tutorialmap.TutorialUpdate();
             if (Tutorialmap.block[0][2].pass == 1)
             {
@@ -141,19 +147,23 @@ void SceneTutorial::Update(float delta_time)
             }
             break;
         case 7://
+            stop = false;
+            Tutorialmap.m.move.speed = 4;
             Tutorialmap.TutorialUpdate();
-            if (Tutorialmap.block[1][2].pass==2)
+            if (Tutorialmap.block[1][2].pass==3)
             {
                 step = 8;
             }
             break;
         case 8://道が回る説明
+            stop = true;
             if (TRG(0) & PAD_START)
             {
                 step = 9;
             }
             break;
         case 9://ゴールに付いたら
+            stop = false;
             Tutorialmap.TutorialUpdate();
             if (Tutorialmap.m.move.pos.y >= 600)
             {
@@ -161,6 +171,7 @@ void SceneTutorial::Update(float delta_time)
             }
             break;
         case 10://チュートリアル終わり
+            stop = true;
              if (TRG(0) & PAD_START)
          {
              manager->ChangeScene(new SceneTitle(manager, nullptr));
@@ -169,6 +180,7 @@ void SceneTutorial::Update(float delta_time)
        
     }
         ++tutorial_timer;
+        Tutorialmap.gametimer++;
         break;
     }
 }
@@ -179,16 +191,14 @@ void SceneTutorial::Draw()
 
     clear(0, 0, 0);
     sprite_render(sprTutorial, 0, 0, 1, 1);
+    sprite_render(sprmemo, 1020, 100, 13, 13, 0, 0, 64, 64);
 
-    sprite_render(sprmemo, 1020, 100, 13, 13, 1, 1, 64, 64);
 
-    //sprite_render(sprruru1, 1000, 150, 1, 1, 1, 1, 900, 800);
     Tutorialmap.Render();
     if (!stop)
     {
         Tutorialmap.m.move.animTimer += 1.0f / 60.0f;
     }
-    text_out(1,"端につくと反転する", 800, 200, 1, 1, 0, 1, 1);
     debug::display(1, 0, 1, 2, 2); // ← 最後に描く
     switch (step)
     {
@@ -229,21 +239,15 @@ void SceneTutorial::Draw()
         sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         break;
     case 9://ゴールに付いたら
-        Tutorialmap.TutorialUpdate();
-        if (Tutorialmap.m.move.pos.y >= 600)
-        {
-            step = 10;
-        }
+        sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         break;
     case 10://チュートリアル終わり
-        if (TRG(0) & PAD_START)
-        {
-            manager->ChangeScene(new SceneTitle(manager, nullptr));
-        }
+        sprite_render(sprruru6, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         break;
 
 
     }
+
 }
 
 #ifdef _DEBUG

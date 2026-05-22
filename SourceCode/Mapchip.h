@@ -95,7 +95,7 @@ public:
 		MoveObject move;
 	};
 	Mob m;
-	bool goal = true;
+	bool goal = false;
 	struct Car
 	{
 		MoveObject move;
@@ -116,10 +116,17 @@ public:
 		int angle;
 		int RotationCount = 0;
 		int pass = 0;
+		int stop = 0;
 		bool rotated=false;
 		bool notmove = false;
-	};
 
+	};
+	struct Nabi
+	{
+		VECTOR2 pos{ 0,0 };
+
+	};
+	Nabi n;
 	enum phase
 	{
 		upsenter,
@@ -150,21 +157,29 @@ public:
 	int rightStart = -1;
 	RoadInfo infon = Road(m.move);
 
-	Sprite* sprmap1;//草
+	Sprite* sprmap1;//赤
+	Sprite* sprpost;//ポスト
+	Sprite* sprbord;//ボード
 	Sprite* sprmap2;//直線
 	Sprite* sprnotmap2;
 
 	Sprite* sprmap3;//曲がる
-	Sprite* sprmap4;//T字
+	Sprite* sprmap4;//公園
+	Sprite* sprmap4gray;
 	Sprite* spr_Character;//動くやつ
 	Sprite* sprfield;
-	Sprite* sprCar;
-	Sprite*sprmap5;
-	Sprite*sprmap6;
-	Sprite*sprmap7;
+	Sprite* sprCar;//車
+	Sprite*sprmap5;//家
+	Sprite* sprmap5gray;
+	Sprite*sprmap6gray;//ピアノ
+	Sprite* sprmap6;//ピアノ
+
+	Sprite* sprmap7;//学校
+
 	Sprite* sprpass1;
 	Sprite* sprpass2;
 	Sprite* sprDanger;
+	Sprite* sprnabi;
 
 	BlockData block[STAGE_Y][STAGE_X] = {};//ひとマスの情報
 	Map();
@@ -187,6 +202,8 @@ public:
 	void SetMoveDown(MoveObject& obj);	   //下の向きにセットする
 	void SetMoveLeft(MoveObject& obj);	   //左の向きにセットする
 	void SetMoveRight(MoveObject& obj);   //右の向きにセットする
+	void SetRoad();
+	void Setvariable();
 	bool GoHouse(MoveObject& obj,RoadInfo& info);
 	bool Gopiano(MoveObject& obj, RoadInfo& info);
 	bool Gopark(MoveObject& obj, RoadInfo& info);

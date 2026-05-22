@@ -24,6 +24,7 @@ private:
     Sprite* sprruru3;
     Sprite* sprruru4;
     Sprite* sprruru5;
+    Sprite* sprruru6;
     Sprite* sprmemo;
     SceneBase* nextScenePtr;
     Map Tutorialmap;

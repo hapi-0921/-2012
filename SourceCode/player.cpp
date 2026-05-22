@@ -169,6 +169,25 @@ bool Player::GameUpdate(Map& mapchip)
 			int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
 			int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 
+			if (selectRow < 0 || selectRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (selectCol < 0 || selectCol >= mapchip.map[selectRow].size())
+			{
+				return false;
+			}
+
+			if (cursorRow < 0 || cursorRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (cursorCol < 0 || cursorCol >= mapchip.map[cursorRow].size())
+			{
+				return false;
+			}
 
 			// mobがいるマスは動かせない
 			if ((selectRow == mobRow && selectCol == mobCol) ||
@@ -182,7 +201,15 @@ bool Player::GameUpdate(Map& mapchip)
 			//mobcarの位置取得
 			int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
 			int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
+			if (selectRow < 0 || selectRow >= mapchip.map.size())
+			{
+				return false;
+			}
 
+			if (cursorRow < 0 || cursorRow >= mapchip.map[selectRow].size())
+			{
+				return false;
+			}
 			if ((selectRow == carRow && selectCol == carCol) ||
 				(cursorRow == carRow && cursorCol == carCol))
 			{
@@ -213,6 +240,25 @@ bool Player::GameUpdate(Map& mapchip)
 		}
 		else
 		{
+			if (selectRow < 0 || selectRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (selectCol < 0 || selectCol >= mapchip.map[selectRow].size())
+			{
+				return false;
+			}
+
+			if (cursorRow < 0 || cursorRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (cursorCol < 0 || cursorCol >= mapchip.map[cursorRow].size())
+			{
+				return false;
+			}
 			//同じ場所クリックでキャンセル
 			if (cursorRow == selectRow && cursorCol == selectCol)
 			{
