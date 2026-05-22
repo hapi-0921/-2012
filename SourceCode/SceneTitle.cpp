@@ -28,6 +28,7 @@ Sprite* sprTitleSelecting;
 Sprite* sprSelectbutton;
 
 Sprite* sprRoad;
+Sprite* TitleRogo;
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
@@ -61,6 +62,7 @@ void SceneTitle::Finalize()
     safe_delete(sprTutorialbutton);
     safe_delete(sprSelectbutton);
     safe_delete(sprRoad);
+    safe_delete(TitleRogo);
 }
 
 //更新
@@ -84,6 +86,8 @@ void SceneTitle::Update(float delta_time)
         sprRoad = sprite_load(L"./Data/Images/TitleRoad.png");
 
         fade = sprite_load(L"./Data/Images/fade.png");
+
+        TitleRogo = sprite_load(L"./Data/Images/TitleRogo.png");
 
         fade_A = 0.0;
         fade_start = false;
@@ -196,7 +200,7 @@ void SceneTitle::Draw()
     setBlendMode(Blender::BS_ALPHA);
    
     //背景
-    clear(0.5f, 0.8f, 1.0f);//空色
+    clear(0.50f, 0.66f, 0.83f);
 
     //アニメーション描画
     int frameWidth = 128;
@@ -208,7 +212,7 @@ void SceneTitle::Draw()
     sprite_render(
         sprRoad,
         960,
-        540,
+        640,
         5,
         5,
         srcX,
@@ -248,7 +252,13 @@ void SceneTitle::Draw()
         sprite_render(sprSelectbutton, 1480, 622,6,6,0, 0, texW, texH, texW / 2, texH / 2);
     }
 
+
+    //タイトルロゴ
+    sprite_render(TitleRogo, 960 - 448,540 - 512,7,6);
+
+
     sprite_render(fade, 0, 0, 1, 1, 0, 0, 1920, 1080, 0, 0, 0, 1, 1, 1, (fade_A));
+
 
     
 

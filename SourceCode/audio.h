@@ -12,10 +12,17 @@
 
 // 定数の定義
 #define XWB_TITLE 0;
-#define XWB_GAME 1;
-#define XWB_BOMB 2;
-#define XWB_SWITCH 3;
-#define XWB_COIN 4;
+#define XWB_CLICK1 1;
+#define XWB_SLIDE 2;
+#define XWB_CLICK2 3;
+#define XWB_CLICK3 4;
+#define XWB_BOOK 5;
+#define XWB_GAME 6;
+#define XWB_ACTION 7;
+#define XWB_CRACTION 8;
+
+
+
 
 // 関数のプロトタイプ宣言
 void audio_init();

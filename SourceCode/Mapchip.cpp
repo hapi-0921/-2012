@@ -1,5 +1,9 @@
 #include"Mapchip.h"
 #include <sstream>
+#include "SceneBase.h"
+#include "Character.h"
+
+
 Map::Map()
 {
 	map.resize(STAGE_Y);
@@ -89,6 +93,9 @@ void Map::Update()
 		if (m.housepoint)
 		{
 			goal = true;
+
+			
+
 		}
 		debug::setString("car%d", c.move.cartocollide);
 		Playertocollide();
@@ -172,7 +179,7 @@ void Map::TutorialCar()
 		if (timer == 180)
 		{
 			c.warning = false;
-
+			
 		// 上から出す
 		SetPosFromMap(c.move, 0, 2);
 		SetMoveRight(c.move);
@@ -181,6 +188,7 @@ void Map::TutorialCar()
 		c.move.pos.y += 50;
 		c.move.active = true;
 		c.carmove = true;
+
 	}
 
 	// 車移動
@@ -725,7 +733,7 @@ void Map::CarMoveChack(MoveObject& obj, RoadInfo& info)
 {
 	static int r = 0;
 
-
+	
 
 	// 最初だけランダム
 	if (topStart == -1)		topStart = rand() % map[0].size();
@@ -895,7 +903,7 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 		c.move.pos.y -= 30;
 		c.carmove = true;
 		c.move.active = true;
-
+		music::play(8);
 
 		break;
 
@@ -906,7 +914,7 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 		c.carmove = true;
 		c.move.active = true;
 		c.move.pos.y += 30;
-
+		music::play(8);
 
 		break;
 	case 2://右から左
@@ -916,6 +924,7 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 		c.carmove = true;
 		c.move.active = true;
 		c.move.pos.x += 30;
+		music::play(8);
 		break;
 
 	case 3://左から右
@@ -925,7 +934,7 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 		c.carmove = true;
 		c.move.active = true;
 		c.move.pos.x -= 30;
-
+		music::play(8);
 		break;
 	}
 }
@@ -1316,6 +1325,8 @@ void Map::Playertocollide()
 		m.hitTimer = 250;
 		m.invincible = true;
 		m.invincibleTimer = 260;
+		music::play(7);
+		music::setVolume(7, 1.5f);
 		if (c.move.dirX == -1)
 		{
 			m.knockbackX = -6;
@@ -1408,6 +1419,31 @@ void Map::Animation(MoveObject& obj, Sprite* spr)
 		1, 1,
 		sx, sy,
 		CHARACTER_TEX_W, CHARACTER_TEX_H);
+
+}
+
+//ピンのアニメーション
+void Map::NabiAnimation(MoveObject& obj, Sprite* spr)
+{
+	obj.animTimer += 1.0f / 60.0f;
+
+	if (obj.animTimer >= 0.15f)
+	{
+		obj.frame++;
+
+		if (obj.frame >= 4)
+		{
+			obj.frame = 0;
+		}
+
+		obj.animTimer = 0;
+	}
+
+	int sx = obj.frame * 64;
+
+	
+
+	sprite_render(sprnabi, n.pos.x, n.pos.y, 1.5, 1.5, sx, 0, 64, 64);
 
 }
 
@@ -1665,7 +1701,7 @@ void Map::Render()
 
 	Animation(m.move, spr_Character);
 	Animation(c.move, sprCar);
-	
+	NabiAnimation(n.move, sprnabi);
 	if (c.warning)
 	{
 		if (gametimer >> 4 & 0x01)
@@ -1682,8 +1718,8 @@ void Map::Render()
 			);
 		}
 	}
-	sprite_render(sprnabi, n.pos.x, n.pos.y, 1.5, 1.5, 1, 1, 64, 64);
-
+	
+	
 
 
 

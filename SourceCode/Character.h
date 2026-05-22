@@ -15,7 +15,7 @@ class Character
 {
 private:
 	Sprite* spr_Character;
-
+	
 	//アニメーション
 	int frame;
 	float animTimer;
@@ -35,6 +35,8 @@ public:
 
 	void Move();
 	void Draw();
+	
+
 };
 
 
