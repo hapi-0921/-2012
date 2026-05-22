@@ -65,7 +65,7 @@ public:
 
 		int dirY = 1;
 		int dirX = 1;
-		int speed = 1;
+		float speed = 1;
 		int phase = 0;
 		bool moving = false;
 		bool canRotate = true;//ŽÔ‚©ƒ‚ƒu‚©
