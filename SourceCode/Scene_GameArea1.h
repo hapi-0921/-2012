@@ -18,7 +18,7 @@ public:
     void Finalize() override;
     void Update(float delta_time) override;
     void Draw() override;
-  
+    void DrawbuttonGame(Button button);
 
 private:
     SceneBase* nextScenePtr;

@@ -95,7 +95,7 @@ public:
 		MoveObject move;
 	};
 	Mob m;
-	bool goal = true;
+	bool goal = false;
 	struct Car
 	{
 		MoveObject move;

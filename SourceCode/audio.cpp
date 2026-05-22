@@ -14,6 +14,9 @@ void audio_init()
 
     music::load(4, L"./Data/Sound/block_click2.wav");
 
+    music::load(5, L"./Data/Sound/openbook.wav");
+
+
 }
 
 void audio_deinit()
