@@ -272,7 +272,7 @@ void Scene_GameArea1::Draw()
     
     if ((stage1_frame_timer / 32) % 2 == 0 && player.GetSelecting())
     {
-        sprite_render(sprFrame, (player.GetSelectingCol() + 1) * 128 - 20, (player.GetSelectingRow() + 1) * 128 - 30);
+        sprite_render(sprFrame, (player.GetSelectingCol() + 1) * 128 - 28, (player.GetSelectingRow() + 1) * 128 - 28);
     }
     if (player.isKeyboardMode()) sprite_render(sprKeyCurPos, col, row+15, 2, 2);
 

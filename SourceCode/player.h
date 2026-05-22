@@ -47,6 +47,7 @@ public:
 
 	bool MenuUpdate(int memuMax);//メニュー(titleやresultで使う用)
 	bool GameUpdate(Map& mapchip);//ゲーム内で使う用
+    bool TutorialUpdate(Map& Tutorialmap);
 
     void reset();
 
@@ -55,6 +56,8 @@ public:
 	int GetSelectingCol();
 	int GetCursorRow();
 	int GetCursorCol();
+    int GetTutorialRow();
+    int GetTutorialCol();
 
 	bool isKeyboardMode();
 
