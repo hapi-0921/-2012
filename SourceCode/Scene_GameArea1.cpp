@@ -69,6 +69,8 @@ void Scene_GameArea1::Finalize()
 
     safe_delete(sprNext);
 
+    music::stop(6);
+
 }
 
 void Scene_GameArea1::Update(float delta_time)
@@ -89,7 +91,8 @@ void Scene_GameArea1::Update(float delta_time)
         sprNext = sprite_load(L"./Data/Images/Next.png");
         stage1_state++;
 
-
+        //音楽再生（ループ）
+        music::play(6, true);
         break;
 
     case 1:
@@ -156,6 +159,12 @@ void Scene_GameArea1::Update(float delta_time)
         if (!tutorialOpen)
         {
             mapchip.Update();
+
+            //ゴールした
+            if (mapchip.goal)
+            {
+                manager->ChangeScene(new SceneResult(manager, stage1_timer));
+            }
 
             // タイマー
             static int frame = 0;
@@ -263,7 +272,7 @@ void Scene_GameArea1::Draw()
     
     if ((stage1_frame_timer / 32) % 2 == 0 && player.GetSelecting())
     {
-        sprite_render(sprFrame, (player.GetSelectingCol() + 1) * 128 - 20, (player.GetSelectingRow() + 1) * 128 - 30);
+        sprite_render(sprFrame, (player.GetSelectingCol() + 1) * 128 - 28, (player.GetSelectingRow() + 1) * 128 - 28);
     }
     if (player.isKeyboardMode()) sprite_render(sprKeyCurPos, col, row+15, 2, 2);
 

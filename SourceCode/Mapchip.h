@@ -124,7 +124,7 @@ public:
 	struct Nabi
 	{
 		VECTOR2 pos{ 0,0 };
-
+		MoveObject move;
 	};
 	Nabi n;
 	enum phase
@@ -156,6 +156,11 @@ public:
 	int leftStart = -1;
 	int rightStart = -1;
 	RoadInfo infon = Road(m.move);
+
+
+	
+
+	
 
 	Sprite* sprmap1;//ê‘
 	Sprite* sprpost;//É|ÉXÉg
@@ -213,6 +218,8 @@ public:
 		float bx, float by, float bw, float bh);
 	void Playertocollide();
 	void Animation(MoveObject& obj,Sprite* spr);
+	void NabiAnimation(MoveObject& obj, Sprite* spr);
+
 	float DegToRad(float degree)
 	{
 		const float PI = 3.1415926535f;

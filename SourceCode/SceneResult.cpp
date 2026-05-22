@@ -176,7 +176,7 @@ void SceneResult::Draw()
     //時間が０以上ならクリア画面
     if (clearTime > 0)
     {
-        sprite_render(Gameclear, 1500, 300, 5, 5, 0, 0, 64, 64, 32, 32, 170);
+        sprite_render(Gameclear, 1500, 750, 5, 5, 0, 0, 64, 64, 32, 32, 170);
 
         sprite_render(GameclearRogo, 900, 300, 8, 8, 0, 0, 128, 64, 64, 32);
 

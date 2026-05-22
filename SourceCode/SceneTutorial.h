@@ -30,6 +30,10 @@ private:
     Map Tutorialmap;
     Player player;
 
+    Sprite* sprKeyCurPosTu;
+    int row;
+    int col;
+
 #ifdef _DEBUG
     void DrawImGui();
 #endif

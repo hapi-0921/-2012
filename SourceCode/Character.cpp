@@ -19,6 +19,8 @@ Character::Character()
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 
+	
+
 	if (spr_Character == nullptr)
 	{
 		printf("‰æ‘œƒ[ƒh¸”s\n");
@@ -28,6 +30,9 @@ Character::Character()
 Character::~Character()
 {
 	safe_delete(spr_Character);
+
+	
+
 }
 
 void Character::Move()
@@ -64,3 +69,4 @@ void Character::Draw()
 
 	if (spr_Character == nullptr) return;
 }
+
