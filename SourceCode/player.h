@@ -32,6 +32,7 @@ private:
 
 
 public:
+    bool Tutorial = false;
     int CELLSIZE = 128;
     Player();
     ~Player();

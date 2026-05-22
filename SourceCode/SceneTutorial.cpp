@@ -43,7 +43,7 @@ void SceneTutorial::Initialize()
     Tutorialmap.c.move.speed = 4;
     Tutorialmap.n.pos.x = 725;
     Tutorialmap.n.pos.y = 670;
-    player.CELLSIZE = 192;
+    player.Tutorial = true;
     step = 0;
 }
 
@@ -150,27 +150,34 @@ void SceneTutorial::Update(float delta_time)
             stop = false;
             Tutorialmap.m.move.speed = 4;
             Tutorialmap.TutorialUpdate();
-            if (Tutorialmap.block[1][2].pass==3)
+            if (Tutorialmap.block[1][2].pass==2)
             {
                 step = 8;
             }
             break;
         case 8://道が回る説明
-            stop = true;
-            if (TRG(0) & PAD_START)
+            Tutorialmap.TutorialUpdate();
+            if (Tutorialmap.block[1][2].pass == 3)
             {
                 step = 9;
             }
             break;
-        case 9://ゴールに付いたら
-            stop = false;
-            Tutorialmap.TutorialUpdate();
-            if (Tutorialmap.m.move.pos.y >= 600)
+        case 9:
+            stop = true;
+            if (TRG(0) & PAD_START)
             {
                 step = 10;
             }
             break;
-        case 10://チュートリアル終わり
+        case 10://ゴールに付いたら
+            stop = false;
+            Tutorialmap.TutorialUpdate();
+            if (Tutorialmap.m.move.pos.y >= 600)
+            {
+                step = 11;
+            }
+            break;
+        case 11://チュートリアル終わり
             stop = true;
              if (TRG(0) & PAD_START)
          {
@@ -238,10 +245,13 @@ void SceneTutorial::Draw()
     case 8://道が回る説明
         sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         break;
-    case 9://ゴールに付いたら
+    case 9:
         sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         break;
-    case 10://チュートリアル終わり
+    case 10://ゴールに付いたら
+        sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        break;
+    case 11://チュートリアル終わり
         sprite_render(sprruru6, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         break;
 

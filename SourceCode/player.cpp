@@ -73,6 +73,7 @@ bool Player::IsHovered(Button button, float mouseX, float mouseY)
 //メニュー画面(titleやresultで使う用)
 bool Player::MenuUpdate(int menuMax)
 {
+	
 	player_timer++;
 
 	CursorPos pos = getCursorpos();
@@ -97,6 +98,14 @@ bool Player::MenuUpdate(int menuMax)
 //ゲーム用
 bool Player::GameUpdate(Map& mapchip)
 {
+	if (Tutorial)
+	{
+		CELLSIZE = 192;
+	}
+	else if (!Tutorial)
+	{
+		CELLSIZE = 128;
+	}
 	player_timer++;
 
 	CursorPos pos = getCursorpos();
@@ -155,12 +164,19 @@ bool Player::GameUpdate(Map& mapchip)
 		if (mouseClick || TRG(0) & PAD_START)
 
 		{
+			
+			//未選択
+			if (!isSelecting)
+			{
+				//一個目選択
+				selectRow = cursorRow;
+				selectCol = cursorCol;
 
-			selectCol = cursorCol;
+				music::play(3);
 
-			//mobの位置取得
-			int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-			int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
+				//mobの位置取得
+				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
 
 			if (selectRow < 0 || selectRow >= mapchip.map.size())
 			{
@@ -182,29 +198,107 @@ bool Player::GameUpdate(Map& mapchip)
 				return false;
 			}
 
-			// mobがいるマスは動かせない
-			if ((selectRow == mobRow && selectCol == mobCol) ||
-				(cursorRow == mobRow && cursorCol == mobCol))
+				// mobがいるマスは動かせない
+				if ((selectRow == mobRow && selectCol == mobCol) ||
+					(cursorRow == mobRow && cursorCol == mobCol))
 
-				//未選択
-				if (!isSelecting)
 				{
-					//一個目選択
-					selectRow = cursorRow;
-					selectCol = cursorCol;
+					isSelecting = false;
+					return false;
+				}
+
+			//mobcarの位置取得
+			int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
+			int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
+			if (selectRow < 0 || selectRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (cursorRow < 0 || cursorRow >= mapchip.map[selectRow].size())
+			{
+				return false;
+			}
+			if ((selectRow == carRow && selectCol == carCol) ||
+				(cursorRow == carRow && cursorCol == carCol))
+			{
+				isSelecting = false;
+				return false;
+			}
+
+				// 動かせない特殊マス
+				int selectType = mapchip.map[selectRow][selectCol];
+				int cursorType = mapchip.map[cursorRow][cursorCol];
+
+				// house(5) piano(6) school(7) は移動禁止
+				if ((selectType >= 4 && selectType <= 7) ||
+					(cursorType >= 4 && cursorType <= 7))
+				{
+					isSelecting = false;
+					return false;
+				}
+
+				if (mapchip.block[selectRow][selectCol].notmove ||
+					mapchip.block[cursorRow][cursorCol].notmove)
+				{
+					isSelecting = false;
+					return false;
+				}
+
+			isSelecting = true;
+		}
+		else
+		{
+			if (selectRow < 0 || selectRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (selectCol < 0 || selectCol >= mapchip.map[selectRow].size())
+			{
+				return false;
+			}
+
+			if (cursorRow < 0 || cursorRow >= mapchip.map.size())
+			{
+				return false;
+			}
+
+			if (cursorCol < 0 || cursorCol >= mapchip.map[cursorRow].size())
+			{
+				return false;
+			}
+			//同じ場所クリックでキャンセル
+			if (cursorRow == selectRow && cursorCol == selectCol)
+			{
+				isSelecting = false;
+				return true;
+			}
+
+			int dr = abs(cursorRow - selectRow);
+			int dc = abs(cursorCol - selectCol);
+			
+			//上下左右なら入れ替え
+			if (dr + dc == 1)
+			{
+				//mobの位置取得
+				int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
+
+			
+				int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;		
+				
+					// mobがいるマスは動かせない
+					if ((selectRow == mobRow && selectCol == mobCol) ||
+						(cursorRow == mobRow && cursorCol == mobCol))
+					{
+						isSelecting = false;
+						return false;
+					}
 
 					//mobcarの位置取得
 					int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
 					int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
-					if (selectRow < 0 || selectRow >= mapchip.map.size())
-					{
-						return false;
-					}
 
-					if (cursorRow < 0 || cursorRow >= mapchip.map[selectRow].size())
-					{
-						return false;
-					}
 					if ((selectRow == carRow && selectCol == carCol) ||
 						(cursorRow == carRow && cursorCol == carCol))
 					{
@@ -231,217 +325,20 @@ bool Player::GameUpdate(Map& mapchip)
 						return false;
 					}
 
-					isSelecting = true;
+					music::play(4);
+
+					std::swap(mapchip.map[selectRow][selectCol],
+						mapchip.map[cursorRow][cursorCol]);
+
+					std::swap(mapchip.block[selectRow][selectCol],
+						mapchip.block[cursorRow][cursorCol]);
 				}
-				else
-				{
-					if (selectRow < 0 || selectRow >= mapchip.map.size())
-					{
-						return false;
-					}
-
-					if (selectCol < 0 || selectCol >= mapchip.map[selectRow].size())
-					{
-						return false;
-					}
-
-					if (cursorRow < 0 || cursorRow >= mapchip.map.size())
-					{
-						return false;
-					}
-
-					if (cursorCol < 0 || cursorCol >= mapchip.map[cursorRow].size())
-					{
-						return false;
-					}
-					//同じ場所クリックでキャンセル
-					if (cursorRow == selectRow && cursorCol == selectCol)
-					{
-						isSelecting = false;
-						return true;
-					}
-
-					int dr = abs(cursorRow - selectRow);
-					int dc = abs(cursorCol - selectCol);
-
-					//上下左右なら入れ替え
-					if (dr + dc == 1)
-					{
-						//mobの位置取得
-						int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-						int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-
-						// mobがいるマスは動かせない
-						if ((selectRow == mobRow && selectCol == mobCol) ||
-							(cursorRow == mobRow && cursorCol == mobCol))
-						{
-							isSelecting = false;
-							return false;
-						}
-						music::play(3);
-
-
-
-						if (selectRow < 0 || selectRow >= mapchip.map.size())
-						{
-							return false;
-						}
-
-						if (selectCol < 0 || selectCol >= mapchip.map[selectRow].size())
-						{
-							return false;
-						}
-
-						if (cursorRow < 0 || cursorRow >= mapchip.map.size())
-						{
-							return false;
-						}
-
-						if (cursorCol < 0 || cursorCol >= mapchip.map[cursorRow].size())
-						{
-							return false;
-						}
-
-						// mobがいるマスは動かせない
-						if ((selectRow == mobRow && selectCol == mobCol) ||
-							(cursorRow == mobRow && cursorCol == mobCol))
-
-						{
-							isSelecting = false;
-							return false;
-						}
-
-						//mobcarの位置取得
-						int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
-						int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
-						if (selectRow < 0 || selectRow >= mapchip.map.size())
-						{
-							return false;
-						}
-
-						if (cursorRow < 0 || cursorRow >= mapchip.map[selectRow].size())
-						{
-							return false;
-						}
-						if ((selectRow == carRow && selectCol == carCol) ||
-							(cursorRow == carRow && cursorCol == carCol))
-						{
-							isSelecting = false;
-							return false;
-						}
-
-						// 動かせない特殊マス
-						int selectType = mapchip.map[selectRow][selectCol];
-						int cursorType = mapchip.map[cursorRow][cursorCol];
-
-						// house(5) piano(6) school(7) は移動禁止
-						if ((selectType >= 4 && selectType <= 7) ||
-							(cursorType >= 4 && cursorType <= 7))
-						{
-							isSelecting = false;
-							return false;
-						}
-
-						if (mapchip.block[selectRow][selectCol].notmove ||
-							mapchip.block[cursorRow][cursorCol].notmove)
-						{
-							isSelecting = false;
-							return false;
-						}
-
-						isSelecting = true;
-					}
-					else
-					{
-						if (selectRow < 0 || selectRow >= mapchip.map.size())
-						{
-							return false;
-						}
-
-						if (selectCol < 0 || selectCol >= mapchip.map[selectRow].size())
-						{
-							return false;
-						}
-
-						if (cursorRow < 0 || cursorRow >= mapchip.map.size())
-						{
-							return false;
-						}
-
-						if (cursorCol < 0 || cursorCol >= mapchip.map[cursorRow].size())
-						{
-							return false;
-						}
-						//同じ場所クリックでキャンセル
-						if (cursorRow == selectRow && cursorCol == selectCol)
-						{
-							isSelecting = false;
-							return true;
-						}
-
-						int dr = abs(cursorRow - selectRow);
-						int dc = abs(cursorCol - selectCol);
-						//上下左右なら入れ替え
-						if (dr + dc == 1)
-						{
-							//mobの位置取得
-							int mobCol = (mapchip.m.move.pos.x + 32 - X) / CELLSIZE;
-
-
-							int mobRow = (mapchip.m.move.pos.y + 64 - Y) / CELLSIZE;
-							// mobがいるマスは動かせない
-							if ((selectRow == mobRow && selectCol == mobCol) ||
-								(cursorRow == mobRow && cursorCol == mobCol))
-							{
-								isSelecting = false;
-								return false;
-							}
-
-							//mobcarの位置取得
-							int carCol = (mapchip.c.move.pos.x + 32 - X) / CELLSIZE;
-							int carRow = (mapchip.c.move.pos.y + 64 - Y) / CELLSIZE;
-
-							if ((selectRow == carRow && selectCol == carCol) ||
-								(cursorRow == carRow && cursorCol == carCol))
-							{
-								isSelecting = false;
-								return false;
-							}
-
-							// 動かせない特殊マス
-							int selectType = mapchip.map[selectRow][selectCol];
-							int cursorType = mapchip.map[cursorRow][cursorCol];
-
-							// house(5) piano(6) school(7) は移動禁止
-							if ((selectType >= 4 && selectType <= 7) ||
-								(cursorType >= 4 && cursorType <= 7))
-							{
-								isSelecting = false;
-								return false;
-							}
-
-							if (mapchip.block[selectRow][selectCol].notmove ||
-								mapchip.block[cursorRow][cursorCol].notmove)
-							{
-								isSelecting = false;
-								return false;
-							}
-
-							music::play(4);
-
-							std::swap(mapchip.map[selectRow][selectCol],
-								mapchip.map[cursorRow][cursorCol]);
-
-							std::swap(mapchip.block[selectRow][selectCol],
-								mapchip.block[cursorRow][cursorCol]);
-						}
-						//選択解除
-						isSelecting = false;
-					}
-				}
-
-			return mouseClick;
+				//選択解除
+				isSelecting = false;
+			}
 		}
+
+	return mouseClick;
 }
 
 //状態リセット
