@@ -418,15 +418,15 @@ void Scene_GameArea1::Draw()
 
 void Scene_GameArea1::DrawbuttonGame(Button button)
 {
-    //GameLib::primitive::rect(
-    //    button.x,
-    //    button.y,
-    //    button.width,
-    //    button.height,
-    //    0, 0, 0,
-    //    1, 0, 0, 0.3f,    // 色
-    //    false
-    //);
+    GameLib::primitive::rect(
+        button.x,
+        button.y,
+        button.width,
+        button.height,
+        0, 0, 0,
+        1, 0, 0, 0.3f,    // 色
+        false
+    );
 
 }
 
