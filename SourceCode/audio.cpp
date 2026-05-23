@@ -8,7 +8,8 @@ void audio_init()
     music::load(0, L"./Data/Musics/music1long.wav");
     //ゲーム中
     music::load(6, L"./Data/Musics/music3long.wav");
-
+    //リザルト
+    music::load(9, L"./Data/Musics/music2long.wav");
 
 
     //SOUND
@@ -26,6 +27,13 @@ void audio_init()
     music::load(7, L"./Data/Sound/kawaii3.wav");
     //クラクション
     music::load(8, L"./Data/Sound/clactionW.wav");
+    //ゲームオーバー
+    music::load(10, L"./Data/Sound/GAMEOVER.wav");
+    //ゲームクリア
+    music::load(11, L"./Data/Sound/victory.wav");
+    //カウント音
+    music::load(12, L"./Data/Sound/count.wav");
+
 
 
 

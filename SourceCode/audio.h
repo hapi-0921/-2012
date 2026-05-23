@@ -20,6 +20,11 @@
 #define XWB_GAME 6;
 #define XWB_ACTION 7;
 #define XWB_CRACTION 8;
+#define XWB_RESULT 9;
+#define XWB_GAMEOVER 10;
+#define XWB_GAMECREAR 11;
+#define XWB_COUNT 12;
+
 
 
 
