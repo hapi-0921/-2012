@@ -26,6 +26,9 @@ private:
     Sprite* sprruru5;
     Sprite* sprruru6;
     Sprite* sprmemo;
+    Sprite* sprclick;
+    Sprite* sprGray;
+    Sprite* sprskip;
     SceneBase* nextScenePtr;
     Map Tutorialmap;
     Player player;

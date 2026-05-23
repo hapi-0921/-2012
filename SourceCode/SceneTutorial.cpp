@@ -18,6 +18,10 @@ void SceneTutorial::Initialize()
     sprruru6= sprite_load(L"./Data/Images/ruru6.png");
     sprmemo= sprite_load(L"./Data/Images/MemoBackground.png");
     sprKeyCurPosTu = sprite_load(L"./Data/Images/cursor.png");
+    sprclick = sprite_load(L"./Data/Images/click.png");
+    sprGray= sprite_load(L"./Data/Images/Gray.png");
+    sprskip= sprite_load(L"./Data/Images/skip.png");
+
     Tutorialmap.map.resize(4);
 
     for (int y = 0; y < 4; y++)
@@ -45,7 +49,7 @@ void SceneTutorial::Initialize()
     Tutorialmap.n.pos.x = 725;
     Tutorialmap.n.pos.y = 670;
     player.Tutorial = true;
-    step = 0;
+    step = -1;
 }
 
 void SceneTutorial::Finalize()
@@ -62,7 +66,6 @@ void SceneTutorial::Update(float delta_time)
         //////// 初期設定 ////////
 
         sprTutorial = sprite_load(L"./Data/Images/tutorial.png");
-
 
         tutorial_state++;
 
@@ -91,7 +94,7 @@ void SceneTutorial::Update(float delta_time)
         {
         case -1:
             stop = true;
-            if (TRG(0) & PAD_START)
+            if (player.MenuUpdate(1))
             {
                 step = 0;
             }
@@ -107,7 +110,7 @@ void SceneTutorial::Update(float delta_time)
 
         case 1://ブロックが端についたら説明
             stop = true;
-            if (TRG(0) & PAD_START)
+            if (player.MenuUpdate(1))
             {
                 step = 2;
 
@@ -143,6 +146,7 @@ void SceneTutorial::Update(float delta_time)
         case 5://車出す
             stop = true;
             Tutorialmap.TutorialCar();
+            Tutorialmap.c.move.speed = 4;
             if (Tutorialmap.c.move.pos.x == 2000)
             {
                 step = 7;
@@ -166,7 +170,7 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 9:
             stop = true;
-            if (TRG(0) & PAD_START)
+            if (player.MenuUpdate(1))
             {
                 step = 10;
             }
@@ -176,13 +180,14 @@ void SceneTutorial::Update(float delta_time)
             Tutorialmap.TutorialUpdate();
             if (Tutorialmap.m.move.pos.y >= 600)
             {
+                Tutorialmap.m.housepoint = true;
                 step = 11;
             }
             break;
         case 11://チュートリアル終わり
             stop = true;
-             if (TRG(0) & PAD_START)
-         {
+            if (player.MenuUpdate(1))
+            {
              manager->ChangeScene(new SceneTitle(manager, nullptr));
          }
             break;
@@ -199,11 +204,10 @@ void SceneTutorial::Draw()
     setBlendMode(Blender::BS_ALPHA);
 
     clear(0, 0, 0);
-    sprite_render(sprTutorial, 0, 0, 1, 1);
+    Tutorialmap.Render();
     sprite_render(sprmemo, 1020, 100, 13, 13, 0, 0, 64, 64);
 
 
-    Tutorialmap.Render();
     if (!stop)
     {
         Tutorialmap.m.move.animTimer += 1.0f / 60.0f;
@@ -213,13 +217,24 @@ void SceneTutorial::Draw()
     {
     case -1:
         sprite_render(sprruru1, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprclick, 1560, 760, 0.5, 0.5, 1, 1, 454, 340);
+        }
+       
+        
             break;
     case 0:
         sprite_render(sprruru1, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        
         break;
 
     case 1://ブロックが端についたら説明
         sprite_render(sprruru2, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprclick, 1560, 760, 0.5, 0.5, 1, 1, 454, 340);
+        }
         break;
     case 2:
         sprite_render(sprruru2, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
@@ -227,7 +242,7 @@ void SceneTutorial::Draw()
         break;
     case 3://playerにマス動かさせる
         sprite_render(sprruru3, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
-
+        sprite_render(sprGray, 0, 0, 1, 1, 1, 1, 1920, 1080);
         break;
     case 4:
         sprite_render(sprruru3, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
@@ -243,18 +258,38 @@ void SceneTutorial::Draw()
         break;
     case 7://
         sprite_render(sprruru4, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprskip, 1560, 200, 0.5, 0.5, 1, 1, 300, 300);
+        }
         break;
     case 8://道が回る説明
         sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprskip, 1560, 200, 0.5, 0.5, 1, 1, 300, 300);
+        }
         break;
     case 9:
         sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprclick, 1560, 760, 0.5, 0.5, 1, 1, 454, 340);
+        }
         break;
     case 10://ゴールに付いたら
-        sprite_render(sprruru5, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        sprite_render(sprruru6, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprskip, 1560, 200, 0.5, 0.5, 1, 1, 300, 300);
+        }
         break;
     case 11://チュートリアル終わり
         sprite_render(sprruru6, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
+        if (Tutorialmap.gametimer >> 5 & 0x01)
+        {
+            sprite_render(sprclick, 1560, 760, 0.5, 0.5, 1, 1, 454, 340);
+        }
         break;
 
 

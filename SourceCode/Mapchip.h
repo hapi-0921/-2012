@@ -173,6 +173,7 @@ public:
 	Sprite* sprmap4gray;
 	Sprite* spr_Character;//“®‚­‚â‚Â
 	Sprite* sprfield;
+	Sprite* sprback;
 	Sprite* sprCar;//ŽÔ
 	Sprite*sprmap5;//‰Æ
 	Sprite* sprmap5gray;

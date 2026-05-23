@@ -19,7 +19,6 @@ Sprite* sprTutolialBook;
 Sprite* sprMemo1;
 Sprite* sprMemo2;
 Sprite* sprMemo3;
-
 Sprite* sprNext;
 
 
@@ -40,7 +39,7 @@ bool tutorialOpen = false;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-    stage1_timer = 10;
+    stage1_timer = 100;
 
 
 
