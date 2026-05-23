@@ -431,17 +431,6 @@ void Player::reset()
 {
 	prevMouseLeft = true;
 	decided = false;
-
-	isSelecting = false;
-
-	selectRow = 0;
-	selectCol = 0;
-
-	cursorRow = 0;
-	cursorCol = 0;
-
-	TutorialRow = 0;
-	TutorialCol = 0;
 }
 
 

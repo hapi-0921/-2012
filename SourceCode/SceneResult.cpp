@@ -128,8 +128,15 @@ void SceneResult::Update(float delta_time)
 
             if (TRG(0) & PAD_START)
             {
-                manager->ChangeScene(new SceneTitle(manager));;
-                music::play(1);
+                switch (player.GetCursorIndex())
+                {
+                case 0:
+                    manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ選択画面へ
+                    break;
+                case 1:
+                    manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
+                    break;
+                }
             }
 
 
@@ -137,6 +144,7 @@ void SceneResult::Update(float delta_time)
 
             if (click)
             {
+          
                 if (player.IsHovered(titleButton, pos.x, pos.y))
                 {
                     manager->ChangeScene(new SceneTitle(manager,nullptr));//タイトル画面へ

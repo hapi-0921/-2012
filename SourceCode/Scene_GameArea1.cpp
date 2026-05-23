@@ -51,10 +51,6 @@ float countdownTimer = 0.0f;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-<<<<<<< HEAD
-    stage1_timer = 100;
-=======
->>>>>>> 74563684b9a5d06304390e69c32e8e7a9d4f45ae
 
     stage1_timer = 100;
 
@@ -422,15 +418,15 @@ void Scene_GameArea1::Draw()
 
 void Scene_GameArea1::DrawbuttonGame(Button button)
 {
-    GameLib::primitive::rect(
-        button.x,
-        button.y,
-        button.width,
-        button.height,
-        0, 0, 0,
-        1, 0, 0, 0.3f,    // 色
-        false
-    );
+    //GameLib::primitive::rect(
+    //    button.x,
+    //    button.y,
+    //    button.width,
+    //    button.height,
+    //    0, 0, 0,
+    //    1, 0, 0, 0.3f,    // 色
+    //    false
+    //);
 
 }
 

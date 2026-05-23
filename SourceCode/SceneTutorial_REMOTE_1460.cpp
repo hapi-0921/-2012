@@ -69,10 +69,13 @@ void SceneTutorial::Update(float delta_time)
 
         sprTutorial = sprite_load(L"./Data/Images/tutorial.png");
 
+<<<<<<< HEAD
+=======
         //音楽再生（ループ）
         music::play(6, true);
 
 
+>>>>>>> 74563684b9a5d06304390e69c32e8e7a9d4f45ae
         tutorial_state++;
 
 
@@ -116,7 +119,6 @@ void SceneTutorial::Update(float delta_time)
 
         case 1://ブロックが端についたら説明
             stop = true;
-
             if (player.MenuUpdate(1))
             {
                 step = 2;
@@ -177,7 +179,6 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 9:
             stop = true;
-
             if (player.MenuUpdate(1))
             {
                 step = 10;
@@ -194,10 +195,8 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 11://チュートリアル終わり
             stop = true;
-
             if (player.MenuUpdate(1))
             {
-
              manager->ChangeScene(new SceneTitle(manager, nullptr));
          }
             break;

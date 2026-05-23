@@ -69,10 +69,13 @@ void SceneTutorial::Update(float delta_time)
 
         sprTutorial = sprite_load(L"./Data/Images/tutorial.png");
 
+<<<<<<< HEAD
+=======
         //音楽再生（ループ）
         music::play(6, true);
 
 
+>>>>>>> 74563684b9a5d06304390e69c32e8e7a9d4f45ae
         tutorial_state++;
 
 
@@ -91,6 +94,7 @@ void SceneTutorial::Update(float delta_time)
         debug::setString("moby%f", Tutorialmap.m.move.pos.y);
 
 
+        bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 
         row = (player.GetTutorialRow() + 1) * 198;
         col = (player.GetTutorialCol() + 1) * 198;
@@ -100,7 +104,11 @@ void SceneTutorial::Update(float delta_time)
         {
         case -1:
             stop = true;
+<<<<<<< HEAD
+            if (TRG(0) & PAD_START || mouseLeft)
+=======
             if (player.MenuUpdate(1))
+>>>>>>> b5ad7f32a18c85d02aa7da078b4ebd63dc13bb45
             {
                 step = 0;
             }
@@ -116,8 +124,11 @@ void SceneTutorial::Update(float delta_time)
 
         case 1://ブロックが端についたら説明
             stop = true;
-
+<<<<<<< HEAD
+            if (TRG(0) & PAD_START || mouseLeft)
+=======
             if (player.MenuUpdate(1))
+>>>>>>> b5ad7f32a18c85d02aa7da078b4ebd63dc13bb45
             {
                 step = 2;
 
@@ -177,8 +188,11 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 9:
             stop = true;
-
+<<<<<<< HEAD
+            if (TRG(0) & PAD_START || mouseLeft)
+=======
             if (player.MenuUpdate(1))
+>>>>>>> b5ad7f32a18c85d02aa7da078b4ebd63dc13bb45
             {
                 step = 10;
             }
@@ -194,10 +208,13 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 11://チュートリアル終わり
             stop = true;
-
+<<<<<<< HEAD
+            if (TRG(0) & PAD_START || mouseLeft)
+         {
+=======
             if (player.MenuUpdate(1))
             {
-
+>>>>>>> b5ad7f32a18c85d02aa7da078b4ebd63dc13bb45
              manager->ChangeScene(new SceneTitle(manager, nullptr));
          }
             break;
