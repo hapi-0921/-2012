@@ -23,6 +23,7 @@
 #define XWB_RESULT 9;
 #define XWB_GAMEOVER 10;
 #define XWB_GAMECREAR 11;
+#define XWB_COUNT 12;
 
 
 

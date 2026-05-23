@@ -22,6 +22,13 @@ Sprite* sprMemo3;
 
 Sprite* sprNext;
 
+Sprite* sprRuru;
+Sprite* spr3;
+Sprite* spr2;
+Sprite* spr1;
+
+Sprite* Town;
+
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
@@ -37,16 +44,19 @@ int tutorialPage = 0;
 bool tutorialOpen = false;
 
 
+//カウントダウン
+int countdownState = 0;
+float countdownTimer = 0.0f;
+
+
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-<<<<<<< HEAD
-    stage1_timer = 3;
-=======
-    stage1_timer = 10;
->>>>>>> c638bc9c25551681f3d5ce8d082ac9fe767efd82
 
+    stage1_timer = 100;
 
+    countdownState = 0;
+    countdownTimer = 0;
 
     NumberInitialize();
    
@@ -73,6 +83,17 @@ void Scene_GameArea1::Finalize()
 
     safe_delete(sprNext);
 
+    safe_delete(sprRuru);
+
+    safe_delete(spr3);
+
+    safe_delete(spr2);
+
+    safe_delete(spr1);
+
+    safe_delete(Town);
+
+
     music::stop(6);
 
 }
@@ -93,6 +114,15 @@ void Scene_GameArea1::Update(float delta_time)
         sprMemo2 = sprite_load(L"./Data/Images/MemoManual2.png");
         sprMemo3 = sprite_load(L"./Data/Images/MemoManual3.png");
         sprNext = sprite_load(L"./Data/Images/Next.png");
+
+        sprRuru = sprite_load(L"./Data/Images/ruru.png");
+
+        spr3 = sprite_load(L"./Data/Images/3.png");
+        spr2 = sprite_load(L"./Data/Images/2.png");
+        spr1 = sprite_load(L"./Data/Images/1.png");
+
+        Town = sprite_load(L"./Data/Images/Town.png");
+
         stage1_state++;
 
         //音楽再生（ループ）
@@ -109,10 +139,6 @@ void Scene_GameArea1::Update(float delta_time)
         break;
     case 2:
 
-
-
-        CursorPos pos = player.getCursorpos();
-
         // チュートリアル用クリック判定
         static bool prevTutorialMouse = false;
 
@@ -120,6 +146,57 @@ void Scene_GameArea1::Update(float delta_time)
         bool click = (!prevTutorialMouse && mouseLeft);
 
         prevTutorialMouse = mouseLeft;
+
+        //カウントダウン
+        
+        countdownTimer += delta_time;
+
+
+         // ruru表示
+        if (countdownState == 0)
+        {
+            if (click)
+            {
+                countdownState = 1;
+                countdownTimer = 0;
+            }
+            music::play(12);
+        }
+        else if (countdownState == 1)
+        {
+            if (countdownTimer >= 1.0f)
+            {
+                music::play(12);
+                countdownState = 2;
+                countdownTimer = 0;
+                music::play(12);
+            }
+        }
+        else if (countdownState == 2)
+        {
+            if (countdownTimer >= 1.0f)
+            {
+               
+                countdownState = 3;
+                countdownTimer = 0;
+                music::play(12);
+            }
+        }
+        else if (countdownState == 3)
+        {
+            if (countdownTimer >= 1.0f)
+            {
+               
+                countdownState = 4;
+                countdownTimer = 0;
+                music::play(12);
+            }
+        }
+
+        //ゲーム開始
+        CursorPos pos = player.getCursorpos();
+
+        
 
         if (click)
         {
@@ -149,8 +226,8 @@ void Scene_GameArea1::Update(float delta_time)
             }
         }
 
-        // 本を開いてない時だけプレイヤー操作
-        if (!tutorialOpen)
+        // 本を開いてない時だけプレイヤー操作,ルール、カウントが動いてるときにストップ
+        if (!tutorialOpen && countdownState == 4)
         {
             player.GameUpdate(mapchip);
         }
@@ -159,8 +236,8 @@ void Scene_GameArea1::Update(float delta_time)
         row = (player.GetCursorRow() + 1) * 128;
         col = (player.GetCursorCol() + 1) * 128;
 
-        // 本を開いてない時だけゲーム進行
-        if (!tutorialOpen)
+        // 本を開いてない時だけゲーム進行、カウントが終わり次第スタート
+        if (!tutorialOpen && countdownState == 4)
         {
             mapchip.Update();
 
@@ -204,10 +281,59 @@ void Scene_GameArea1::Draw()
     clear(0, 0, 0);
     sprite_render(sprStage1, 0, 0, 1, 1);
 
+    //ルール表示
+    if (countdownState == 0)
+    {
+        sprite_render(Town, 0, 0, 2.0f, 1.6875f);
+
+        sprite_render(sprRuru, 150, 50, 0.6f, 0.6f);
+        return;
+    }
+    //3
+    if (countdownState == 1)
+    {
+        sprite_render(Town, 0, 0, 2.0f, 1.6875f);
+
+
+
+        sprite_render(spr3,
+            860, 400,
+            1, 1);
+
+        return;
+    }
+    //2
+    if (countdownState == 2)
+    {
+        sprite_render(Town, 0,0, 2.0f, 1.6875f);
+
+        sprite_render(spr2,
+            860, 400,
+            1, 1);
+
+        return;
+    }
+    //1
+    if (countdownState == 3)
+    {
+        sprite_render(Town, 0, 0, 2.0f, 1.6875f);
+
+        sprite_render(spr1,
+            860, 400,
+            1, 1);
+
+        return;
+    }
+
+
+
+
+
+
     sprite_render(sprClock, 1624, 5, 2, 2);
 
 
-    DrawNumber(1756,15, stage1_timer);
+    DrawNumber(1826,15, stage1_timer);
 
     // 本
     float texW = 64;

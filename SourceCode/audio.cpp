@@ -30,8 +30,9 @@ void audio_init()
     //ゲームオーバー
     music::load(10, L"./Data/Sound/GAMEOVER.wav");
     //ゲームクリア
-    music::load(11, L"./Data/Sound/GAMEOVER.wav");
-
+    music::load(11, L"./Data/Sound/victory.wav");
+    //カウント音
+    music::load(12, L"./Data/Sound/count.wav");
 
 
 
