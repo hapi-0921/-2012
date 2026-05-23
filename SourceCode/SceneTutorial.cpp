@@ -87,6 +87,7 @@ void SceneTutorial::Update(float delta_time)
         debug::setString("moby%f", Tutorialmap.m.move.pos.y);
 
 
+        bool mouseLeft = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 
         row = (player.GetTutorialRow() + 1) * 198;
         col = (player.GetTutorialCol() + 1) * 198;
@@ -96,7 +97,7 @@ void SceneTutorial::Update(float delta_time)
         {
         case -1:
             stop = true;
-            if (TRG(0) & PAD_START)
+            if (TRG(0) & PAD_START || mouseLeft)
             {
                 step = 0;
             }
@@ -112,7 +113,7 @@ void SceneTutorial::Update(float delta_time)
 
         case 1://ブロックが端についたら説明
             stop = true;
-            if (TRG(0) & PAD_START)
+            if (TRG(0) & PAD_START || mouseLeft)
             {
                 step = 2;
 
@@ -171,7 +172,7 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 9:
             stop = true;
-            if (TRG(0) & PAD_START)
+            if (TRG(0) & PAD_START || mouseLeft)
             {
                 step = 10;
             }
@@ -186,7 +187,7 @@ void SceneTutorial::Update(float delta_time)
             break;
         case 11://チュートリアル終わり
             stop = true;
-             if (TRG(0) & PAD_START)
+            if (TRG(0) & PAD_START || mouseLeft)
          {
              manager->ChangeScene(new SceneTitle(manager, nullptr));
          }
