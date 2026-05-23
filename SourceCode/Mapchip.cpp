@@ -51,6 +51,8 @@ Map::Map()
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 	sprfield = sprite_load(L"./Data/Images/field.png");
+	sprback= sprite_load(L"./Data/Images/Town.png");
+
 	sprCar = sprite_load(L"./Data/Images/Track-1.png");
 	sprDanger = sprite_load(L"./Data/Images/ABUNAI.png");
 	sprnabi = sprite_load(L"./Data/Images/Nabi.png");
@@ -199,6 +201,7 @@ void Map::TutorialCar()
 	if (c.carmove)
 	{
 		RoadInfo info = Road(c.move);
+		c.move.speed = 7;
 		Move(c.move, info);
 	}
 
@@ -1325,6 +1328,18 @@ void Map::Playertocollide()
 	if (HitBox(m.move.pos.x, m.move.pos.y, 64, 64,
 		c.move.pos.x, c.move.pos.y, 64, 64) && !m.invincible)
 	{
+		float nextX = m.move.pos.x + m.knockbackX;
+		float nextY = m.move.pos.y + m.knockbackY;
+		RoadInfo info = Road(m.move);
+
+		if (info.mapX >= 0 &&
+			info.mapX < map[0].size() &&
+			info.mapY >= 0 &&
+			info.mapY < map.size())
+		{
+			m.move.pos.x = nextX;
+			m.move.pos.y = nextY;
+		}
 		m.hit = true;
 		m.hitTimer = 250;
 		m.invincible = true;
@@ -1333,23 +1348,23 @@ void Map::Playertocollide()
 		music::setVolume(7, 1.5f);
 		if (c.move.dirX == -1)
 		{
-			m.knockbackX = -3;
+			m.knockbackX = -6;
 			m.knockbackY = 0;
 		}
 		else if (c.move.dirX == 1)
 		{
-			m.knockbackX = 3;
+			m.knockbackX = 6;
 			m.knockbackY = 0;
 		}
 		else if (c.move.dirY == -1)
 		{
 			m.knockbackX = 0;
-			m.knockbackY = -3;
+			m.knockbackY = -6;
 		}
 		else if (c.move.dirY == 1)
 		{
 			m.knockbackX = 0;
-			m.knockbackY = 3;
+			m.knockbackY = 6;
 		}
 
 	}
@@ -1375,8 +1390,15 @@ void Map::Playertocollide()
 
 		if (m.hitTimer <= 0)
 		{
-			m.move.speed = 1;
-			m.hit = false;
+			
+				RoadInfo info = Road(m.move);
+
+				m.move.pos.x = info.senterX - 32;
+				m.move.pos.y = info.senterY - 64;
+
+				m.move.speed = 2.8;
+				m.hit = false;
+			
 		}
 
 		return;
@@ -1456,6 +1478,15 @@ void Map::Render()
 
 	if (tutorial)
 	{
+		sprite_render(sprback,
+			0, 0,
+			6, 6,
+			0, 0,
+			450, 450,
+			0, 0,
+			0,
+			1, 1, 1
+		);
 		sprite_render(sprfield,
 			100, 100,
 			3, 3,
@@ -1465,9 +1496,20 @@ void Map::Render()
 			0,
 			1, 1, 1
 		);
+		
+
 	}
 	else
 	{
+		sprite_render(sprback,
+			0, 0,
+			2, 2,
+			0, 0,
+			960, 640,
+			0, 0,
+			0,
+			1, 1, 1
+		);
 		sprite_render(sprfield,
 			100, 100,
 			2, 2,
@@ -1477,6 +1519,7 @@ void Map::Render()
 			0,
 			1, 1, 1
 		);
+		
 	}
 	
 
