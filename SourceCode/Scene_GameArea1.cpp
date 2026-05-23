@@ -188,7 +188,7 @@ void Scene_GameArea1::Update(float delta_time)
                
                 countdownState = 4;
                 countdownTimer = 0;
-                music::play(12);
+                music::play(13);
             }
         }
 

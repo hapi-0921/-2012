@@ -30,10 +30,18 @@ Sprite* sprSelectbutton;
 Sprite* sprRoad;
 Sprite* TitleRogo;
 
+Sprite* sprCloud;
+
+Sprite* Green;
+
+Sprite* SkyBlue;
+
+
+
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
-Button startButton = { 250,430 + 64,384,256,0 };//850/200
-Button howtoButton = { 1286,430 + 64,384,256,1 };//850/200
+Button startButton = { 100,520 + 64,384,256,0 };//250,430
+Button howtoButton = { 1436,520 + 64,384,256,1 };//1286,430
 
 
 
@@ -63,6 +71,11 @@ void SceneTitle::Finalize()
     safe_delete(sprSelectbutton);
     safe_delete(sprRoad);
     safe_delete(TitleRogo);
+    safe_delete(sprCloud);
+    safe_delete(Green);
+   
+    safe_delete(SkyBlue);
+   
 }
 
 //更新
@@ -89,9 +102,29 @@ void SceneTitle::Update(float delta_time)
 
         TitleRogo = sprite_load(L"./Data/Images/TitleRogo.png");
 
+        sprCloud = sprite_load(L"./Data/Images/cloud.png");
+
+        Green = sprite_load(L"./Data/Images/Green.png");
+
+       
+
+        SkyBlue = sprite_load(L"./Data/Images/skyblue.png");
+
+       
+
         fade_A = 0.0;
         fade_start = false;
         fade_out = false;
+
+        //雲配置
+        clouds[0] = { -100, 30, 1.0f };
+        clouds[1] = { 900, 120, 0.6f };
+        clouds[2] = { 800, 290, 1.3f };
+        clouds[3] = { -500, 250, 0.8f };
+        clouds[4] = { -200, 350, 0.8f };
+        clouds[5] = { 100, 550, 0.8f };
+
+
 
         title_state++;
 
@@ -119,6 +152,17 @@ void SceneTitle::Update(float delta_time)
         character.Move();
 
         title_timer++;
+
+        for (int i = 0; i < 4; i++)
+        {
+            clouds[i].x += clouds[i].speed;
+
+            //画面外に行ったら左へ戻す
+            if (clouds[i].x > 1920)
+            {
+                clouds[i].x = -200;
+            }
+        }
 
 
         //アニメーション
@@ -199,8 +243,43 @@ void SceneTitle::Draw()
 {
     setBlendMode(Blender::BS_ALPHA);
    
+    
+
+
     //背景
     clear(0.50f, 0.66f, 0.83f);
+
+    //青背景
+    sprite_render(
+        SkyBlue,
+        0, 0, 2, 1
+    );
+
+    //緑背景
+    sprite_render(
+        Green,
+        0, 660,2,1
+    );
+
+   
+
+
+
+    //雲描画
+    for (int i = 0; i < 4; i++)
+    {
+        sprite_render(
+            sprCloud,
+            clouds[i].x,
+            clouds[i].y,
+            2.0f, 2.0f,
+            0, 0,
+            183, 92, // 雲画像サイズ
+            0, 0,
+            0,
+            1, 1, 1
+        );
+    }
 
     //アニメーション描画
     int frameWidth = 128;
@@ -235,21 +314,21 @@ void SceneTitle::Draw()
     //チュートリアルへのボタン
     if (player.IsHovered(startButton, position.x, position.y))
     {
-        sprite_render(sprTutorialbutton, 444, 622,5.95f,5.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutorialbutton, 294, 712,5.95f,5.95f, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     else
     {
-        sprite_render(sprTutorialbutton, 444, 622,6, 6, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutorialbutton, 294, 712,6, 6, 0, 0, texW, texH, texW / 2, texH / 2);
     }
 
     //選択画面へのボタン
     if (player.IsHovered(howtoButton, position.x, position.y))
     {
-        sprite_render(sprSelectbutton, 1480, 622, 5.95f, 5.95f,0,0,texW,texH,texW/2,texH/2);
+        sprite_render(sprSelectbutton, 1630, 712, 5.95f, 5.95f,0,0,texW,texH,texW/2,texH/2);
     }
     else
     {
-        sprite_render(sprSelectbutton, 1480, 622,6,6,0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprSelectbutton, 1630, 712,6,6,0, 0, texW, texH, texW / 2, texH / 2);
     }
 
 
@@ -266,18 +345,18 @@ void SceneTitle::Draw()
 
     if (player.GetCursorIndex() == 0)
     {
-        sprite_render(sprTitleSelecting, 444, 622, 2, 2);
+        sprite_render(sprTitleSelecting, 294, 712, 2, 2);
     }
     if (player.GetCursorIndex() == 1)
     {
-        sprite_render(sprTitleSelecting, 1480, 622, 2, 2);
+        sprite_render(sprTitleSelecting, 1630, 712, 2, 2);
     }
 
     
 
 
     //デバッグ表示
-    /*Drawbutton(startButton);
+   /* Drawbutton(startButton);
 
  
     Drawbutton(howtoButton);*/
