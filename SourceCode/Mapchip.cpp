@@ -51,7 +51,7 @@ Map::Map()
 
 	spr_Character = sprite_load(L"./Data/Images/Player_1.png");
 	sprfield = sprite_load(L"./Data/Images/field.png");
-	sprback= sprite_load(L"./Data/Images/Town.png");
+	sprback= sprite_load(L"./Data/Images/backscreen.jpg");
 
 	sprCar = sprite_load(L"./Data/Images/Track-1.png");
 	sprDanger = sprite_load(L"./Data/Images/ABUNAI.png");
@@ -103,7 +103,6 @@ void Map::Update()
 
 		}
 		
-		debug::setString("car%d", c.move.cartocollide);
 		Playertocollide();
 		if (c.warning)
 		{
@@ -118,7 +117,7 @@ void Map::Update()
 					Cinfo,
 					c.spawnIndex,
 					c.spawnType);
-
+				Cinfo = Road(c.move);
 				c.warning = false;
 			}
 		}
@@ -290,8 +289,7 @@ void Map::Move(MoveObject& obj, RoadInfo& info)
 
 
 
-	if (c.move.cartocollide)
-	{
+	
 		if (info.mapX < 0 || info.mapX >= map[0].size() ||
 			info.mapY < 0 || info.mapY >= map.size())
 		{
@@ -299,7 +297,7 @@ void Map::Move(MoveObject& obj, RoadInfo& info)
 			obj.pos.y += obj.dirY * obj.speed * 2;
 			return;
 		}
-	}
+	
 
 
 	Road2(obj, info);
@@ -906,8 +904,8 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 	case 0://è„Ç©ÇÁâ∫
 		SetPosFromMap(obj, j, 0);
 		SetMoveDown(obj);
-
-		c.move.pos.y -= 30;
+		c.move.phase = upsenter;
+		c.move.pos.y -=150;
 		c.carmove = true;
 		c.move.active = true;
 		music::play(8);
@@ -917,30 +915,30 @@ void Map::CarMove(MoveObject& obj, RoadInfo& info, int j, int type)
 	case 1://â∫Ç©ÇÁè„
 		SetPosFromMap(obj, j, map.size() - 1);
 		SetMoveUp(obj);
-
+		c.move.phase =downsenter;
 		c.carmove = true;
 		c.move.active = true;
-		c.move.pos.y += 30;
+		c.move.pos.y +=150;
 		music::play(8);
 
 		break;
 	case 2://âEÇ©ÇÁç∂
 		SetPosFromMap(obj, map[0].size() - 1, j);
 		SetMoveLeft(obj);
-
+		c.move.phase = rightsenter;
 		c.carmove = true;
 		c.move.active = true;
-		c.move.pos.x += 30;
+		c.move.pos.x+=150;
 		music::play(8);
 		break;
 
 	case 3://ç∂Ç©ÇÁâE
 		SetPosFromMap(obj, 0, j);
 		SetMoveRight(obj);
-
+		c.move.phase = leftsenter;
 		c.carmove = true;
 		c.move.active = true;
-		c.move.pos.x -= 30;
+		c.move.pos.x -= 150;
 		music::play(8);
 		break;
 	}
@@ -1340,6 +1338,7 @@ void Map::Playertocollide()
 			m.move.pos.x = nextX;
 			m.move.pos.y = nextY;
 		}
+		mainasutimer = true;
 		m.hit = true;
 		m.hitTimer = 250;
 		m.invincible = true;
@@ -1379,6 +1378,8 @@ void Map::Playertocollide()
 	}
 	if (m.hit)
 	{
+		
+		
 		m.move.pos.x += m.knockbackX;
 		m.move.pos.y += m.knockbackY;
 
@@ -1386,7 +1387,7 @@ void Map::Playertocollide()
 		m.knockbackY *= 0.9f;
 		m.hitTimer--;
 		m.move.speed = 0;
-
+		c.cartimer = 900;
 
 		if (m.hitTimer <= 0)
 		{
@@ -1398,7 +1399,7 @@ void Map::Playertocollide()
 
 				m.move.speed = 2.8;
 				m.hit = false;
-			
+				
 		}
 
 		return;
@@ -1480,7 +1481,7 @@ void Map::Render()
 	{
 		sprite_render(sprback,
 			0, 0,
-			6, 6,
+			3, 3,
 			0, 0,
 			450, 450,
 			0, 0,
@@ -1503,9 +1504,9 @@ void Map::Render()
 	{
 		sprite_render(sprback,
 			0, 0,
-			2, 2,
+			1, 1,
 			0, 0,
-			960, 640,
+			1920, 1080,
 			0, 0,
 			0,
 			1, 1, 1

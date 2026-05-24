@@ -31,7 +31,7 @@ Sprite* Town;
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
-Button tutolialButton = { 1704,424,120,138,0 };
+Button tutolialButton = { 1724,152,120,138,0 };
 Button nextButton = { 1300,920,120,120,1 };
 
 int stage1_state;
@@ -51,12 +51,7 @@ float countdownTimer = 0.0f;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
-<<<<<<< HEAD
-    stage1_timer = 100;
-=======
->>>>>>> 74563684b9a5d06304390e69c32e8e7a9d4f45ae
-
-    stage1_timer = 100;
+    stage1_timer = 150;
 
     countdownState = 0;
     countdownTimer = 0;
@@ -154,7 +149,11 @@ void Scene_GameArea1::Update(float delta_time)
         
         countdownTimer += delta_time;
 
-
+        if (mapchip.mainasutimer)
+        {
+            stage1_timer -= 5;
+            mapchip.mainasutimer = false;
+        }
          // ruru表示
         if (countdownState == 0)
         {
@@ -243,7 +242,6 @@ void Scene_GameArea1::Update(float delta_time)
         if (!tutorialOpen && countdownState == 4)
         {
             mapchip.Update();
-
             //ゴールした
             if (mapchip.goal)
             {
@@ -332,7 +330,7 @@ void Scene_GameArea1::Draw()
 
 
 
-
+    mapchip.Render();
     sprite_render(sprClock, 1624, 5, 2, 2);
 
 
@@ -344,16 +342,16 @@ void Scene_GameArea1::Draw()
 
     CursorPos position = player.getCursorpos();
 
-    mapchip.Render();
+    
 
     //チュートリアルへのボタン
     if (player.IsHovered(tutolialButton, position.x, position.y))
     {
-        sprite_render(sprTutolialBook, 1762, 492, 2.95f, 2.95f, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutolialBook, 1782,220, 2.95f, 2.95f, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     else
     {
-        sprite_render(sprTutolialBook, 1762, 492, 3, 3, 0, 0, texW, texH, texW / 2, texH / 2);
+        sprite_render(sprTutolialBook, 1782, 220, 3, 3, 0, 0, texW, texH, texW / 2, texH / 2);
     }
     //メモの中身
     if (tutorialOpen)

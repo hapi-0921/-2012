@@ -146,4 +146,5 @@ void Map::Setvariable()
 
 	scale = tutorial ? 3 : 2;
 	chipSize = tutorial ? 192 : 128;
+	mainasutimer = false;
 }

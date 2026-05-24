@@ -155,6 +155,7 @@ public:
 	int bottomStart = -1;
 	int leftStart = -1;
 	int rightStart = -1;
+	bool mainasutimer = false;
 	RoadInfo infon = Road(m.move);
 
 

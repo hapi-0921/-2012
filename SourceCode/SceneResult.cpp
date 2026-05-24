@@ -18,6 +18,11 @@ Sprite* GameoverRogo;
 Sprite* Gameclear;
 Sprite* Gameover;
 
+Sprite* Gameoverbuck1;
+Sprite* Gameoverbuck2;
+
+Sprite* clearbuck1;
+Sprite* clearbuck2;
 
 Sprite* GameoverPlayer;
 
@@ -25,7 +30,7 @@ Sprite* ClearPlayer;
 
 
 //(X座標、Y座標、横幅（W）、立幅（H）、番号)
-Button titleButton = { 1470,945,224,60,0};
+Button titleButton = { 1400,900,800,400,0};
 
 
 
@@ -33,14 +38,14 @@ int result_state;
 int result_timer;
 int resultframe;
 
-
+int timer;
 
 
 void SceneResult::Initialize()
 {
     result_state = 0;
     result_timer = 0;
-
+    timer = 0;
     NumberInitialize();
 
 }
@@ -82,6 +87,12 @@ void SceneResult::Update(float delta_time)
 
         GameclearRogo = sprite_load(L"./Data/Images/ClearRogo.png");
         GameoverRogo = sprite_load(L"./Data/Images/GameoverRogo.png");
+
+        Gameoverbuck1= sprite_load(L"./Data/Images/gameover1.jpg");
+        Gameoverbuck2= sprite_load(L"./Data/Images/gameover2.jpg");
+
+        clearbuck1= sprite_load(L"./Data/Images/clear1.jpg");
+        clearbuck2= sprite_load(L"./Data/Images/clear2.jpg");
 
         if (clearTime > 0)
         {
@@ -152,6 +163,7 @@ void SceneResult::Update(float delta_time)
                 }
             }
             ++result_timer;
+            timer++;
             break;
 
         }
@@ -169,42 +181,27 @@ void SceneResult::Draw()
     int frameHeight = 64;
 
     int srcX = resultframe * frameWidth;
-
-    //ボタンの描画
-    //ボタンにカーソルを合わしたときに押し込まれてるように
-    float texW = 560;
-    float texH = 150;
-
-    CursorPos position = player.getCursorpos();
-
-    //タイトルに戻るボタン
-    if (player.IsHovered(titleButton, position.x, position.y))
-    {
-        sprite_render(sprTitlebutton, 1580, 975, 0.3f, 0.3f, 0, 0, texW, texH, texW / 2, texH / 2);
-    }
-    else
-    {
-        sprite_render(sprTitlebutton, 1580, 975, 0.4f, 0.4f, 0, 0, texW, texH, texW / 2, texH / 2);
-    }
-
-    //時間
-    DrawNumber(850, 700, clearTime);
-
     //時間が０以上ならクリア画面
     if (clearTime > 0)
     {
-        sprite_render(Gameclear, 1500, 750, 5, 5, 0, 0, 64, 64, 32, 32, 170);
+        if ((timer / 16) % 2)
+        {
+            sprite_render(clearbuck1, 0, 0, 1, 1, 0, 0, 1920, 1080);
 
-        sprite_render(GameclearRogo, 900, 300, 8, 8, 0, 0, 128, 64, 64, 32);
+        }
+        else
+        {
+            sprite_render(clearbuck2, 0, 0, 1, 1, 0, 0, 1920, 1080);
+        }
 
         //アニメーション描画
-       
+
         sprite_render(
             ClearPlayer,
-            360,
-            740,
-            4,
-            4,
+            200,
+            800,
+            5.3,
+            5.3,
             srcX,
             0,
             frameWidth,
@@ -216,17 +213,24 @@ void SceneResult::Draw()
     }
     else//０以下ならゲームオーバー画面へ
     {
-        sprite_render(Gameover, 1500, 750, 5, 5, 0, 0, 64, 64, 32, 32,170);
+        if( (timer / 16) % 2)
+        {
+            sprite_render(Gameoverbuck1, 0, 0, 1, 1, 0, 0, 1920, 1080);
 
-        sprite_render(GameoverRogo, 900, 300, 8, 8, 0, 0, 128, 64, 64, 32);
+        }
+        else
+        {
+            sprite_render(Gameoverbuck2, 0, 0, 1, 1, 0, 0, 1920, 1080);
+        }
+
 
         //アニメーション描画
         sprite_render(
             GameoverPlayer,
-            360,
-            740,
-            4,
-            4,
+            200,
+            800,
+            5.3,
+            5.3,
             srcX,
             0,
             frameWidth,
@@ -236,6 +240,27 @@ void SceneResult::Draw()
         );
 
     }
+    //ボタンの描画
+    //ボタンにカーソルを合わしたときに押し込まれてるように
+    float texW = 560;
+    float texH = 150;
+
+    CursorPos position = player.getCursorpos();
+
+    ////タイトルに戻るボタン
+    //if (player.IsHovered(titleButton, position.x, position.y))
+    //{
+    //    sprite_render(sprTitlebutton, 1580, 975, 0.3f, 0.3f, 0, 0, texW, texH, texW / 2, texH / 2);
+    //}
+    //else
+    //{
+    //    sprite_render(sprTitlebutton, 1580, 975, 0.4f, 0.4f, 0, 0, texW, texH, texW / 2, texH / 2);
+    //}
+
+    //時間
+    DrawRisultNumber(1000, 700, clearTime);
+
+   
 
     //デバッグ表示
     
