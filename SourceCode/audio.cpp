@@ -33,6 +33,10 @@ void audio_init()
     music::load(11, L"./Data/Sound/victory.wav");
     //カウント音
     music::load(12, L"./Data/Sound/count.wav");
+    //ラストカウント音
+    music::load(13, L"./Data/Sound/lastcount.wav");
+
+
 
 
 

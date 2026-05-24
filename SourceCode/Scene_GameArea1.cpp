@@ -51,7 +51,12 @@ float countdownTimer = 0.0f;
 void Scene_GameArea1::Initialize()
 {
     stage1_state = 0;
+<<<<<<< HEAD
     stage1_timer = 150;
+=======
+
+    stage1_timer = 100;
+>>>>>>> 9487c8a5abfb37644a6db5bd4e2da47a6d8217d3
 
     countdownState = 0;
     countdownTimer = 0;
@@ -191,7 +196,7 @@ void Scene_GameArea1::Update(float delta_time)
                
                 countdownState = 4;
                 countdownTimer = 0;
-                music::play(12);
+                music::play(13);
             }
         }
 

@@ -139,15 +139,7 @@ void SceneResult::Update(float delta_time)
 
             if (TRG(0) & PAD_START)
             {
-                switch (player.GetCursorIndex())
-                {
-                case 0:
-                    manager->ChangeScene(new Scene_GameArea1(manager, nullptr));//ステージ選択画面へ
-                    break;
-                case 1:
-                    manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
-                    break;
-                }
+                 manager->ChangeScene(new SceneTitle(manager));//タイトル画面へ
             }
 
 

@@ -88,6 +88,7 @@ void SceneTutorial::Update(float delta_time)
         break;
     case 2:
 
+        debug::setString("moby%f", Tutorialmap.m.move.pos.y);
 
 
 
@@ -102,7 +103,6 @@ void SceneTutorial::Update(float delta_time)
             if (player.MenuUpdate(1))
             {
                 step = 0;
-
             }
             break;
         case 0:
@@ -111,7 +111,6 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.block[0][2].pass == 1)
             {
                 step = 1;
-                music::play(5);
             }
             break;
 
@@ -121,7 +120,7 @@ void SceneTutorial::Update(float delta_time)
             if (player.MenuUpdate(1))
             {
                 step = 2;
-               
+
 
             }
             break;
@@ -131,7 +130,6 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.m.move.pos.y >= 226)
             {
                 step = 3;
-                music::play(5);
             }
             break;
         case 3://playerにマス動かさせる
@@ -140,7 +138,6 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.map[1][2] == 2)
             {
                 step = 4;
-               
             }
             break;
         case 4:
@@ -149,7 +146,7 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.m.move.pos.y >= 418)
             {
                 step = 5;
-                music::play(5);
+                
             }
             break;
 
@@ -160,7 +157,6 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.c.move.pos.x == 2000)
             {
                 step = 7;
-               
             }
             break;
         case 7://
@@ -170,7 +166,6 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.block[1][2].pass==2)
             {
                 step = 8;
-                music::play(5);
             }
             break;
         case 8://道が回る説明
@@ -178,7 +173,6 @@ void SceneTutorial::Update(float delta_time)
             if (Tutorialmap.block[1][2].pass == 3)
             {
                 step = 9;
-                
             }
             break;
         case 9:
@@ -187,7 +181,6 @@ void SceneTutorial::Update(float delta_time)
             if (player.MenuUpdate(1))
             {
                 step = 10;
-                music::play(5);
             }
             break;
         case 10://ゴールに付いたら
@@ -197,7 +190,6 @@ void SceneTutorial::Update(float delta_time)
             {
                 Tutorialmap.m.housepoint = true;
                 step = 11;
-               
             }
             break;
         case 11://チュートリアル終わり
@@ -230,6 +222,7 @@ void SceneTutorial::Draw()
     {
         Tutorialmap.m.move.animTimer += 1.0f / 60.0f;
     }
+    debug::display(1, 0, 1, 2, 2); // ← 最後に描く
     switch (step)
     {
     case -1:
@@ -298,7 +291,7 @@ void SceneTutorial::Draw()
         sprite_render(sprruru6, 1100, 200, 0.8, 0.8, 1, 1, 900, 800);
         if (Tutorialmap.gametimer >> 5 & 0x01)
         {
-            sprite_render(sprskip, 1560, 150, 0.5, 0.5, 1, 1, 300, 300);
+            sprite_render(sprskip, 1560, 200, 0.5, 0.5, 1, 1, 300, 300);
         }
         break;
     case 11://チュートリアル終わり

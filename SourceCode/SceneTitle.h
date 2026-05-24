@@ -19,7 +19,18 @@ public:
     void Draw()override;
     void Drawbutton(Button button);
 
-  
+    //雲
+    struct Cloud
+    {
+        float x;
+        float y;
+        float speed;
+    };
+
+    Cloud clouds[6];
+
+
+
 private:
     SceneBase* nextScenePtr;
 

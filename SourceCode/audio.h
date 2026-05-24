@@ -24,6 +24,7 @@
 #define XWB_GAMEOVER 10;
 #define XWB_GAMECREAR 11;
 #define XWB_COUNT 12;
+#define XWB_LASTCOUNT 13
 
 
 
